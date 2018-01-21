@@ -1,5 +1,6 @@
 package com.doooge.timemanager;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -65,6 +66,8 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS SpecificTasks_Table");
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Tasks_Table");
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS Types_Table");
         onCreate(sqLiteDatabase);
     }
 
@@ -83,54 +86,68 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
     public boolean insertToTaskTable(String taskName, int taskType) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(SPECIFICTASKS_NAME, taskName);
-        contentValues.put(SPECIFICTASKS_TYPE, taskType);
-        long result = sqLiteDatabase.insert("SpecificTasks_Table", null, contentValues);
+        contentValues.put(TASKS_NAME, taskName);
+        contentValues.put(TASKS_TYPE, taskType);
+        long result = sqLiteDatabase.insert("Tasks_Table", null, contentValues);
         return (result != -1);
     }
 
     public boolean insertToTypeTable(String typeName, String typeColor) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(SPECIFICTASKS_NAME, typeName);
-        contentValues.put(SPECIFICTASKS_TYPE, typeColor);
-        long result = sqLiteDatabase.insert("SpecificTasks_Table", null, contentValues);
+        contentValues.put(TYPES_NAME, typeName);
+        contentValues.put(TYPES_COLOR, typeColor);
+        long result = sqLiteDatabase.insert("Types_Table", null, contentValues);
         return (result != -1);
     }
 
+    /**
+     * @param context pass current context
+     *                <p>
+     *                This method is used for displaying current Database for debugging only.
+     */
     public void showAllData(Context context) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor1 = db.rawQuery("select * from " + SPECIFICTASKS_TABLE_NAME, null);
-        Cursor cursor2 = db.rawQuery("select * from " + TASKS_TABLE_NAME, null);
-        Cursor cursor3 = db.rawQuery("select * from " + TYPES_TABLE_NAME, null);
-        if (cursor1.getCount() == 0) {
-            showInAlert("Error:", "No data found!", context);
-        }
-        StringBuffer buffer = new StringBuffer();
+
+        StringBuilder buffer = new StringBuilder();
+
+        @SuppressLint("Recycle") Cursor cursor1 = db.rawQuery("select * from " + SPECIFICTASKS_TABLE_NAME, null);
+        buffer.append("===SpecificTasks_TABLE:===").append("\n");
         while (cursor1.moveToNext()) {
-            buffer.append("SpecificTasks_ID: " + cursor1.getString(0) + "\n");
-            buffer.append("SpecificTasks_name: " + cursor1.getString(1) + "\n");
-            buffer.append("SpecificTasks_isCompleted: " + cursor1.getString(2) + "\n");
-            buffer.append("SpecificTasks_startDate: " + cursor1.getString(3) + "\n");
-            buffer.append("SpecificTasks_endDate: " + cursor1.getString(4) + "\n");
-            buffer.append("SpecificTasks_type: " + cursor1.getString(5) + "\n\n");
+            buffer.append("SpecificTasks_ID: ").append(cursor1.getString(0)).append("\n");
+            buffer.append("SpecificTasks_name: ").append(cursor1.getString(1)).append("\n");
+            buffer.append("SpecificTasks_isCompleted: ").append(cursor1.getString(2)).append("\n");
+            buffer.append("SpecificTasks_startDate: ").append(cursor1.getString(3)).append("\n");
+            buffer.append("SpecificTasks_endDate: ").append(cursor1.getString(4)).append("\n");
+            buffer.append("SpecificTasks_type: ").append(cursor1.getString(5)).append("\n\n");
         }
+        @SuppressLint("Recycle") Cursor cursor2 = db.rawQuery("select * from " + TASKS_TABLE_NAME, null);
+        buffer.append("===Tasks_TABLE:===").append("\n");
         while (cursor2.moveToNext()) {
-            buffer.append("Tasks_ID: " + cursor2.getString(0) + "\n");
-            buffer.append("Tasks_name: " + cursor2.getString(1) + "\n");
-            buffer.append("Tasks_isCompleted: " + cursor2.getString(2) + "\n\n");
+            System.out.println("=================================================");
+            buffer.append("Tasks_ID: ").append(cursor2.getString(0)).append("\n");
+            buffer.append("Tasks_name: ").append(cursor2.getString(1)).append("\n");
+            StringBuilder append = buffer.append("Tasks_isCompleted: ").append(cursor2.getString(2)).append("\n\n");
 
         }
+        @SuppressLint("Recycle") Cursor cursor3 = db.rawQuery("select * from " + TYPES_TABLE_NAME, null);
+        buffer.append("===Types_TABLE:===").append("\n");
         while (cursor3.moveToNext()) {
-            buffer.append("Types_ID: " + cursor3.getString(0) + "\n");
-            buffer.append("Types_name: " + cursor3.getString(1) + "\n");
-            buffer.append("Types_isCompleted: " + cursor3.getString(2) + "\n\n");
+            buffer.append("Types_ID: ").append(cursor3.getString(0)).append("\n");
+            buffer.append("Types_name: ").append(cursor3.getString(1)).append("\n");
+            buffer.append("Types_color: ").append(cursor3.getString(2)).append("\n\n");
 
         }
 
-        showInAlert("Tables:", buffer.toString(), context);
+        showInAlert("Testing Database Tables: ", buffer.toString(), context);
     }
 
+    /**
+     * @param title Dialog title
+     * @param message message to be displayed
+     * @param context the context to appear
+     *
+     */
     private void showInAlert(String title, String message, Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setCancelable(true);
