@@ -36,7 +36,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
 
     public LocalDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
-        SQLiteDatabase db = this.getWritableDatabase();
+        // SQLiteDatabase db = this.getWritableDatabase();
 
     }
 
@@ -74,12 +74,14 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
     //INSERTION FOR THREE TABLES
 
     /**
+     * This method is used for insert a new specificTask into the table SpecificTasks_Table in Local SQLite Database.
      * @param specificTaskName        add specificTask's name
      * @param specificTaskIsCompleted add specificTask's complement condition
      * @param specificTaskStartDate   add specificTask's start date in UTC format
      * @param specificTaskEndDate     add specificTask's end date in UTC format
      * @param specificTaskType        add specificTask's type
      * @return return whether the insertion is succeed.
+     *
      */
     public boolean insertToSpecificTaskTable(String specificTaskName, int specificTaskIsCompleted, String specificTaskStartDate, String specificTaskEndDate, int specificTaskType) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
@@ -89,11 +91,12 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(SPECIFICTASKS_START_DATE, specificTaskStartDate);
         contentValues.put(SPECIFICTASKS_END_DATE, specificTaskEndDate);
         contentValues.put(SPECIFICTASKS_TYPE, specificTaskType);
-        long result = sqLiteDatabase.insert("SpecificTasks_Table", null, contentValues);
+        long result = sqLiteDatabase.insert(SPECIFICTASKS_TABLE_NAME, null, contentValues);
         return (result != -1);
     }
 
     /**
+     * This method is used for insert a new Task into the table Tasks_Table in Local SQLite Database.
      * @param taskName add Task's name
      * @param taskType add Task's type
      * @return return whether the insertion is succeed.
@@ -103,11 +106,12 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TASKS_NAME, taskName);
         contentValues.put(TASKS_TYPE, taskType);
-        long result = sqLiteDatabase.insert("Tasks_Table", null, contentValues);
+        long result = sqLiteDatabase.insert(TASKS_TABLE_NAME, null, contentValues);
         return (result != -1);
     }
 
     /**
+     * This method is used for insert a new specificTask into the table Types_Table in Local SQLite Database.
      * @param typeName add Type's name
      * @param typeColor add Type's color
      * @return return whether the insertion is succeed.
@@ -117,21 +121,121 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(TYPES_NAME, typeName);
         contentValues.put(TYPES_COLOR, typeColor);
-        long result = sqLiteDatabase.insert("Types_Table", null, contentValues);
-        return (result != -1);
+        long result = sqLiteDatabase.insert(TYPES_TABLE_NAME, null, contentValues);
+        return result != -1;
     }
 
     //DELETION FOR THREE TABLES
-    //TODO DELETION FOR THREE TABLES
-    //UPDATING METHOD FOR THREE TABLES
-    //TODO UPDATING METHOD FOR THREE TABLES
 
     /**
-     * @param context pass current context
-     *                <p>
-     *                This method is used for displaying current Database for debugging only.
+     * This method is used to delete a specific SpecificTask based on id (Primary Key) user provided.
+     *
+     * @param id input the id of the specificTask needs to be deleted
+     * @return return whether the deletion is successed
      */
-    public void showAllData(Context context) {
+
+
+    public boolean deleteSpecificTaskTable(int id) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        long result = sqLiteDatabase.delete(SPECIFICTASKS_TABLE_NAME, SPECIFICTASKS_PRIMARY_KEY + "=" + id, null);
+        return result != 0;
+    }
+
+    /**
+     * This method is used to delete a specific Task based on id (Primary Key) user provided.
+     *
+     * @param id input the id of the Task needs to be deleted
+     * @return return whether the deletion is successed
+     */
+
+    public boolean deleteTaskTable(int id) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        long result = sqLiteDatabase.delete(TASKS_TABLE_NAME, TASKS_PRIMARY_KEY + "=" + id, null);
+        return result != 0;
+    }
+
+    /**
+     * This method is used to delete a specific Type based on id (Primary Key) user provided.
+     *
+     * @param id input the id of the type needs to be deleted
+     * @return return whether the deletion is successed
+     */
+
+    public boolean deleteTypeTable(int id) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        long result = sqLiteDatabase.delete(TYPES_TABLE_NAME, TYPES_PRIMARY_KEY + "=" + id, null);
+        return result != 0;
+    }
+
+
+
+
+
+    //UPDATING METHOD FOR THREE TABLES
+
+    /**
+     * This method is used to update a specific Type based on id (Primary Key) user provided.
+     *
+     * @param id                      input the id of the specificTask needs to be updated
+     * @param specificTaskName        new specificTask's name
+     * @param specificTaskIsCompleted new specificTask's complement condition
+     * @param specificTaskStartDate   new specificTask's start date in UTC format
+     * @param specificTaskEndDate     new specificTask's end date in UTC format
+     * @param specificTaskType        new specificTask's type
+     * @return return whether the update is succeed.
+     */
+    public boolean updateSpecificTaskTable(int id, String specificTaskName, int specificTaskIsCompleted, String specificTaskStartDate, String specificTaskEndDate, int specificTaskType) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(SPECIFICTASKS_NAME, specificTaskName);
+        contentValues.put(SPECIFICTASKS_ISCOMPLETED, specificTaskIsCompleted);
+        contentValues.put(SPECIFICTASKS_START_DATE, specificTaskStartDate);
+        contentValues.put(SPECIFICTASKS_END_DATE, specificTaskEndDate);
+        contentValues.put(SPECIFICTASKS_TYPE, specificTaskType);
+        long result = sqLiteDatabase.update(SPECIFICTASKS_TABLE_NAME, contentValues, SPECIFICTASKS_PRIMARY_KEY + "=" + id, null);
+        System.out.println(result);
+        return result != 0;//Ensure success: Affect more than 0 rows
+    }
+
+    /**
+     * This method is used to update a specific Type based on id (Primary Key) user provided.
+     *
+     * @param id       input the id of the Task needs to be updated
+     * @param taskName new Task's name
+     * @param taskType new Task's type
+     * @return return whether the insertion is succeed.
+     */
+    public boolean updateTaskTable(int id, String taskName, int taskType) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TASKS_NAME, taskName);
+        contentValues.put(TASKS_TYPE, taskType);
+        long result = sqLiteDatabase.update(TASKS_TABLE_NAME, contentValues, TASKS_PRIMARY_KEY + "=" + id, null);
+        return (result != 0);//Ensure success: Affect more than 0 rows
+    }
+
+    /**
+     * This method is used to update a specific Type based on id (Primary Key) user provided.
+     *
+     * @param id        input the id of the Type needs to be updated
+     * @param typeName  new Type's name
+     * @param typeColor new Type's color
+     * @return return whether the insertion is succeed.
+     */
+    public boolean updateTypeTable(int id, String typeName, String typeColor) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TYPES_NAME, typeName);
+        contentValues.put(TYPES_COLOR, typeColor);
+        long result = sqLiteDatabase.update(TYPES_TABLE_NAME, contentValues, TYPES_PRIMARY_KEY + "=" + id, null);
+        return result != 0;//Ensure success: Affect more than 0 rows
+    }
+
+    /**
+     * This method is used for displaying current Database for debugging only.
+     * @param context pass current context
+     */
+    protected void showAllData(Context context) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         StringBuilder buffer = new StringBuilder();
