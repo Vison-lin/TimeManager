@@ -71,6 +71,8 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
+    //INSERTION FOR THREE TABLES
+
     /**
      * @param specificTaskName        add specificTask's name
      * @param specificTaskIsCompleted add specificTask's complement condition
@@ -118,6 +120,11 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         long result = sqLiteDatabase.insert("Types_Table", null, contentValues);
         return (result != -1);
     }
+
+    //DELETION FOR THREE TABLES
+    //TODO DELETION FOR THREE TABLES
+    //UPDATING METHOD FOR THREE TABLES
+    //TODO UPDATING METHOD FOR THREE TABLES
 
     /**
      * @param context pass current context
