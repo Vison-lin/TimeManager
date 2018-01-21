@@ -152,7 +152,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
             System.out.println("=================================================");
             buffer.append("Tasks_ID: ").append(cursor2.getString(0)).append("\n");
             buffer.append("Tasks_name: ").append(cursor2.getString(1)).append("\n");
-            StringBuilder append = buffer.append("Tasks_isCompleted: ").append(cursor2.getString(2)).append("\n\n");
+            StringBuilder append = buffer.append("Tasks_type: ").append(cursor2.getString(2)).append("\n\n");
 
         }
         @SuppressLint("Recycle") Cursor cursor3 = db.rawQuery("select * from " + TYPES_TABLE_NAME, null);
