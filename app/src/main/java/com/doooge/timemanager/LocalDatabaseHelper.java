@@ -71,6 +71,14 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
+    /**
+     * @param specificTaskName        add specificTask's name
+     * @param specificTaskIsCompleted add specificTask's complement condition
+     * @param specificTaskStartDate   add specificTask's start date in UTC format
+     * @param specificTaskEndDate     add specificTask's end date in UTC format
+     * @param specificTaskType        add specificTask's type
+     * @return return whether the insertion is succeed.
+     */
     public boolean insertToSpecificTaskTable(String specificTaskName, int specificTaskIsCompleted, String specificTaskStartDate, String specificTaskEndDate, int specificTaskType) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -83,6 +91,11 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         return (result != -1);
     }
 
+    /**
+     * @param taskName add Task's name
+     * @param taskType add Task's type
+     * @return return whether the insertion is succeed.
+     */
     public boolean insertToTaskTable(String taskName, int taskType) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -92,6 +105,11 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         return (result != -1);
     }
 
+    /**
+     * @param typeName add Type's name
+     * @param typeColor add Type's color
+     * @return return whether the insertion is succeed.
+     */
     public boolean insertToTypeTable(String typeName, String typeColor) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
