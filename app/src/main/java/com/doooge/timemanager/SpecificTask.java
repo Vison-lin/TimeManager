@@ -27,12 +27,22 @@ public class SpecificTask extends Task {
         this.endTime = CalendarHelper.convertCal2UTC(endTime);
     }
 
+    /**
+     * @return 0 represent false while 1 represent true.
+     */
     public int isCompleted() {
         return isCompleted;
     }
 
+    /**
+     * @param completed 0 represent false while 1 represent true.
+     */
     public void setCompleted(int completed) {
         isCompleted = completed;
+    }
+
+    public boolean isCompletedInBoolean() {
+        return isCompleted == 1;
     }
 
     public String getStartTime() {
