@@ -1,5 +1,7 @@
 package com.doooge.timemanager;
 
+import android.annotation.SuppressLint;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -21,7 +23,7 @@ public class CalendarHelper {
     public static String convertCal2UTC(Calendar calendar) {
         calendar.setTimeZone(TimeZone.getTimeZone("UTC"));//convert Date into UTC format
         Date time = calendar.getTime();
-        SimpleDateFormat outputFmt = new SimpleDateFormat("MMM dd, yyy h:mm a zz");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat outputFmt = new SimpleDateFormat("MMM dd, yyy h:mm a zz");
         return outputFmt.format(time);
     }
 
@@ -32,7 +34,7 @@ public class CalendarHelper {
      * This method is used for converting UTC in String to Calendar Object.
      */
     public static Calendar convertUTC2Cal(String utc) {
-        SimpleDateFormat outputFmt = new SimpleDateFormat("MMM dd, yyy h:mm a zz");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat outputFmt = new SimpleDateFormat("MMM dd, yyy h:mm a zz");
         Calendar calendar = Calendar.getInstance();
         try {
             calendar.setTime(outputFmt.parse(utc));
