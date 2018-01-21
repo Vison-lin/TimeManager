@@ -8,7 +8,7 @@ import java.util.Calendar;
 
 public class SpecificTask extends Task {
 
-    private boolean isCompleted;
+    private int isCompleted;
     private String startTime;
     private String endTime;
 
@@ -27,11 +27,11 @@ public class SpecificTask extends Task {
         this.endTime = CalendarHelper.convertCal2UTC(endTime);
     }
 
-    public boolean isCompleted() {
+    public int isCompleted() {
         return isCompleted;
     }
 
-    public void setCompleted(boolean completed) {
+    public void setCompleted(int completed) {
         isCompleted = completed;
     }
 
