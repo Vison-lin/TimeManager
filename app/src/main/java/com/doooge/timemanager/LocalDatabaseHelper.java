@@ -20,16 +20,16 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
     public static final String TASKS_TABLE_NAME = "Tasks_Table";
     public static final String TYPES_TABLE_NAME = "Types_Table";
 
-    public static final String SPECIFICTASKS_PRIMARY_KEY = "SpecificTasks_ID";
-    public static final String SPECIFICTASKS_NAME = "SpecificTasks_name";
-    public static final String SPECIFICTASKS_ISCOMPLETED = "SpecificTasks_isCompleted";
-    public static final String SPECIFICTASKS_START_DATE = "SpecificTasks_startDate";
-    public static final String SPECIFICTASKS_END_DATE = "SpecificTasks_endDate";
-    public static final String SPECIFICTASKS_TYPE = "SpecificTasks_type";
+    public static final String SPECIFICTASKS_PRIMARY_KEY = "SpecificTask_ID";
+    public static final String SPECIFICTASKS_NAME = "SpecificTask_name";
+    public static final String SPECIFICTASKS_ISCOMPLETED = "SpecificTask_isCompleted";
+    public static final String SPECIFICTASKS_START_DATE = "SpecificTask_startDate";
+    public static final String SPECIFICTASKS_END_DATE = "SpecificTask_endDate";
+    public static final String SPECIFICTASKS_TYPE = "SpecificTask_type";
 
     public static final String TASKS_PRIMARY_KEY = "Tasks_ID";
-    public static final String TASKS_NAME = "Tasks_name";
-    public static final String TASKS_TYPE = "Tasks_type";
+    public static final String TASKS_NAME = "Task_name";
+    public static final String TASKS_TYPE = "Task_type";
 
     public static final String TYPES_PRIMARY_KEY = "Type_ID";
     public static final String TYPES_NAME = "Type_name";
