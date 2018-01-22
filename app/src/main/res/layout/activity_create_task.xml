@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#3F51B5"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/activityTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="New Task"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="370dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/studyBtn"
+                android:layout_width="120dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:lineSpacingExtra="10sp"
+                android:text="Study"
+                android:background="#CFD8DC"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/exerciseBtn"
+                android:layout_width="120dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:text="Exercise"
+                android:background="#FFAB91"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/shoppingBtn"
+                android:layout_width="120dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:text="Shopping"
+                android:background="#AED581"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/workBtn"
+                android:layout_width="120dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:background="#B39DDB"
+                android:text="Work"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="#3F51B5"
+            android:src = "@drawable/settingbuttonicon"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:id="@+id/addingTaskBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/addingbuttonicon" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
