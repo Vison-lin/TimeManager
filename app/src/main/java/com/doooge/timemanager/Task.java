@@ -6,7 +6,7 @@ package com.doooge.timemanager;
 
 public class Task {
     private String taskName;
-    private int id = -1;
+    private int id;
     private Type type;
 
     public Task(String taskName) {
