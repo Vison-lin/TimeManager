@@ -1,12 +1,14 @@
 package com.doooge.timemanager;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.AlertDialog;
+
+import java.util.Calendar;
+import java.util.HashMap;
 
 
 /**
@@ -36,8 +38,6 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
 
     public LocalDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
-        // SQLiteDatabase db = this.getWritableDatabase();
-
     }
 
     @Override
@@ -133,8 +133,6 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      * @param id input the id of the specificTask needs to be deleted
      * @return return whether the deletion is successed
      */
-
-
     public boolean deleteSpecificTaskTable(int id) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         long result = sqLiteDatabase.delete(SPECIFICTASKS_TABLE_NAME, SPECIFICTASKS_PRIMARY_KEY + "=" + id, null);
@@ -147,7 +145,6 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      * @param id input the id of the Task needs to be deleted
      * @return return whether the deletion is successed
      */
-
     public boolean deleteTaskTable(int id) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         long result = sqLiteDatabase.delete(TASKS_TABLE_NAME, TASKS_PRIMARY_KEY + "=" + id, null);
@@ -160,16 +157,11 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      * @param id input the id of the type needs to be deleted
      * @return return whether the deletion is successed
      */
-
     public boolean deleteTypeTable(int id) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         long result = sqLiteDatabase.delete(TYPES_TABLE_NAME, TYPES_PRIMARY_KEY + "=" + id, null);
         return result != 0;
     }
-
-
-
-
 
     //UPDATING METHOD FOR THREE TABLES
 
@@ -231,6 +223,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         return result != 0;//Ensure success: Affect more than 0 rows
     }
 
+    //HELPER METHODS
     /**
      * This method is used for displaying current Database for debugging only.
      * @param context pass current context
@@ -240,7 +233,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
 
         StringBuilder buffer = new StringBuilder();
 
-        @SuppressLint("Recycle") Cursor cursor1 = db.rawQuery("select * from " + SPECIFICTASKS_TABLE_NAME, null);
+        Cursor cursor1 = db.query(SPECIFICTASKS_TABLE_NAME, null, null, null, null, null, null, null);
         buffer.append("===SpecificTasks_TABLE:===").append("\n");
         while (cursor1.moveToNext()) {
             buffer.append("SpecificTasks_ID: ").append(cursor1.getString(0)).append("\n");
@@ -250,7 +243,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
             buffer.append("SpecificTasks_endDate: ").append(cursor1.getString(4)).append("\n");
             buffer.append("SpecificTasks_type: ").append(cursor1.getString(5)).append("\n\n");
         }
-        @SuppressLint("Recycle") Cursor cursor2 = db.rawQuery("select * from " + TASKS_TABLE_NAME, null);
+        Cursor cursor2 = db.query(SPECIFICTASKS_TABLE_NAME, null, null, null, null, null, null, null);
         buffer.append("===Tasks_TABLE:===").append("\n");
         while (cursor2.moveToNext()) {
             buffer.append("Tasks_ID: ").append(cursor2.getString(0)).append("\n");
@@ -258,7 +251,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
             StringBuilder append = buffer.append("Tasks_type: ").append(cursor2.getString(2)).append("\n\n");
 
         }
-        @SuppressLint("Recycle") Cursor cursor3 = db.rawQuery("select * from " + TYPES_TABLE_NAME, null);
+        Cursor cursor3 = db.query(SPECIFICTASKS_TABLE_NAME, null, null, null, null, null, null, null);
         buffer.append("===Types_TABLE:===").append("\n");
         while (cursor3.moveToNext()) {
             buffer.append("Types_ID: ").append(cursor3.getString(0)).append("\n");
@@ -282,5 +275,101 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         builder.setTitle(title);
         builder.setMessage(message);
         builder.show();
+    }
+
+    // FIND OBJECT (SPECIFICTASK, TASK, & TYPE) BY PRIMARY KEY.
+
+    /**
+     * This method returns Type object with given Primary Key
+     *
+     * @return Type Object
+     * @key Primary key of TypeTable
+     */
+    private Type findTypeByPrimaryKey(int key) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        HashMap<Integer, Type> typeHashMap = new HashMap<>();
+        int id;
+        String name;
+        String color;
+        String sqlReq = TYPES_PRIMARY_KEY + " =?";
+        Cursor cursor = db.query(TYPES_TABLE_NAME, null, sqlReq, new String[]{key + ""}, null, null, null, null);
+        cursor.moveToNext();
+        id = Integer.parseInt(cursor.getString(0));
+        name = cursor.getString(1);
+        color = cursor.getString(2);
+        Type type = new Type(name, color);
+        type.setId(id);
+        return type;
+    }
+
+    /**
+     * This method returns SpecificTask object with given Primary Key
+     *
+     * @return SpecificTask Object
+     * @key Primary key of SpecificTaskTable
+     */
+    private SpecificTask findSpecificTaskByPrimaryKey(int key) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sqlReq = SPECIFICTASKS_PRIMARY_KEY + " =?";
+        Cursor cursor = db.query(SPECIFICTASKS_TABLE_NAME, null, sqlReq, new String[]{key + ""}, null, null, null, null);
+        cursor.moveToNext();
+        int id;
+        String name;
+        Integer isCompleted;
+        Calendar startDate;
+        Calendar endDate;
+        Integer typeID;
+        SpecificTask specificTask;
+        id = Integer.parseInt(cursor.getString(0));
+        name = cursor.getString(1);
+        isCompleted = Integer.parseInt(cursor.getString(2));
+        startDate = CalendarHelper.convertUTC2Cal(cursor.getString(3));
+        endDate = CalendarHelper.convertUTC2Cal(cursor.getString(4));
+        typeID = Integer.parseInt(cursor.getString(5));
+        specificTask = new SpecificTask(name, startDate, endDate);
+        specificTask.setCompleted(isCompleted);
+        specificTask.setId(id);
+        specificTask.setStartTime(startDate);
+        Type type = findTypeByPrimaryKey(typeID);
+        specificTask.setType(type);
+
+        return specificTask;
+    }
+
+    /**
+     * This method returns SpecificTask object with given Primary Key
+     *
+     * @return SpecificTask Object
+     * @key Primary key of SpecificTaskTable
+     */
+    private Task findTaskByPrimaryKey(int key) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sqlReq = TASKS_PRIMARY_KEY + " =?";
+        Cursor cursor = db.query(TASKS_TABLE_NAME, null, sqlReq, new String[]{key + ""}, null, null, null, null);
+        cursor.moveToNext();
+        int id;
+        String name;
+        Integer typeID;
+        Task task;
+        id = Integer.parseInt(cursor.getString(0));
+        name = cursor.getString(1);
+        task = new Task(name);
+        task.setId(id);
+        typeID = Integer.parseInt(cursor.getString(2));
+        Type type = findTypeByPrimaryKey(typeID);
+        task.setType(type);
+        return task;
+    }
+
+
+    //TODO TESTING, TOBE DELETED
+    public void execute(int givenCondition, Context context) {
+
+        SpecificTask specificTask = findSpecificTaskByPrimaryKey(givenCondition);
+
+        showInAlert("Testing Database Tables: ", specificTask.getTaskName(), context);
+        //showInAlert("Testing Database Tables: ", a.getStartTime(), context);
+        System.out.println(specificTask.getType().getName() + "=================================");
+
     }
 }
