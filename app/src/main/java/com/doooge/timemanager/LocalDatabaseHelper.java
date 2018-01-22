@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.AlertDialog;
 
 import java.util.Calendar;
-import java.util.HashMap;
 
 
 /**
@@ -287,7 +286,6 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      */
     private Type findTypeByPrimaryKey(int key) {
         SQLiteDatabase db = this.getWritableDatabase();
-        HashMap<Integer, Type> typeHashMap = new HashMap<>();
         int id;
         String name;
         String color;
