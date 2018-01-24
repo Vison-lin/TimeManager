@@ -15,7 +15,7 @@ public class SpecificTask extends Task {
 
     public SpecificTask(String taskName, Calendar startTime, Calendar endTime) {
         super(taskName);
-        setEndTime(startTime);
+        setStartTime(startTime);
         setEndTime(endTime);
     }
 
