@@ -168,39 +168,34 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      * This method is used to update a specific Type based on id (Primary Key) user provided.
      *
      * @param id                      input the id of the specificTask needs to be updated
-     * @param specificTaskName        new specificTask's name
-     * @param specificTaskIsCompleted new specificTask's complement condition
-     * @param specificTaskStartDate   new specificTask's start date in UTC format
-     * @param specificTaskEndDate     new specificTask's end date in UTC format
-     * @param specificTaskType        new specificTask's type
+     * @param specificTask  The new instance of SpecificTask
      * @return return whether the update is succeed.
      */
-    public boolean updateSpecificTaskTable(int id, String specificTaskName, int specificTaskIsCompleted, String specificTaskStartDate, String specificTaskEndDate, int specificTaskType) {
+    public boolean updateSpecificTaskTable(int id, SpecificTask specificTask) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(SPECIFICTASKS_NAME, specificTaskName);
-        contentValues.put(SPECIFICTASKS_ISCOMPLETED, specificTaskIsCompleted);
-        contentValues.put(SPECIFICTASKS_START_DATE, specificTaskStartDate);
-        contentValues.put(SPECIFICTASKS_END_DATE, specificTaskEndDate);
-        contentValues.put(SPECIFICTASKS_TYPE, specificTaskType);
+        contentValues.put(SPECIFICTASKS_NAME, specificTask.getTaskName());
+        contentValues.put(SPECIFICTASKS_ISCOMPLETED, specificTask.isCompleted());
+        contentValues.put(SPECIFICTASKS_START_DATE, CalendarHelper.convertCal2UTC(specificTask.getStartTime()));
+        contentValues.put(SPECIFICTASKS_END_DATE, CalendarHelper.convertCal2UTC(specificTask.getEndTime()));
+        contentValues.put(SPECIFICTASKS_TYPE, specificTask.getType().getId());
         long result = sqLiteDatabase.update(SPECIFICTASKS_TABLE_NAME, contentValues, SPECIFICTASKS_PRIMARY_KEY + "=" + id, null);
         System.out.println(result);
         return result != 0;//Ensure success: Affect more than 0 rows
     }
 
     /**
-     * This method is used to update a specific Type based on id (Primary Key) user provided.
+     * This method is used to update a specific Task based on id (Primary Key) user provided.
      *
      * @param id       input the id of the Task needs to be updated
-     * @param taskName new Task's name
-     * @param taskType new Task's type
+     * @param task The new instance of Task
      * @return return whether the insertion is succeed.
      */
-    public boolean updateTaskTable(int id, String taskName, int taskType) {
+    public boolean updateTaskTable(int id, Task task) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(TASKS_NAME, taskName);
-        contentValues.put(TASKS_TYPE, taskType);
+        contentValues.put(TASKS_NAME, task.getTaskName());
+        contentValues.put(TASKS_TYPE, task.getType().getId());
         long result = sqLiteDatabase.update(TASKS_TABLE_NAME, contentValues, TASKS_PRIMARY_KEY + "=" + id, null);
         return (result != 0);//Ensure success: Affect more than 0 rows
     }
@@ -209,15 +204,14 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      * This method is used to update a specific Type based on id (Primary Key) user provided.
      *
      * @param id        input the id of the Type needs to be updated
-     * @param typeName  new Type's name
-     * @param typeColor new Type's color
+     * @param type The new instance of Type
      * @return return whether the insertion is succeed.
      */
-    public boolean updateTypeTable(int id, String typeName, String typeColor) {
+    public boolean updateTypeTable(int id, Type type) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(TYPES_NAME, typeName);
-        contentValues.put(TYPES_COLOR, typeColor);
+        contentValues.put(TYPES_NAME, type.getName());
+        contentValues.put(TYPES_COLOR, type.getColor());
         long result = sqLiteDatabase.update(TYPES_TABLE_NAME, contentValues, TYPES_PRIMARY_KEY + "=" + id, null);
         return result != 0;//Ensure success: Affect more than 0 rows
     }
