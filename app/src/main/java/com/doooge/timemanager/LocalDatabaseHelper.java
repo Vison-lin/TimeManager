@@ -7,7 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.AlertDialog;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 
 /**
@@ -74,35 +76,32 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * This method is used for insert a new specificTask into the table SpecificTasks_Table in Local SQLite Database.
-     * @param specificTaskName        add specificTask's name
-     * @param specificTaskIsCompleted add specificTask's complement condition
-     * @param specificTaskStartDate   add specificTask's start date in UTC format
-     * @param specificTaskEndDate     add specificTask's end date in UTC format
-     * @param specificTaskType        add specificTask's type
+     * @param specificTask the specificTask to be added
      * @return return whether the insertion is succeed.
      *
      */
-    public boolean insertToSpecificTaskTable(String specificTaskName, int specificTaskIsCompleted, String specificTaskStartDate, String specificTaskEndDate, int specificTaskType) {
+    public boolean insertToSpecificTaskTable(SpecificTask specificTask) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(SPECIFICTASKS_NAME, specificTaskName);
-        contentValues.put(SPECIFICTASKS_ISCOMPLETED, specificTaskIsCompleted);
-        contentValues.put(SPECIFICTASKS_START_DATE, specificTaskStartDate);
-        contentValues.put(SPECIFICTASKS_END_DATE, specificTaskEndDate);
-        contentValues.put(SPECIFICTASKS_TYPE, specificTaskType);
+        contentValues.put(SPECIFICTASKS_NAME, specificTask.getTaskName());
+        contentValues.put(SPECIFICTASKS_ISCOMPLETED, specificTask.isCompleted());
+        contentValues.put(SPECIFICTASKS_START_DATE, CalendarHelper.convertCal2UTC(specificTask.getStartTime()));
+        contentValues.put(SPECIFICTASKS_END_DATE, CalendarHelper.convertCal2UTC(specificTask.getEndTime()));
+        contentValues.put(SPECIFICTASKS_TYPE, specificTask.getType().getId());
         long result = sqLiteDatabase.insert(SPECIFICTASKS_TABLE_NAME, null, contentValues);
         return (result != -1);
     }
 
     /**
      * This method is used for insert a new Task into the table Tasks_Table in Local SQLite Database.
-     * @param taskName add Task's name
-     * @param taskType add Task's type
+     * @param task the task to be added
      * @return return whether the insertion is succeed.
      */
-    public boolean insertToTaskTable(String taskName, int taskType) {
+    public boolean insertToTaskTable(Task task) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        String taskName = task.getTaskName();
+        int taskType = task.getType().getId();
         contentValues.put(TASKS_NAME, taskName);
         contentValues.put(TASKS_TYPE, taskType);
         long result = sqLiteDatabase.insert(TASKS_TABLE_NAME, null, contentValues);
@@ -111,13 +110,14 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * This method is used for insert a new specificTask into the table Types_Table in Local SQLite Database.
-     * @param typeName add Type's name
-     * @param typeColor add Type's color
+     * @param type the type to be added
      * @return return whether the insertion is succeed.
      */
-    public boolean insertToTypeTable(String typeName, String typeColor) {
+    public boolean insertToTypeTable(Type type) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        String typeName = type.getName();
+        String typeColor = type.getColor();
         contentValues.put(TYPES_NAME, typeName);
         contentValues.put(TYPES_COLOR, typeColor);
         long result = sqLiteDatabase.insert(TYPES_TABLE_NAME, null, contentValues);
@@ -242,7 +242,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
             buffer.append("SpecificTasks_endDate: ").append(cursor1.getString(4)).append("\n");
             buffer.append("SpecificTasks_type: ").append(cursor1.getString(5)).append("\n\n");
         }
-        Cursor cursor2 = db.query(SPECIFICTASKS_TABLE_NAME, null, null, null, null, null, null, null);
+        Cursor cursor2 = db.query(TASKS_TABLE_NAME, null, null, null, null, null, null, null);
         buffer.append("===Tasks_TABLE:===").append("\n");
         while (cursor2.moveToNext()) {
             buffer.append("Tasks_ID: ").append(cursor2.getString(0)).append("\n");
@@ -250,7 +250,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
             StringBuilder append = buffer.append("Tasks_type: ").append(cursor2.getString(2)).append("\n\n");
 
         }
-        Cursor cursor3 = db.query(SPECIFICTASKS_TABLE_NAME, null, null, null, null, null, null, null);
+        Cursor cursor3 = db.query(TYPES_TABLE_NAME, null, null, null, null, null, null, null);
         buffer.append("===Types_TABLE:===").append("\n");
         while (cursor3.moveToNext()) {
             buffer.append("Types_ID: ").append(cursor3.getString(0)).append("\n");
@@ -276,7 +276,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         builder.show();
     }
 
-    // FIND OBJECT (SPECIFICTASK, TASK, & TYPE) BY PRIMARY KEY.
+    // FIND TYPE BY PRIMARY KEY.
 
     /**
      * This method returns Type object with given Primary Key
@@ -300,38 +300,55 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         return type;
     }
 
-    /**
-     * This method returns SpecificTask object with given Primary Key
-     *
-     * @return SpecificTask Object
-     * @key Primary key of SpecificTaskTable
-     */
-    private SpecificTask findSpecificTaskByPrimaryKey(int key) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        String sqlReq = SPECIFICTASKS_PRIMARY_KEY + " =?";
-        Cursor cursor = db.query(SPECIFICTASKS_TABLE_NAME, null, sqlReq, new String[]{key + ""}, null, null, null, null);
-        cursor.moveToNext();
-        int id;
-        String name;
-        Integer isCompleted;
-        Calendar startDate;
-        Calendar endDate;
-        Integer typeID;
-        SpecificTask specificTask;
-        id = Integer.parseInt(cursor.getString(0));
-        name = cursor.getString(1);
-        isCompleted = Integer.parseInt(cursor.getString(2));
-        startDate = CalendarHelper.convertUTC2Cal(cursor.getString(3));
-        endDate = CalendarHelper.convertUTC2Cal(cursor.getString(4));
-        typeID = Integer.parseInt(cursor.getString(5));
-        specificTask = new SpecificTask(name, startDate, endDate);
-        specificTask.setCompleted(isCompleted);
-        specificTask.setId(id);
-        specificTask.setStartTime(startDate);
-        Type type = findTypeByPrimaryKey(typeID);
-        specificTask.setType(type);
+    // FIND OBJECT(SPECIFICTASKS && TASKS) BY CURSOR
 
-        return specificTask;
+    /**
+     * This method returns an arrayList of SpecificTask objects with given cursor
+     * @param cursor given cursor
+     * @return SpecificTask Object
+     */
+    private ArrayList<SpecificTask> findSpecificTaskByCursor(Cursor cursor) {
+        ArrayList<SpecificTask> specificTasks = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            int id = Integer.parseInt(cursor.getString(0));
+            String name = cursor.getString(1);
+            Integer isCompleted = Integer.parseInt(cursor.getString(2));
+            Calendar startDate = CalendarHelper.convertUTC2Cal(cursor.getString(3));
+            Calendar endDate = CalendarHelper.convertUTC2Cal(cursor.getString(4));
+            Integer typeID = Integer.parseInt(cursor.getString(5));
+            SpecificTask specificTask = new SpecificTask(name, startDate, endDate);
+            specificTask.setCompleted(isCompleted);
+            specificTask.setId(id);
+            specificTask.setStartTime(startDate);
+            Type type = findTypeByPrimaryKey(typeID);
+            specificTask.setType(type);
+            specificTasks.add(specificTask);
+        }
+
+        return specificTasks;
+    }
+
+    /**
+     * This method returns an arrayList of Task objects with given cursor
+     *
+     * @param cursor given cursor
+     * @return Task Object
+     */
+    private ArrayList<Task> findTaskByCursor(Cursor cursor) {
+        ArrayList<Task> Tasks = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            int id = Integer.parseInt(cursor.getString(0));
+            String name = cursor.getString(1);
+            Integer typeID = Integer.parseInt(cursor.getString(2));
+            System.out.println("DB!!!+++++=====" + typeID);
+            Task Task = new Task(name);
+            Task.setId(id);
+            Type type = findTypeByPrimaryKey(typeID);
+            Task.setType(type);
+            Tasks.add(Task);
+        }
+
+        return Tasks;
     }
 
     /**
@@ -359,15 +376,73 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         return task;
     }
 
+    // FIND SPECIFICTASKS BY STARTTIME
+
+    /**
+     * Given a specific day in Calendar type, this method will return an arrayList that contains all the SpecificTasks that start from that day and are sorted by start-time in increasing time order.
+     *
+     * @param day The day of SpecificTasks that you want to get in Calendar type.
+     * @return An sorted ArrayList of SpecificTasks that start from that day. All the SpecificTasks object are in sort with start-time timing order.
+     */
+    public ArrayList<SpecificTask> specificTasksSortByStartTime(Calendar day) {
+        String calendarInString = CalendarHelper.convertCal2UTC(day);
+        String calendarInDay = calendarInString.substring(0, 10);//build up a subString in the form of yyyy-mm-dd. Example: 1993-08-21.
+        SQLiteDatabase db = this.getWritableDatabase();
+        String selection = SPECIFICTASKS_START_DATE + " LIKE ?";
+        Cursor cursor = db.query(SPECIFICTASKS_TABLE_NAME, null, selection, new String[]{"%" + calendarInDay + "%"}, null, null, SPECIFICTASKS_START_DATE + " ASC");
+        return findSpecificTaskByCursor(cursor);
+    }
+
+    // FIND SPECIFICTASKS && TASKS BY TYPE
+
+    /**
+     * Given a specific type, this method will return an arrayList that contains all the SpecificTasks that belongs to the given type and are sorted by start-time in increasing time order.
+     *
+     * @param type The type of SpecificTasks that you want to get
+     * @return An sorted ArrayList of SpecificTasks that belongs to the given type. All the SpecificTasks object are in sort with start-time timing order.
+     */
+    public ArrayList<SpecificTask> specificTasksByType(Type type) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String typeID = String.valueOf(type.getId());
+        String selection = SPECIFICTASKS_TYPE + " =? ";
+        Cursor cursor = db.query(SPECIFICTASKS_TABLE_NAME, null, selection, new String[]{typeID}, null, null, SPECIFICTASKS_START_DATE + " ASC");
+        return findSpecificTaskByCursor(cursor);
+    }
+
+    /**
+     * Given a specific type, this method will return an arrayList that contains all the Tasks that belongs to the given type and are sorted by non-case sensitive alphabetical order.
+     *
+     * @param type The type of SpecificTasks that you want to get
+     * @return An sorted ArrayList of Tasks that belongs to the given type. All the Tasks object are in sort with non-case sensitive alphabetical order.
+     */
+    public ArrayList<Task> tasksByType(Type type) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String typeID = String.valueOf(type.getId());
+        String selection = TASKS_TYPE + " =? ";
+        Cursor cursor = db.query(TASKS_TABLE_NAME, null, selection, new String[]{typeID}, null, null, TASKS_NAME + " COLLATE NOCASE");
+        return findTaskByCursor(cursor);
+    }
+
 
     //TODO TESTING, TOBE DELETED
-    public void execute(int givenCondition, Context context) {
+    public void execute(String givenCondition, Context context) {
 
-        SpecificTask specificTask = findSpecificTaskByPrimaryKey(givenCondition);
+        HashMap<Integer, SpecificTask> specificTaskHashMap = new HashMap<>();
 
-        showInAlert("Testing Database Tables: ", specificTask.getTaskName(), context);
-        //showInAlert("Testing Database Tables: ", a.getStartTime(), context);
-        System.out.println(specificTask.getType().getName() + "=================================");
+        SQLiteDatabase db = this.getWritableDatabase();
+        StringBuilder buffer = new StringBuilder();
+        String selection = SPECIFICTASKS_START_DATE + " LIKE ?";
+        Cursor cursor1 = db.query(SPECIFICTASKS_TABLE_NAME, null, selection, new String[]{"%" + givenCondition + "%"}, null, null, SPECIFICTASKS_START_DATE + " ASC");
+        while (cursor1.moveToNext()) {
+            buffer.append("SpecificTasks_ID: ").append(cursor1.getString(0)).append("\n");
+            buffer.append("SpecificTasks_name: ").append(cursor1.getString(1)).append("\n");
+            buffer.append("SpecificTasks_isCompleted: ").append(cursor1.getString(2)).append("\n");
+            buffer.append("SpecificTasks_startDate: ").append(cursor1.getString(3)).append("\n");
+            buffer.append("SpecificTasks_endDate: ").append(cursor1.getString(4)).append("\n");
+            buffer.append("SpecificTasks_type: ").append(cursor1.getString(5)).append("\n\n");
 
+            showInAlert("Testing Database Tables: ", buffer.toString(), context);
+
+        }
     }
 }
