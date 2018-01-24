@@ -84,7 +84,7 @@ public class MusicProgressBar extends View {
 
     private String time;
 
-    private Handler handler;
+    private static Handler handler;
 
     private Context ctx;
 
@@ -587,6 +587,11 @@ public class MusicProgressBar extends View {
 
         handler=callback.execute();//进行回调
         System.out.println(handler==null);
+
+        Message message = handler.obtainMessage();
+        message.what = 0;
+        message.obj = "111111";
+        handler.sendMessage(message);
 
 
 

@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MusicProgressBar mView;
     private int startTime;
-    private Handler handler;
+    private static Handler handler;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
                         return handler;
                     }
                 });
+
+        System.out.println("===!!!");
 
 
 
