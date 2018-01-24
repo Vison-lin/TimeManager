@@ -19,8 +19,8 @@ public class SpecificTask extends Task {
         setEndTime(endTime);
     }
 
-    public String getEndTime() {
-        return endTime;
+    public Calendar getEndTime() {
+        return CalendarHelper.convertUTC2Cal(endTime);
     }
 
     public void setEndTime(Calendar endTime) {
@@ -45,8 +45,8 @@ public class SpecificTask extends Task {
         return isCompleted == 1;
     }
 
-    public String getStartTime() {
-        return startTime;
+    public Calendar getStartTime() {
+        return CalendarHelper.convertUTC2Cal(startTime);
     }
 
     public void setStartTime(Calendar startTime) {
