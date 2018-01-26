@@ -39,7 +39,7 @@ public class SpecificTaskOverviewActivity extends AppCompatActivity {
         specificTasks.add(specificTask);
         // ldb.showAllData(this);
 
-        SpecificTaskOverviewAdapter adapter = new SpecificTaskOverviewAdapter(specificTasks);
+        SpecificTaskOverviewAdapter adapter = new SpecificTaskOverviewAdapter(specificTasks, this);
         mListView.setAdapter(adapter);
 
     }

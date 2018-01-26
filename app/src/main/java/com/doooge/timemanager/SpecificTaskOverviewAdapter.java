@@ -1,9 +1,11 @@
 package com.doooge.timemanager;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -15,29 +17,46 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter {
 
     private Context mContext;
     private ArrayList<SpecificTask> specificTasks;
+    private LayoutInflater mInflater;
+    private Context context;
 
-    public SpecificTaskOverviewAdapter(ArrayList<SpecificTask> specificTasks) {
+    public SpecificTaskOverviewAdapter(ArrayList<SpecificTask> specificTasks, Context context) {
         this.specificTasks = specificTasks;
+        this.context = context;
+
     }
 
     @Override
     public int getCount() {
-        return 0;
+        return specificTasks.size();
     }
 
     @Override
-    public Object getItem(int i) {
-        return null;
+    public Object getItem(int position) {
+
+        return specificTasks.get(position);
     }
 
     @Override
-    public long getItemId(int i) {
-        return 0;
+    public long getItemId(int position) {
+        return position;
     }
 
+
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        return null;
+    public View getView(int position, View view, ViewGroup viewGroup) {
+        //Get view for row item
+        View rowView = mInflater.from(context).inflate(R.layout.activity_daily_task_list, viewGroup, false);
+        TextView taskName = (TextView) rowView.findViewById(R.id.taskName);
+        TextView taskHour = (TextView) rowView.findViewById(R.id.taskHour);
+
+        getItem(position);
+        //   ArrayList<SpecificTask> specificTasks = (ArrayList<SpecificTask>) getItem(position);
+        taskName.setText("aaa");
+        taskHour.setText("111");
+
+
+        return rowView;
     }
 }
 
