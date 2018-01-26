@@ -1,24 +1,15 @@
 package com.doooge.timemanager;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-
-import com.doooge.timemanager.SettingPage.SettingActivity;
 
 
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_task_overview);
 
-    }
-
-    public void goSetting(View view){
-        Intent intent = new Intent(this,SettingActivity.class);
-        startActivity(intent);
     }
 
 

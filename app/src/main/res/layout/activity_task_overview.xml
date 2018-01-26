@@ -53,8 +53,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/settingbuttonicon"
-                android:onClick="goSetting"/>
+                android:onClick="goSetting"
+                app:srcCompat="@drawable/settingbuttonicon" />
 
             <ImageView
                 android:id="@+id/addingTaskBtn"
