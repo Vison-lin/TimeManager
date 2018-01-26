@@ -16,7 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SettingActivity"></activity>
+        <activity android:name=".SettingPage.SettingActivity"></activity>
+        <activity android:name=".SettingPage.ChangeMainPageStyleActivity" />
+        <activity android:name=".SettingPage.HelpActivity" />
+        <activity android:name=".SettingPage.TasksManagementActivity" />
+        <activity android:name=".SettingPage.TypeManagementActivity" />
     </application>
 
 </manifest>
