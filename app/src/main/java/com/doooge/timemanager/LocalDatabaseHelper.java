@@ -9,7 +9,6 @@ import android.support.v7.app.AlertDialog;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 
 
 /**
@@ -80,7 +79,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      * @return return whether the insertion is succeed.
      *
      */
-    public boolean insertToSpecificTaskTable(SpecificTask specificTask) {
+    public boolean insertToSpecificTaskTable(SpecificTask specificTask) throws IllegalArgumentException {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(SPECIFICTASKS_NAME, specificTask.getTaskName());
@@ -97,7 +96,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      * @param task the task to be added
      * @return return whether the insertion is succeed.
      */
-    public boolean insertToTaskTable(Task task) {
+    public boolean insertToTaskTable(Task task) throws IllegalArgumentException {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         String taskName = task.getTaskName();
@@ -113,7 +112,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      * @param type the type to be added
      * @return return whether the insertion is succeed.
      */
-    public boolean insertToTypeTable(Type type) {
+    public boolean insertToTypeTable(Type type) throws IllegalArgumentException {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         String typeName = type.getName();
@@ -166,12 +165,11 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * This method is used to update a specific Type based on id (Primary Key) user provided.
-     *
-     * @param id                      input the id of the specificTask needs to be updated
-     * @param specificTask  The new instance of SpecificTask
+     * @param specificTask  The new instance of SpecificTask.
      * @return return whether the update is succeed.
      */
-    public boolean updateSpecificTaskTable(int id, SpecificTask specificTask) {
+    public boolean updateSpecificTaskTable(SpecificTask specificTask) throws IllegalArgumentException {
+
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(SPECIFICTASKS_NAME, specificTask.getTaskName());
@@ -179,6 +177,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(SPECIFICTASKS_START_DATE, CalendarHelper.convertCal2UTC(specificTask.getStartTime()));
         contentValues.put(SPECIFICTASKS_END_DATE, CalendarHelper.convertCal2UTC(specificTask.getEndTime()));
         contentValues.put(SPECIFICTASKS_TYPE, specificTask.getType().getId());
+        int id = specificTask.getId();
         long result = sqLiteDatabase.update(SPECIFICTASKS_TABLE_NAME, contentValues, SPECIFICTASKS_PRIMARY_KEY + "=" + id, null);
         System.out.println(result);
         return result != 0;//Ensure success: Affect more than 0 rows
@@ -186,32 +185,30 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * This method is used to update a specific Task based on id (Primary Key) user provided.
-     *
-     * @param id       input the id of the Task needs to be updated
      * @param task The new instance of Task
      * @return return whether the insertion is succeed.
      */
-    public boolean updateTaskTable(int id, Task task) {
+    public boolean updateTaskTable(Task task) throws IllegalArgumentException {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(TASKS_NAME, task.getTaskName());
         contentValues.put(TASKS_TYPE, task.getType().getId());
+        int id = task.getId();
         long result = sqLiteDatabase.update(TASKS_TABLE_NAME, contentValues, TASKS_PRIMARY_KEY + "=" + id, null);
         return (result != 0);//Ensure success: Affect more than 0 rows
     }
 
     /**
      * This method is used to update a specific Type based on id (Primary Key) user provided.
-     *
-     * @param id        input the id of the Type needs to be updated
      * @param type The new instance of Type
      * @return return whether the insertion is succeed.
      */
-    public boolean updateTypeTable(int id, Type type) {
+    public boolean updateTypeTable(Type type) throws IllegalArgumentException {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(TYPES_NAME, type.getName());
         contentValues.put(TYPES_COLOR, type.getColor());
+        int id = type.getId();
         long result = sqLiteDatabase.update(TYPES_TABLE_NAME, contentValues, TYPES_PRIMARY_KEY + "=" + id, null);
         return result != 0;//Ensure success: Affect more than 0 rows
     }
@@ -395,7 +392,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      * @param type The type of SpecificTasks that you want to get
      * @return An sorted ArrayList of SpecificTasks that belongs to the given type. All the SpecificTasks object are in sort with start-time timing order.
      */
-    public ArrayList<SpecificTask> specificTasksByType(Type type) {
+    public ArrayList<SpecificTask> specificTasksByType(Type type) throws IllegalArgumentException {
         SQLiteDatabase db = this.getWritableDatabase();
         String typeID = String.valueOf(type.getId());
         String selection = SPECIFICTASKS_TYPE + " =? ";
@@ -409,7 +406,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      * @param type The type of SpecificTasks that you want to get
      * @return An sorted ArrayList of Tasks that belongs to the given type. All the Tasks object are in sort with non-case sensitive alphabetical order.
      */
-    public ArrayList<Task> tasksByType(Type type) {
+    public ArrayList<Task> tasksByType(Type type) throws IllegalArgumentException {
         SQLiteDatabase db = this.getWritableDatabase();
         String typeID = String.valueOf(type.getId());
         String selection = TASKS_TYPE + " =? ";
@@ -417,26 +414,4 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         return findTaskByCursor(cursor);
     }
 
-
-    //TODO TESTING, TOBE DELETED
-    public void execute(String givenCondition, Context context) {
-
-        HashMap<Integer, SpecificTask> specificTaskHashMap = new HashMap<>();
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        StringBuilder buffer = new StringBuilder();
-        String selection = SPECIFICTASKS_START_DATE + " LIKE ?";
-        Cursor cursor1 = db.query(SPECIFICTASKS_TABLE_NAME, null, selection, new String[]{"%" + givenCondition + "%"}, null, null, SPECIFICTASKS_START_DATE + " ASC");
-        while (cursor1.moveToNext()) {
-            buffer.append("SpecificTasks_ID: ").append(cursor1.getString(0)).append("\n");
-            buffer.append("SpecificTasks_name: ").append(cursor1.getString(1)).append("\n");
-            buffer.append("SpecificTasks_isCompleted: ").append(cursor1.getString(2)).append("\n");
-            buffer.append("SpecificTasks_startDate: ").append(cursor1.getString(3)).append("\n");
-            buffer.append("SpecificTasks_endDate: ").append(cursor1.getString(4)).append("\n");
-            buffer.append("SpecificTasks_type: ").append(cursor1.getString(5)).append("\n\n");
-
-            showInAlert("Testing Database Tables: ", buffer.toString(), context);
-
-        }
-    }
 }
