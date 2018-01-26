@@ -32,43 +32,12 @@
             android:layout_height="370dp"
             android:layout_marginTop="20dp"
             android:orientation="horizontal">
+            <ListView
+                android:id="@+id/taskBlock"
+                android:layout_width="match_parent"
+                android:layout_height="380dp"
+                android:layout_weight="1"/>
 
-            <Button
-                android:id="@+id/studyBtn"
-                android:layout_width="120dp"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:lineSpacingExtra="10sp"
-                android:text="Study"
-                android:background="#CFD8DC"
-                android:textSize="18sp" />
-
-            <Button
-                android:id="@+id/exerciseBtn"
-                android:layout_width="120dp"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:text="Exercise"
-                android:background="#FFAB91"
-                android:textSize="18sp" />
-
-            <Button
-                android:id="@+id/shoppingBtn"
-                android:layout_width="120dp"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:text="Shopping"
-                android:background="#AED581"
-                android:textSize="18sp" />
-
-            <Button
-                android:id="@+id/workBtn"
-                android:layout_width="120dp"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:background="#B39DDB"
-                android:text="Work"
-                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
