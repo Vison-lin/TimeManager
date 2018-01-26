@@ -14,13 +14,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Sample code for DB Insertion
-        ldb = new LocalDatabaseHelper(this);
-        ldb.insertToSpecificTaskTable("SpecificTaskTable", 1, "2017", "2018", 21);
-        ldb.insertToTaskTable("TaskTable", 22);
-        ldb.insertToTypeTable("TypeTable", "ColorInGreen");
-        ldb.showAllData(this);
-
     }
 
 
