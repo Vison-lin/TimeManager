@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SpecificTaskOverviewActivity">
+        <activity android:name=".MainPageSlidesAdapter">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,6 +21,7 @@
         <activity android:name=".SettingPage.HelpActivity" />
         <activity android:name=".SettingPage.TasksManagementActivity" />
         <activity android:name=".SettingPage.TypeManagementActivity" />
+        <activity android:name=".SpecificTaskOverviewFragment" />
     </application>
 
 </manifest>

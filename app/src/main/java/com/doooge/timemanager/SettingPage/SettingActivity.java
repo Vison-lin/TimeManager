@@ -20,7 +20,6 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * Implementing all onClick actions here with the presented format.
-     *
      * @param view ignore
      */
     @Override

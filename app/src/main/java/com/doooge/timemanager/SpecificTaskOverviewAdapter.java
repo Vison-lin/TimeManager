@@ -46,9 +46,9 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
         //Get view for row item
-        View rowView = mInflater.from(context).inflate(R.layout.activity_daily_task_list, viewGroup, false);
-        TextView taskName = (TextView) rowView.findViewById(R.id.taskName);
-        TextView taskHour = (TextView) rowView.findViewById(R.id.taskHour);
+        View rowView = LayoutInflater.from(context).inflate(R.layout.activity_daily_task_list, viewGroup, false);
+        TextView taskName = rowView.findViewById(R.id.taskName);
+        TextView taskHour = rowView.findViewById(R.id.taskHour);
 
         getItem(position);
         //   ArrayList<SpecificTask> specificTasks = (ArrayList<SpecificTask>) getItem(position);
@@ -58,5 +58,6 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter {
 
         return rowView;
     }
+
 }
 
