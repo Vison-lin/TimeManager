@@ -51,6 +51,11 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter {
         return rowView;
     }
 
+    /**
+     * This method is used for updating Adapter's view. One should call this method right after one changed the content.
+     *
+     * @param newSpecificTasks pass a NEW ArrayList with all new elements that need to display on the screen.
+     */
     public void updateSpecificTaskOverviewAdapter(ArrayList<SpecificTask> newSpecificTasks) {
         specificTasks = new ArrayList<>(newSpecificTasks);
         this.notifyDataSetChanged();
