@@ -4,7 +4,6 @@ package com.doooge.timemanager;
  * Created by fredpan on 2018/1/26.
  */
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -12,15 +11,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.View;
 
-import com.doooge.timemanager.SettingPage.SettingActivity;
+public class MainPageSlidesAdapter extends FragmentActivity {
 
-public class MainPageSlidesAdapter extends FragmentActivity implements View.OnClickListener {
+
     /**
-     * The number of pages (wizard steps) to show in this demo.
+     * The number of pages (3) to show.
      */
-    private static final int NUM_PAGES = 3;
+    private static final int NUM_PAGES = 3;//TODO Static & Adding new Task PAGES To BE IMPLEMENTED
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -42,6 +40,8 @@ public class MainPageSlidesAdapter extends FragmentActivity implements View.OnCl
         mPager = findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+
+
     }
 
     @Override
@@ -57,24 +57,7 @@ public class MainPageSlidesAdapter extends FragmentActivity implements View.OnCl
     }
 
     /**
-     * Handle all the onClicks from all its child activity\/fragment
-     *
-     * @param view ignore
-     */
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.settingBtn:
-                Intent intent = new Intent(this, SettingActivity.class);
-                startActivity(intent);
-                break;
-        }
-
-    }
-
-    /**
-     * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
-     * sequence.
+     * A simple pager adapter that represents 3 ScreenSlidePageFragment objects, in sequence.
      */
     private class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
@@ -92,4 +75,5 @@ public class MainPageSlidesAdapter extends FragmentActivity implements View.OnCl
             return NUM_PAGES;
         }
     }
+
 }
