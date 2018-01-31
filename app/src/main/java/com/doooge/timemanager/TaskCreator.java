@@ -79,20 +79,10 @@ public class TaskCreator extends AppCompatActivity {
 
             Calendar calStart = Calendar.getInstance();
             Calendar calEnd = Calendar.getInstance();
-            calStart.set(2017, 0, 31, 5, 5);
-            calEnd.set(2017, 0, 31,8, 8);
-            System.out.println("StartTime: "+calStart.get(Calendar.HOUR_OF_DAY)+":"+Integer.parseInt(start[1]));
-            System.out.println(CalendarHelper.convertCal2UTC(calStart));
-            System.out.println("EndTime: "+Integer.parseInt(end[0])+":"+Integer.parseInt(end[1]));
-            System.out.println(CalendarHelper.convertCal2UTC(calEnd));
-            int h =  Integer.parseInt(end[0]);
-            int min = Integer.parseInt(end[1]);
-
-            System.out.println(calEnd.get(Calendar.HOUR_OF_DAY));
-
+            calStart.set(2017, 0, 31, Integer.parseInt(start[0]), Integer.parseInt(start[1]));
+            calEnd.set(2017, 0, 31,Integer.parseInt(end[0]),Integer.parseInt(end[1]));
             SpecificTask task = new SpecificTask(userName, calStart, calEnd);
-            System.out.println("======="+(task==null));
-            ldh.insertToSpecificTaskTable((SpecificTask) task);
+            ldh.insertToSpecificTaskTable(task);
             ldh.showAllData(this);
 
 
