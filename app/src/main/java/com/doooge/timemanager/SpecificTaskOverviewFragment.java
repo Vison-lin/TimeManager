@@ -56,7 +56,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         //================================================
 
 
-        adapter = new SpecificTaskOverviewAdapter(specificTasks);
+        adapter = new SpecificTaskOverviewAdapter(specificTasks, ldh);
         mListView = rootView.findViewById(R.id.taskList);
         mListView.setAdapter(adapter);
         return rootView;
