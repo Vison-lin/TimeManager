@@ -11,6 +11,7 @@ public class Task {
 
     public Task(String taskName) {
         this.taskName = taskName;
+        type = new Type("11","11");
     }
 
     public String getTaskName() {

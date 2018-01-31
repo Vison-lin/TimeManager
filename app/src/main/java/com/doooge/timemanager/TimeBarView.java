@@ -398,29 +398,37 @@ public class TimeBarView extends View {
 
     private String getTimeText(int processStart, int processEnd) {
         int minute = processStart / 60;
-        int second = processStart % 60;
+        int second = Integer.parseInt((processStart % 60)/10+""+((processStart%60)%10<5?"0":"5"));
         int minute1 = processEnd / 60;
-        int second1 = processEnd % 60;
+        int second1 = Integer.parseInt((processEnd% 60)/10+""+((processEnd%60)%10<5?"0":"5"));
         String result;
 
         if (minute > minute1) {
-            result = (23 - minute + minute1 < 10 ? "0" : "") + (23 - minute + minute1) + ":";
-            result += (60 - second + second1) / 10 + "" + ((60 - second + second1) % 10 < 5 ? "0" : "5");
-
+            if(second<second1) {
+                result = (24 - minute + minute1 < 10 ? "0" : "") + (24 - minute + minute1) + ":";
+                result += (second1-second)<10 ?"0"+(second1-second):second1-second;
+            }else if(second>second1){
+                result = (23 - minute + minute1 < 10 ? "0" : "") + (23 - minute + minute1) + ":";
+                result += (60+second1-second)<10 ?"0"+(60+second1-second):60+second1-second;
+            }else{
+                result = (24 - minute + minute1 < 10 ? "0" : "") + (24 - minute + minute1) + ":"+"00";
+            }
 
         } else if (minute < minute1) {
 
-            result = (minute1 - minute < 10 ? "0" : "") + (minute1 - minute) + ":";
+
             if (second1 < second) {
-                result += (second1 + (60 - second)) / 10 + "" + ((second1 + (60 - second)) % 10 < 5 ? "0" : "5");
+                result = (minute1 - minute-1 < 10 ? "0" : "") + (minute1 - minute-1) + ":";
+                result += (60+second1-second)<10 ?"0"+(60+second1-second):60+second1-second;
             } else {
-                result += (second1 - second) / 10 + "" + ((second1 - second) % 10 < 5 ? "0" : "5");
+                result = (minute1 - minute < 10 ? "0" : "") + (minute1 - minute) + ":";
+                result += (second1-second)<10 ?"0"+(second1-second):second1-second;
             }
         } else {
             if (second > second1) {
-                result = "23:" + (60 - second + second1) / 10 + "" + ((60 - second + second1) % 10 < 5 ? "0" : "5");
+                result = "23:" + ((60+second1-second)<10 ?"0"+(60+second1-second):60+second1-second);
             } else if (second < second1) {
-                result = "00:" + (second1 - second) / 10 + "" + ((second1 - second) % 10 < 5 ? "0" : "5");
+                result = "00:" + ((second1-second)<10 ?"0"+(second1-second):second1-second);
             } else {
                 result = "00:00";
             }

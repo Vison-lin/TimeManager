@@ -1,5 +1,6 @@
 package com.doooge.timemanager;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,21 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter {
         SpecificTask specificTask = getItem(position);
         taskName.setText(specificTask.getTaskName());
         taskHour.setText("111");//TODO TO BE IMPLEMENTED
+        rowView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Intent intent = new Intent();
+
+
+
+
+                return false;
+            }
+        });
+
+
+
+
         return rowView;
     }
 
