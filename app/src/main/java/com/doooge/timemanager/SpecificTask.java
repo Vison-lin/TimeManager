@@ -1,7 +1,5 @@
 package com.doooge.timemanager;
 
-import android.widget.GridLayout;
-
 import java.util.Calendar;
 
 /**
@@ -31,7 +29,6 @@ public class SpecificTask extends Task {
 
     public void setEndTime(Calendar endTime) {
         this.endTime = CalendarHelper.convertCal2UTC(endTime);
-        System.out.println("!!!!end"+this.endTime);
     }
 
     /**
@@ -58,7 +55,6 @@ public class SpecificTask extends Task {
 
     public void setStartTime(Calendar startTime) {
         this.startTime = CalendarHelper.convertCal2UTC(startTime);
-        System.out.println("!!!!!start"+this.startTime);
 
     }
 }
