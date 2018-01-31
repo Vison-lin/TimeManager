@@ -5,6 +5,7 @@ package com.doooge.timemanager;
  */
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -42,8 +43,16 @@ public class MainPageSlidesAdapter extends FragmentActivity {
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        mPager.setCurrentItem(1,true);
         mPager.setAdapter(mPagerAdapter);
+
+        //Force make second page (SpecificTaskOverviewFragment) as the default displayed main page
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                mPager.setCurrentItem(1);
+            }
+        });
+
 
 
     }
