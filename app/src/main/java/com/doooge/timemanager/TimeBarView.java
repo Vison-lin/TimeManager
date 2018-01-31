@@ -1,8 +1,9 @@
 package com.doooge.timemanager;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,106 +13,109 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 
 /**
  * Created by user on 2018/1/21.
  */
 
-public class MusicProgressBar extends View {
+public class TimeBarView extends View {
+    /**
+     * instance of handler
+     */
+    private static Handler handler;
     /**
      * The paint
      */
     private Paint paint;
-
     /**
      * The color of progress circle
      */
     private int roundColor;
-
     /**
      * The color of progress bar
      */
     private int roundProgressColor;
-
     /**
      * The width of progress circle
      */
     private float roundWidth;
-
     /**
      * The maximum process
      */
     private int max;
-
     /**
      * The current process of start thumb
      */
     private int progressStart;
-
     /**
      * The current process of end thumb
      */
     private int progressEnd;
-
     /**
      * The color of the string of intermediate progress percentage.
      */
     private int textColor;
-
     /**
      * The font of the middle progress percentage string.
      */
     private float textSize;
-
-
     /**
-     * the start thumb
+     * The start thumb
      */
     private Drawable thumbStart, thumbStartPress;
-
+    private Bitmap thumbS;
     /**
-     * the end thumb
+     * The end thumb
      */
     private Drawable thumbEnd, thumbEndPress;
-
-    private int startTime;
-    private int endTime;
-
-    private String time;
-
-    private static Handler handler;
-
-    private Context ctx;
-
-
-    public MusicProgressBar(Context context) {
+    private Bitmap thumbE;
+    /**
+     * record the X,Y coordinate of current place of thumb
+     */
+    private Point startPoint;
+    private Point endPoint;
+    /**
+     * the boolean type of check if touch on screen
+     */
+    private boolean downOnStart = false;
+    private boolean downOnEnd = false;
+    /**
+     * the coordinate of centre of circle
+     */
+    private int centerX, centerY;
+    /**
+     * the radius of circle
+     */
+    private int radius;
+    private int paddingOuterThumb;
+    /**
+     * create the constructor of this context
+     *
+     * @param context
+     */
+    public TimeBarView(Context context) {
         this(context, null);
     }
 
 
-
-
-    public MusicProgressBar(Context context, AttributeSet attrs) {
+    public TimeBarView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public MusicProgressBar(Context context, AttributeSet attrs, int defStyle) {
+    public TimeBarView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-         ctx = context;
         paint = new Paint();
-
+        startPoint = new Point(0, 0);
+        endPoint = new Point(0, 0);
 
 
         TypedArray mTypedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundProgressBar);
 
-        //Gets the custom property and default values.
-        roundColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundColor, Color.RED);
-        roundProgressColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundProgressColor, Color.GREEN);
+        //Gets the customer property and default values.
+        roundColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundColor, Color.GREEN);
+        roundProgressColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundProgressColor, Color.GRAY);
         roundWidth = mTypedArray.getDimension(R.styleable.RoundProgressBar_roundWidth, 20);
         textColor = mTypedArray.getColor(R.styleable.RoundProgressBar_textColor, Color.BLUE);
         textSize = mTypedArray.getDimension(R.styleable.RoundProgressBar_textSize, 50);
@@ -120,6 +124,7 @@ public class MusicProgressBar extends View {
 
         // Loading the picture of thumb
         thumbStart = getResources().getDrawable(R.drawable.a1);
+        thumbS = BitmapFactory.decodeResource(getResources(), R.drawable.a1);
         int thumbHalfheight = thumbStart.getIntrinsicHeight() / 2;
         int thumbHalfWidth = thumbStart.getIntrinsicWidth() / 2;
         thumbStart.setBounds(-thumbHalfWidth, -thumbHalfheight, thumbHalfWidth, thumbHalfheight);
@@ -131,6 +136,7 @@ public class MusicProgressBar extends View {
         paddingOuterThumb = thumbHalfheight;
 
         thumbEnd = getResources().getDrawable(R.drawable.a1);
+        thumbE = BitmapFactory.decodeResource(getResources(), R.drawable.a1);
         int thumbHalfheight1 = thumbEnd.getIntrinsicHeight() / 2;
         int thumbHalfWidth1 = thumbEnd.getIntrinsicWidth() / 2;
         thumbEnd.setBounds(-thumbHalfWidth1, -thumbHalfheight1, thumbHalfWidth1, thumbHalfheight1);
@@ -146,49 +152,37 @@ public class MusicProgressBar extends View {
     @Override
     public void onDraw(Canvas canvas) {
         /**
-         * 画最外层的大圆环
+         * draw the circle
          */
-        paint.setColor(roundColor); //设置圆环的颜色
-        paint.setStyle(Paint.Style.STROKE); //设置空心
-        paint.setStrokeWidth(roundWidth); //设置圆环的宽度
-        paint.setAntiAlias(true);  //消除锯齿
-        canvas.drawCircle(centerX, centerY, radius, paint); //画出圆环
+        paint.setColor(roundColor);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(roundWidth);
+        paint.setAntiAlias(true);
+        canvas.drawCircle(centerX, centerY, radius, paint);
 
         /**
-         * 画文字
+         * draw the text of time
          */
         paint.setStrokeWidth(0);
         paint.setColor(textColor);
         paint.setTextSize(textSize);
-
         String textTime = getTimeText(progressStart, progressEnd);
         float textWidth = paint.measureText(textTime);
+        canvas.drawText(textTime, centerX - textWidth / 2, centerY + textSize / 2, paint);
+        /**
+         *  send message to UI activity
+         */
+        if (handler != null) {
 
-        View view = LayoutInflater.from(ctx).inflate(R.layout.taskcreator,null);
-        EditText view1 = view.findViewById(R.id.time1);
-        view1.setText(textTime);
-        System.out.println((handler==null)+"!!!!");
-        if(handler!=null) {
-            System.out.println("!!!!!!!!!");
-
+            String result = getTime(progressStart) + "@" + getTime(progressEnd);
             Message message = handler.obtainMessage();
             message.what = 0;
-            message.obj = textTime;
+            message.obj = result;
             handler.sendMessage(message);
         }
 
-        System.out.println("===============");
-       // String x = (String) view1.getText();
-       // System.out.println(x+"!!!!!");
-
-
-
-
-
-        canvas.drawText(textTime, centerX - textWidth / 2, centerY + textSize / 2, paint);
-
         /**
-         * 画圆弧 ，画圆环的进度
+         * draw arc and the process bar
          */
         paint.setStrokeWidth(roundWidth);
         paint.setColor(roundProgressColor);
@@ -199,7 +193,7 @@ public class MusicProgressBar extends View {
 
             canvas.drawArc(oval, 360 * progressEnd / max + 270, 360 * (progressStart - progressEnd) / max, false, paint);
         } else if (progressStart < progressEnd) {
-            canvas.drawArc(oval, 360 * progressStart / max + 270, 360 * (progressEnd - progressStart) / max, false, paint);
+            canvas.drawArc(oval, 360 * progressEnd / max + 270, 360 * (max - progressEnd + progressStart) / max, false, paint);
         }
 
 
@@ -207,42 +201,48 @@ public class MusicProgressBar extends View {
         PointF progressEndPoint = ChartUtil.calcArcEndPointXY(centerX, centerY, radius, 360 * progressEnd / max, 270);
 
 
-        // 画Thumb
+        // draw thumb
         canvas.save();
 
-        pointStartX = progressStartPoint.x;
-        pointStartY = progressStartPoint.y;
-        pointEndX = progressEndPoint.x;
-        pointEndY = progressEndPoint.y;
+        startPoint.setX(progressStartPoint.x);
+        startPoint.setY(progressStartPoint.y);
+        endPoint.setX(progressEndPoint.x);
+        endPoint.setY(progressEndPoint.y);
+//        pointStartX = progressStartPoint.x;
+//        pointStartY = progressStartPoint.y;
+//        pointEndX = progressEndPoint.x;
+//        pointEndY = progressEndPoint.y;
 
-        if (downOnArc && !downOnArc1) {
-            canvas.translate(progressStartPoint.x, progressStartPoint.y);
+
+        if (downOnStart && !downOnEnd) {
+            canvas.translate(startPoint.getX(), startPoint.getY());
             thumbStartPress.draw(canvas);
+            canvas.restore();
+            canvas.save();
+            canvas.translate(endPoint.getX(), endPoint.getY());
+            thumbEnd.draw(canvas);
 
-        } else if (downOnArc1 && !downOnArc) {
-            canvas.translate(progressEndPoint.x, progressEndPoint.y);
+        } else if (downOnEnd && !downOnStart) {
+            canvas.translate(endPoint.getX(), endPoint.getY());
             thumbEndPress.draw(canvas);
+            canvas.restore();
+            canvas.save();
+            canvas.translate(startPoint.getX(), startPoint.getY());
+            thumbStart.draw(canvas);
+
 
         } else {
-            canvas.translate(progressEndPoint.x, progressEndPoint.y);
+            canvas.translate(endPoint.getX(), endPoint.getY());
             thumbEnd.draw(canvas);
             canvas.restore();
             canvas.save();
-            canvas.translate(progressStartPoint.x, progressStartPoint.y);
+            canvas.translate(startPoint.getX(), startPoint.getY());
             thumbStart.draw(canvas);
         }
 
 
         canvas.restore();
     }
-
-    /**
-     * the boolean type of check if touch on screen
-     */
-    private boolean downOnArc = false;
-    private boolean downOnArc1 = false;
-
-
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -252,43 +252,40 @@ public class MusicProgressBar extends View {
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 if (isTouchPot(x, y)) {
-                    downOnArc = true;
+                    downOnStart = true;
                     updateArc(x, y, true);
                     return true;
                 } else if (isTouchPot1(x, y)) {
-                    downOnArc1 = true;
+                    downOnEnd = true;
                     updateArc(x, y, false);
                     return true;
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (downOnArc) {
+                if (downOnStart) {
+
                     updateArc(x, y, true);
                     return true;
-                } else if (downOnArc1) {
+                } else if (downOnEnd) {
                     updateArc(x, y, false);
                     return true;
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                downOnArc = false;
-                downOnArc1 = false;
+                downOnStart = false;
+                downOnEnd = false;
                 invalidate();
-                if (changeListener != null) {
-                    changeListener.onProgressChangeEnd(max, progressStart);
-                    changeListener.onProgressChangeEnd(max, progressEnd);
-                }
-                if(timeListener!=null){
-                    timeListener.execute();
-                }
+//                if (changeListener != null) {
+//                    changeListener.onProgressChangeEnd(max, progressStart);
+//                    changeListener.onProgressChangeEnd(max, progressEnd);
+//                }
+//                if (timeListener != null) {
+//                    timeListener.execute();
+//                }
                 break;
         }
         return super.onTouchEvent(event);
     }
-
-    private int centerX, centerY;
-    private int radius;
-    private int paddingOuterThumb;
 
     @Override
     protected void onSizeChanged(int width, int height, int oldw, int oldh) {
@@ -296,74 +293,56 @@ public class MusicProgressBar extends View {
         centerY = height / 2;
         int minCenter = Math.min(centerX, centerY);
 
-        radius = (int) (minCenter - roundWidth / 2 - paddingOuterThumb); //圆环的半径
+        radius = (int) (minCenter - roundWidth / 2 - paddingOuterThumb);
 
-        minValidateTouchArcRadius = (int) (radius - paddingOuterThumb * 1.5f);
-        maxValidateTouchArcRadius = (int) (radius + paddingOuterThumb * 1.5f);
         super.onSizeChanged(width, height, oldw, oldh);
     }
 
-    // 根据点的位置，更新进度
+    // update the process according to the coordinate of touch point
     private void updateArc(int x, int y, boolean isStart) {
         int cx = x - getWidth() / 2;
         int cy = y - getHeight() / 2;
-        // 计算角度，得出（-1->1）之间的数据，等同于（-180°->180°）
+
         double angle = Math.atan2(cy, cx) / Math.PI;
-        // 将角度转换成（0->2）之间的值，然后加上90°的偏移量
+
         angle = ((2 + angle) % 2 + (90 / 180f)) % 2;
-        // 用（0->2）之间的角度值乘以总进度，等于当前进度
-        time = getTime(progressStart);
+
         if (isStart) {
 
             progressStart = (int) (angle * max / 2);
-            if (changeListener != null) {
-                changeListener.onProgressChange(max, progressStart);
-            }
-            if(timeListener!=null){
-                timeListener.execute();
-            }
+//            if (changeListener != null) {
+//                changeListener.onProgressChange(max, progressStart);
+//            }
+//            if (timeListener != null) {
+//                timeListener.execute();
+//            }
 
         } else {
             progressEnd = (int) (angle * max / 2);
 
-            if (changeListener != null) {
-                changeListener.onProgressChange(max, progressEnd);
-            }
-            if(timeListener!=null){
-                timeListener.execute();
-            }
+//            if (changeListener != null) {
+//                changeListener.onProgressChange(max, progressEnd);
+//            }
+//            if (timeListener != null) {
+//                timeListener.execute();
+//            }
 
 
         }
         invalidate();
     }
 
-    private int minValidateTouchArcRadius; // 最小有效点击半径
-    private int maxValidateTouchArcRadius; // 最大有效点击半径
 
-    private float pointStartX;
-    private float pointStartY;
-    private float pointEndX;
-    private float pointEndY;
-
-    // 判断是否按在圆边上
-    private boolean isTouchArc(int x, int y) {
-        double d = getTouchRadius(x, y);
-        if (d >= minValidateTouchArcRadius && d <= maxValidateTouchArcRadius) {
-            return true;
-        }
-        return false;
-    }
-
-    /**  To check if touch on the start thumb
+    /**
+     * To check if touch on the start thumb
      *
      * @param x the X coordinate of touch on view
      * @param y the Y coordinate of touch on view
      * @return whether touch success.
      */
     private boolean isTouchPot(int x, int y) {
-        int X = (int) pointStartX - x;
-        int Y = (int) pointStartY - y;
+        int X = (int) startPoint.getX() - x;
+        int Y = (int) startPoint.getY() - y;
         double d = Math.sqrt(X ^ 2 + Y ^ 2);
         if (d <= 10) {
             return true;
@@ -372,15 +351,16 @@ public class MusicProgressBar extends View {
 
     }
 
-    /**  To check if touch on the end thumb
+    /**
+     * To check if touch on the end thumb
      *
      * @param x the X coordinate of touch on view
      * @param y the Y coordinate of touch on view
      * @return whether touch success.
      */
     private boolean isTouchPot1(int x, int y) {
-        int X = (int) pointEndX - x;
-        int Y = (int) pointEndY - y;
+        int X = (int) endPoint.getX() - x;
+        int Y = (int) endPoint.getY() - y;
         double d = Math.sqrt(X ^ 2 + Y ^ 2);
         if (d <= 10) {
             return true;
@@ -390,126 +370,90 @@ public class MusicProgressBar extends View {
     }
 
 
-    // 计算某点到圆点的距离
-    private double getTouchRadius(int x, int y) {
-        int cx = x - getWidth() / 2;
-        int cy = y - getHeight() / 2;
-        return Math.hypot(cx, cy);
-    }
+    /**
+     * To caculate the time with the current process
+     *
+     * @param process the current process
+     * @return
+     */
+    private String getTime(int process) {
+        int minute = process / 60;
+        int second = process % 60;
+        String result;
 
-    private String getTime(int progress){
-        int minute = progress/60;
-        int second = progress%60;
-        String result = (minute<10?"0":"")+minute+":"+(second<10?"0":"")+second;
+        result = (minute < 10 ? "0" : "") + minute + ":" + second / 10 + "" + (second % 10 < 5 ? "0" : "5");
         return result;
 
-
-
     }
 
 
+    /**
+     * To caculate the time difference between start time and end time.
+     *
+     * @param processStart the current process of start point
+     * @param processEnd   the current process of end point
+     * @return
+     */
 
 
-    private String getTimeText(int progress, int progress1) {
-        int minute = progress / 60;
-        int second = progress % 60;
-        int minute1 = progress1 / 60;
-        int second1 = progress1 % 60;
+    private String getTimeText(int processStart, int processEnd) {
+        int minute = processStart / 60;
+        int second = processStart % 60;
+        int minute1 = processEnd / 60;
+        int second1 = processEnd % 60;
         String result;
-        if (minute >= minute1) {
-            result = (minute - minute1 < 10 ? "0" : "") + (minute - minute1) + ":";
-            if (second < second1) {
-                result += (second + (60 - second1)) / 10 + "" + ((second + (60 - second1)) % 10 < 5 ? "0" : "5");
-            } else {
-                result += (second - second1) / 10 + "" + ((second - second1) % 10 < 5 ? "0" : "5");
-            }
 
-        } else {
+        if (minute > minute1) {
+            result = (23 - minute + minute1 < 10 ? "0" : "") + (23 - minute + minute1) + ":";
+            result += (60 - second + second1) / 10 + "" + ((60 - second + second1) % 10 < 5 ? "0" : "5");
+
+
+        } else if (minute < minute1) {
+
             result = (minute1 - minute < 10 ? "0" : "") + (minute1 - minute) + ":";
             if (second1 < second) {
                 result += (second1 + (60 - second)) / 10 + "" + ((second1 + (60 - second)) % 10 < 5 ? "0" : "5");
             } else {
                 result += (second1 - second) / 10 + "" + ((second1 - second) % 10 < 5 ? "0" : "5");
             }
+        } else {
+            if (second > second1) {
+                result = "23:" + (60 - second + second1) / 10 + "" + ((60 - second + second1) % 10 < 5 ? "0" : "5");
+            } else if (second < second1) {
+                result = "00:" + (second1 - second) / 10 + "" + ((second1 - second) % 10 < 5 ? "0" : "5");
+            } else {
+                result = "00:00";
+            }
         }
-
-
-
 
 
         return result;
     }
 
-    public synchronized int getMax() {
-        return max;
-    }
+
+//    private OnProgressChangeListener changeListener;
+//
+//    public interface OnProgressChangeListener {
+//        void onProgressChange(int duration, int progress);
+//
+//        void onProgressChangeEnd(int duration, int progress);
+//    }
+
+//    public Callback timeListener;
 
     /**
-     * 设置进度的最大值
-     *
-     * @param max
+     * Those methods are used for achieving data call-back between this view and TaskCreator
+     * activity
      */
-    public synchronized void setMax(int max) {
-        if (max < 0) {
-            throw new IllegalArgumentException("max not less than 0");
-        }
-        this.max = max;
+    public interface Callback {
+        Handler execute();
     }
 
-    /**
-     * 获取进度.需要同步
-     *
-     * @return
-     */
-    public synchronized int getProgress() {
-        return progressStart;
+    public void Test(Callback callback) {
+        handler = callback.execute();
     }
 
-    /**
-     * 设置进度，此为线程安全控件，由于考虑多线的问题，需要同步
-     * 刷新界面调用postInvalidate()能在非UI线程刷新
-     *
-     * @param progress
-     */
-    public synchronized void setProgress(int progress) {
-        if (progress < 0) {
-            throw new IllegalArgumentException("progressStart not less than 0");
-        }
-        if (progress > max) {
-            progress = max;
-        }
-        if (progress <= max) {
-            this.progressStart = progress;
-            postInvalidate();
-        }
-
-    }
-
-    public int getCricleColor() {
-        return roundColor;
-    }
-
-    public void setCricleColor(int cricleColor) {
-        this.roundColor = cricleColor;
-    }
-
-    public int getCricleProgressColor() {
-        return roundProgressColor;
-    }
-
-    public void setCricleProgressColor(int cricleProgressColor) {
-        this.roundProgressColor = cricleProgressColor;
-    }
-
-    public float getRoundWidth() {
-        return roundWidth;
-    }
-
-    public void setRoundWidth(float roundWidth) {
-        this.roundWidth = roundWidth;
-    }
-
-    public static class ChartUtil {
+    private static class ChartUtil {
 
         /**
          * According to the coordinates of the center, the radius and the fan Angle,
@@ -521,10 +465,10 @@ public class MusicProgressBar extends View {
          * @param cirAngle
          * @return
          */
-        public static PointF calcArcEndPointXY(float cirX, float cirY, float radius, float cirAngle) {
+        private static PointF calcArcEndPointXY(float cirX, float cirY, float radius, float cirAngle) {
             float posX = 0.0f;
             float posY = 0.0f;
-            //将角度转换为弧度
+            //Convert angles to radians
             float arcAngle = (float) (Math.PI * cirAngle / 180.0);
             if (cirAngle < 90) {
                 posX = cirX + (float) (Math.cos(arcAngle)) * radius;
@@ -554,50 +498,38 @@ public class MusicProgressBar extends View {
             return new PointF(posX, posY);
         }
 
-        public static PointF calcArcEndPointXY(float cirX, float cirY, float radius, float cirAngle, float orginAngle) {
+        private static PointF calcArcEndPointXY(float cirX, float cirY, float radius, float cirAngle, float orginAngle) {
             cirAngle = (orginAngle + cirAngle) % 360;
             return calcArcEndPointXY(cirX, cirY, radius, cirAngle);
         }
     }
 
-    private OnProgressChangeListener changeListener;
+    private class Point {
+        private float x;
+        private float y;
 
-    public void setChangeListener(OnProgressChangeListener changeListener) {
-        this.changeListener = changeListener;
-    }
+        private Point(float x, float y) {
+            this.x = x;
+            this.y = y;
+        }
 
-    public interface OnProgressChangeListener {
-        void onProgressChange(int duration, int progress);
+        private float getX() {
+            return x;
+        }
 
-        void onProgressChangeEnd(int duration, int progress);
-    }
+        private void setX(float x) {
+            this.x = x;
+        }
 
-    public interface OnTimeChangeListener{
-        void onStartTimeChange(int a);
-    }
+        private float getY() {
+            return y;
+        }
 
-    public Callback timeListener;
-
-
-    public interface Callback {
-        Handler execute();
-    }
-
-    public void Test(Callback callback) {
-
-        handler=callback.execute();//进行回调
-        System.out.println(handler==null);
-
-        Message message = handler.obtainMessage();
-        message.what = 0;
-        message.obj = "111111";
-        handler.sendMessage(message);
-
-
-
+        private void setY(float y) {
+            this.y = y;
+        }
 
     }
-
 
 
 }
