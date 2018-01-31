@@ -45,9 +45,11 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter {
         View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_daily_task_list, viewGroup, false);
         TextView taskName = rowView.findViewById(R.id.taskName);
         TextView taskHour = rowView.findViewById(R.id.taskHour);
+        TextView taskType = rowView.findViewById(R.id.taskType);
         SpecificTask specificTask = getItem(position);
         taskName.setText(specificTask.getTaskName());
         taskHour.setText("111");//TODO TO BE IMPLEMENTED
+        taskType.setText("Green");
         return rowView;
     }
 
