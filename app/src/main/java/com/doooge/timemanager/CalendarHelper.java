@@ -23,7 +23,7 @@ public class CalendarHelper {
     public static String convertCal2UTC(Calendar calendar) {
         calendar.setTimeZone(TimeZone.getTimeZone("UTC"));//convert Date into UTC format
         Date time = calendar.getTime();
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat outputFmt = new SimpleDateFormat("MMM dd, yyy h:mm a zz");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat outputFmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
         return outputFmt.format(time);
     }
 
@@ -34,7 +34,7 @@ public class CalendarHelper {
      * This method is used for converting UTC in String to Calendar Object.
      */
     public static Calendar convertUTC2Cal(String utc) {
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat outputFmt = new SimpleDateFormat("MMM dd, yyy h:mm a zz");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat outputFmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
         Calendar calendar = Calendar.getInstance();
         try {
             calendar.setTime(outputFmt.parse(utc));

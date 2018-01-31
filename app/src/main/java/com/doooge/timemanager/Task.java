@@ -6,7 +6,8 @@ package com.doooge.timemanager;
 
 public class Task {
     private String taskName;
-    private int id = -1;
+    private int id;
+    private Type type;
 
     public Task(String taskName) {
         this.taskName = taskName;
@@ -26,5 +27,13 @@ public class Task {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 }
