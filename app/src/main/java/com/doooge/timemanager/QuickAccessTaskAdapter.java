@@ -41,16 +41,10 @@ public class QuickAccessTaskAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
 
-        View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_quick_access_task, viewGroup, false);
+        View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_task_item, viewGroup, false);
 
         Button taskTypeBlock = rowView.findViewById(R.id.taskTypeBtn);
-
+        taskTypeBlock.setText("Jogging");
         return rowView;
     }
-
-    public void updateQuickAccessTaskAdapter(ArrayList<SpecificTask> newSpecificTasks) {
-        specificTasks = new ArrayList<>(newSpecificTasks);
-        this.notifyDataSetChanged();
-    }
-
 }

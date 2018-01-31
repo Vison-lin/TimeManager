@@ -48,7 +48,6 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         settingBtn.setOnClickListener(this);
         delBtn.setOnClickListener(this);
 
-
         //TODO To be deleted: Facked Calendar (搜索条件)
         calendar = Calendar.getInstance();//faked calendar
         calendar.set(2010, 0, 01);
@@ -71,7 +70,6 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         type.setId(1);
         ldh.insertToTypeTable(type);//Unnecessary here
         //================================================
-
 
         //TODO SAMPLE: ADD AND DELETE FROM DB!
         switch (view.getId()) {
@@ -116,8 +114,6 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
                 } else {
                     throw new NoSuchElementException();
                 }
-
-
                 break;
         }
 

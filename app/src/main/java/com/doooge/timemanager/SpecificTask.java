@@ -13,10 +13,6 @@ public class SpecificTask extends Task {
     private String endTime;
 
 
-
-
-
-
     public SpecificTask(String taskName, Calendar startTime, Calendar endTime) {
         super(taskName);
         setStartTime(startTime);
@@ -55,6 +51,5 @@ public class SpecificTask extends Task {
 
     public void setStartTime(Calendar startTime) {
         this.startTime = CalendarHelper.convertCal2UTC(startTime);
-
     }
 }
