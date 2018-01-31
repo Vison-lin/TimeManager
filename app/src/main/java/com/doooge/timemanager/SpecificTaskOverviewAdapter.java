@@ -41,7 +41,7 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter {
 
 
     @Override
-    public View getView(int position, View view, ViewGroup viewGroup) {
+    public View getView(int position, View view, final ViewGroup viewGroup) {
         //Get view for row item
         View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_daily_task_list, viewGroup, false);
         TextView taskName = rowView.findViewById(R.id.taskName);
@@ -52,11 +52,9 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter {
         rowView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Intent intent = new Intent();
-
-
-
-
+                Intent intent = new Intent(viewGroup.getContext(),TaskCreator.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                viewGroup.getContext().startActivity(intent);
                 return false;
             }
         });
