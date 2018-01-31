@@ -12,7 +12,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="#3F51B5"
-            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
@@ -20,7 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="New Task"
+                android:text="Help"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textSize="30sp" />
@@ -29,36 +28,19 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="370dp"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-            <ListView
-                android:id="@+id/taskList"
+            <TextView
+                android:id="@+id/helpTextView"
                 android:layout_width="match_parent"
-                android:layout_height="380dp"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:background="#3F51B5"
-            android:orientation="horizontal"
-            android:src="@drawable/settingbuttonicon">
-
-
-            <ImageView
-                android:id="@+id/addingTaskBtn"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/addingbuttonicon" />
-
+                android:layout_margin="20dp"
+                android:text="TimeManager is a task-based time management application. The app is designed to allow users to recond, complete, and determine the time they spend on each task. The time consumption can be displayed in a weekly, monthly, or annually statistical table. "
+                android:textAlignment="textStart"
+                android:textSize="17sp" />
         </LinearLayout>
-
     </LinearLayout>
-
 </RelativeLayout>

@@ -179,7 +179,6 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(SPECIFICTASKS_TYPE, specificTask.getType().getId());
         int id = specificTask.getId();
         long result = sqLiteDatabase.update(SPECIFICTASKS_TABLE_NAME, contentValues, SPECIFICTASKS_PRIMARY_KEY + "=" + id, null);
-        System.out.println(result);
         return result != 0;//Ensure success: Affect more than 0 rows
     }
 

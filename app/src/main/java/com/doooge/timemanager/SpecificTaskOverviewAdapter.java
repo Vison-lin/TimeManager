@@ -16,11 +16,12 @@ import java.util.ArrayList;
 
 public class SpecificTaskOverviewAdapter extends BaseAdapter {
 
+    LocalDatabaseHelper ldh;
     private ArrayList<SpecificTask> specificTasks;
 
-
-    public SpecificTaskOverviewAdapter(ArrayList<SpecificTask> specificTasks) {
+    public SpecificTaskOverviewAdapter(ArrayList<SpecificTask> specificTasks, LocalDatabaseHelper ldh) {
         this.specificTasks = specificTasks;
+        this.ldh = ldh;
     }
 
     @Override
@@ -46,7 +47,7 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter {
         View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_daily_task_list, viewGroup, false);
         TextView taskName = rowView.findViewById(R.id.taskName);
         TextView taskHour = rowView.findViewById(R.id.taskHour);
-        SpecificTask specificTask = getItem(position);
+        final SpecificTask specificTask = getItem(position);
         taskName.setText(specificTask.getTaskName());
         taskHour.setText("111");//TODO TO BE IMPLEMENTED
         rowView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -56,6 +57,28 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter {
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 viewGroup.getContext().startActivity(intent);
                 return false;
+            }
+        });
+        rowView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean success;
+                if (specificTask.isCompletedInBoolean()) {// If currently is completed and will be marked as incomplete
+                    specificTask.setCompleted(0);
+                    success = ldh.updateSpecificTaskTable(specificTask);
+                } else {// If currently is incomplete and will be marked as completed
+                    specificTask.setCompleted(1);
+                    success = ldh.updateSpecificTaskTable(specificTask);
+                }
+                if (!success) {
+                    try {
+                        throw new Exception();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
             }
         });
 
