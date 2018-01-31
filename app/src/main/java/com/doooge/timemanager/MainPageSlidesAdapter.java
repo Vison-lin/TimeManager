@@ -12,6 +12,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainPageSlidesAdapter extends FragmentActivity {
 
 
@@ -39,6 +42,7 @@ public class MainPageSlidesAdapter extends FragmentActivity {
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        mPager.setCurrentItem(1,true);
         mPager.setAdapter(mPagerAdapter);
 
 
@@ -60,14 +64,18 @@ public class MainPageSlidesAdapter extends FragmentActivity {
      * A simple pager adapter that represents 3 ScreenSlidePageFragment objects, in sequence.
      */
     private class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
+        List<String> fragments = new ArrayList<>();
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
+            fragments.add(StatisticFragment.class.getName());
+            fragments.add(SpecificTaskOverviewFragment.class.getName());
+            fragments.add(QuickAccessTaskFragment.class.getName());
         }
 
         @Override
         public Fragment getItem(int position) {
 
-            return new SpecificTaskOverviewFragment();
+           return Fragment.instantiate(getApplicationContext(),fragments.get(position));
         }
 
         @Override
