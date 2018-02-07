@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -14,8 +14,6 @@ import com.doooge.timemanager.SettingPage.SettingActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 /**
  * Created by diana on 2018-01-26.
@@ -41,12 +39,12 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         ldh = new LocalDatabaseHelper(getActivity());
 
         //Assign button listeners to here
-        Button addBtn = rootView.findViewById(R.id.addBtn);
+        //Button addBtn = rootView.findViewById(R.id.addBtn);
         ImageView settingBtn = rootView.findViewById(R.id.settingBtn);
-        Button delBtn = rootView.findViewById(R.id.delBtn);
-        addBtn.setOnClickListener(this);
+        //Button delBtn = rootView.findViewById(R.id.delBtn);
+        //addBtn.setOnClickListener(this);
         settingBtn.setOnClickListener(this);
-        delBtn.setOnClickListener(this);
+        // delBtn.setOnClickListener(this);
 
         //TODO To be deleted: Facked Calendar (搜索条件)
         calendar = Calendar.getInstance();//faked calendar
@@ -55,9 +53,23 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         //================================================
 
 
-        adapter = new SpecificTaskOverviewAdapter(specificTasks, ldh);
+        adapter = new SpecificTaskOverviewAdapter(specificTasks, ldh, getActivity());
         mListView = rootView.findViewById(R.id.taskList);
         mListView.setAdapter(adapter);
+
+
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                //TODO ====
+                return false;
+            }
+        });
+
+
+
+
         return rootView;
     }
 
@@ -81,40 +93,40 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
 
             //IN CASE ADDING NEW SpecificTasks to Adapter
             //TODO Vison's part:
-            case R.id.addBtn:
-
-                //TODO To be deleted: Faked
-                SpecificTask specificTaskaa = new SpecificTask("Test1", calendar, calendar);
-                specificTaskaa.setType(type);
-                //===========================
-
-                ldh.insertToSpecificTaskTable(specificTaskaa);//Insert new SpecificTask into dB //TODO Change faked to real one
-                ldh.showAllData(getActivity());//TODO To be deleted: Showing dB
-                specificTasks.add(specificTaskaa);//Insert new SpecificTask into local ArrayList //TODO Change faked to real one
-                adapter.updateSpecificTaskOverviewAdapter(specificTasks);//Update
-                break;
-
-            //IN CASE DELETING A Specific SpecificTasks to Adapter
-            case R.id.delBtn:
-                SpecificTask specificTaskToBeDeleted = ldh.specificTasksSortByStartTime(calendar).iterator().next();//TODO To be deleted: Faked
-                int id = specificTaskToBeDeleted.getId();
-                Iterator<SpecificTask> iterator = specificTasks.iterator();
-                boolean notFind = true;
-                while (iterator.hasNext() && notFind) {
-                    SpecificTask specificTask = iterator.next();
-                    if (specificTask.getId() == id) {
-                        specificTasks.remove(specificTask);
-                        ldh.deleteSpecificTaskTable(id);
-                        ldh.showAllData(getActivity());
-                        notFind = false;
-                    }
-                }
-                if (!notFind) {
-                    adapter.updateSpecificTaskOverviewAdapter(specificTasks);
-                } else {
-                    throw new NoSuchElementException();
-                }
-                break;
+//            case R.id.addBtn:
+//
+//                //TODO To be deleted: Faked
+//                SpecificTask specificTaskaa = new SpecificTask("Test1", calendar, calendar);
+//                specificTaskaa.setType(type);
+//                //===========================
+//
+//                ldh.insertToSpecificTaskTable(specificTaskaa);//Insert new SpecificTask into dB //TODO Change faked to real one
+//                ldh.showAllData(getActivity());//TODO To be deleted: Showing dB
+//                specificTasks.add(specificTaskaa);//Insert new SpecificTask into local ArrayList //TODO Change faked to real one
+//                adapter.updateSpecificTaskOverviewAdapter(specificTasks);//Update
+//                break;
+//
+//            //IN CASE DELETING A Specific SpecificTasks to Adapter
+//            case R.id.delBtn:
+//                SpecificTask specificTaskToBeDeleted = ldh.specificTasksSortByStartTime(calendar).iterator().next();//TODO To be deleted: Faked
+//                int id = specificTaskToBeDeleted.getId();
+//                Iterator<SpecificTask> iterator = specificTasks.iterator();
+//                boolean notFind = true;
+//                while (iterator.hasNext() && notFind) {
+//                    SpecificTask specificTask = iterator.next();
+//                    if (specificTask.getId() == id) {
+//                        specificTasks.remove(specificTask);
+//                        ldh.deleteSpecificTaskTable(id);
+//                        ldh.showAllData(getActivity());
+//                        notFind = false;
+//                    }
+//                }
+//                if (!notFind) {
+//                    adapter.updateSpecificTaskOverviewAdapter(specificTasks);
+//                } else {
+//                    throw new NoSuchElementException();
+//                }
+//                break;
         }
 
     }

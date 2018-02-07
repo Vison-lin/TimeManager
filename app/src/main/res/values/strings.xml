@@ -1,3 +1,29 @@
 <resources>
     <string name="app_name">TimeManager</string>
+
+    <string name="DEFAULT_MIN">0</string>
+    <string name="ADD_15_MINS">+ 15 Minutes</string>
+    <string name="ADD_30_MINS">+ 30 Minutes</string>
+    <string name="ADD_45_MINS">+ 45 Minutes</string>
+    <string name="ADD_60_MINS">+ 1 Hour</string>
+    <string name="ADD_75_MINS">+ 1 Hour 15 Minutes</string>
+    <string name="ADD_90_MINS">+ 1 Hour 30 Minutesr</string>
+    <string name="ADD_105_MINS">+ 1 Hour 45 Minutes</string>
+    <string name="ADD_120_MINS">+ 2 Hours</string>
+    <string name="ADD_135_MINS">+ 2 Hours 15 Minutes</string>
+    <string name="ADD_150_MINS">+ 2 Hours 30 Minutes</string>
+    <string name="ADD_165_MINS">+ 2 Hours 45 Minutes</string>
+    <string name="ADD_180_MINS">+ 3 Hours</string>
+    <string name="DELETE_15_MINS">- 15 Minutes</string>
+    <string name="DELETE_30_MINS">- 30 Minutes</string>
+    <string name="DELETE_45_MINS">- 45 Minutes</string>
+    <string name="DELETE_60_MINS">- 1 Hour</string>
+    <string name="DELETE_75_MINS">- 1 Hour 15 Minutes</string>
+    <string name="DELETE_90_MINS">- 1 Hour 30 Minutesr</string>
+    <string name="DELETE_105_MINS">- 1 Hour 45 Minutes</string>
+    <string name="DELETE_120_MINS">- 2 Hours</string>
+    <string name="DELETE_135_MINS">- 2 Hours 15 Minutes</string>
+    <string name="DELETE_150_MINS">- 2 Hours 30 Minutes</string>
+    <string name="DELETE_165_MINS">- 2 Hours 45 Minutes</string>
+    <string name="DELETE_180_MINS">- 3 Hours</string>
 </resources>

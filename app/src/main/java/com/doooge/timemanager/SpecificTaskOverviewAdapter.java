@@ -1,27 +1,33 @@
 package com.doooge.timemanager;
 
-import android.content.Intent;
+import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 /**
  * Created by diana on 2018-01-26.
  */
 
-public class SpecificTaskOverviewAdapter extends BaseAdapter {
+public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPicker.OnValueChangeListener {
 
     LocalDatabaseHelper ldh;
     private ArrayList<SpecificTask> specificTasks;
+    private Context context;
+    private SpecificTask selectedSpecificTask;
 
-    public SpecificTaskOverviewAdapter(ArrayList<SpecificTask> specificTasks, LocalDatabaseHelper ldh) {
+    public SpecificTaskOverviewAdapter(ArrayList<SpecificTask> specificTasks, LocalDatabaseHelper ldh, Context context) {
         this.specificTasks = specificTasks;
         this.ldh = ldh;
+        this.context = context;
     }
 
     @Override
@@ -44,19 +50,29 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, final ViewGroup viewGroup) {
         //Get view for row item
-        View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_daily_task_list, viewGroup, false);
+        final View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_daily_task_list, viewGroup, false);
         TextView taskName = rowView.findViewById(R.id.taskName);
         TextView taskHour = rowView.findViewById(R.id.taskHour);
         final SpecificTask specificTask = getItem(position);
         taskName.setText(specificTask.getTaskName());
-        taskHour.setText("111");//TODO TO BE IMPLEMENTED
+        Calendar start = specificTask.getStartTime();
+        Calendar end = specificTask.getEndTime();
+        String display = start.get(Calendar.MONTH) + "." + start.get(Calendar.DAY_OF_MONTH) + " " + start.get(Calendar.HOUR_OF_DAY) + ":" + start.get(Calendar.MINUTE) +
+                " - " + end.get(Calendar.MONTH) + "." + end.get(Calendar.DAY_OF_MONTH) + " " + end.get(Calendar.HOUR_OF_DAY) + ":" + end.get(Calendar.MINUTE);
+        taskHour.setText(display);
+
         rowView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View view) {
-                Intent intent = new Intent(viewGroup.getContext(),TaskCreator.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                viewGroup.getContext().startActivity(intent);
+            public boolean onLongClick(View v) {
+                selectedSpecificTask = null;
+                selectedSpecificTask = specificTask;
+                specificTasks.remove(specificTask);
+                NumberPickerDialog newFragment = new NumberPickerDialog();
+                newFragment.setValueChangeListener(SpecificTaskOverviewAdapter.this);
+                newFragment.show(((FragmentActivity) context).getSupportFragmentManager(), "time picker");
+
                 return false;
+
             }
         });
         rowView.setOnClickListener(new View.OnClickListener() {
@@ -97,5 +113,19 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter {
         specificTasks = new ArrayList<>(newSpecificTasks);
         this.notifyDataSetChanged();
     }
+
+    @Override
+    public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+        int differInMinutes = CalendarHelper.correctMinutes(numberPicker.getValue());
+        Calendar endCalendar = selectedSpecificTask.getEndTime();
+        endCalendar.add(Calendar.MINUTE, differInMinutes);
+        selectedSpecificTask.setEndTime(endCalendar);
+        ldh.updateSpecificTaskTable(selectedSpecificTask);
+        specificTasks.add(selectedSpecificTask);
+        notifyDataSetChanged();
+    }
+
+
+
 }
 

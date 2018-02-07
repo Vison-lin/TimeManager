@@ -54,7 +54,6 @@ public class MainPageSlidesAdapter extends FragmentActivity {
         });
 
 
-
     }
 
     @Override

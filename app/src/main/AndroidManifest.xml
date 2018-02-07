@@ -23,6 +23,7 @@
         <activity android:name=".SettingPage.TypeCreator" />
         <activity android:name=".SettingPage.TypeManagementActivity" />
         <activity android:name=".TaskCreator" />
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>
