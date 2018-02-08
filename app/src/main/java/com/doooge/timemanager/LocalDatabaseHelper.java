@@ -330,7 +330,6 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
             int id = Integer.parseInt(cursor.getString(0));
             String name = cursor.getString(1);
             Integer typeID = Integer.parseInt(cursor.getString(2));
-            System.out.println("DB!!!+++++=====" + typeID);
             Task Task = new Task(name);
             Task.setId(id);
             Type type = findTypeByPrimaryKey(typeID);
@@ -339,6 +338,26 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         }
 
         return Tasks;
+    }
+
+    /**
+     * This method returns an arrayList of Type objects with given cursor
+     *
+     * @param cursor given cursor
+     * @return Type Object
+     */
+    private ArrayList<Type> findTypeByCursor(Cursor cursor) {
+        ArrayList<Type> Types = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            int id = Integer.parseInt(cursor.getString(0));
+            String name = cursor.getString(1);
+            String typeColor = cursor.getString(2);
+            Type type = new Type(name, typeColor);
+            type.setId(id);
+            Types.add(type);
+        }
+
+        return Types;
     }
 
     /**
@@ -391,7 +410,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      * @param type The type of SpecificTasks that you want to get
      * @return An sorted ArrayList of SpecificTasks that belongs to the given type. All the SpecificTasks object are in sort with start-time timing order.
      */
-    public ArrayList<SpecificTask> specificTasksByType(Type type) throws IllegalArgumentException {
+    public ArrayList<SpecificTask> findSpecificTasksByType(Type type) throws IllegalArgumentException {
         SQLiteDatabase db = this.getWritableDatabase();
         String typeID = String.valueOf(type.getId());
         String selection = SPECIFICTASKS_TYPE + " =? ";
@@ -405,7 +424,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      * @param type The type of SpecificTasks that you want to get
      * @return An sorted ArrayList of Tasks that belongs to the given type. All the Tasks object are in sort with non-case sensitive alphabetical order.
      */
-    public ArrayList<Task> tasksByType(Type type) throws IllegalArgumentException {
+    public ArrayList<Task> findTasksByType(Type type) throws IllegalArgumentException {
         SQLiteDatabase db = this.getWritableDatabase();
         String typeID = String.valueOf(type.getId());
         String selection = TASKS_TYPE + " =? ";
@@ -413,4 +432,21 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         return findTaskByCursor(cursor);
     }
 
+    public ArrayList<SpecificTask> getAllSpecificTask() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(SPECIFICTASKS_TABLE_NAME, null, null, null, null, null, SPECIFICTASKS_START_DATE + " ASC");
+        return findSpecificTaskByCursor(cursor);
+    }
+
+    public ArrayList<Task> getAllTask() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TASKS_TABLE_NAME, null, null, null, null, null, null);
+        return findTaskByCursor(cursor);
+    }
+
+    public ArrayList<Type> getAllType() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.query(TYPES_TABLE_NAME, null, null, null, null, null, null);
+        return findTypeByCursor(cursor);
+    }
 }
