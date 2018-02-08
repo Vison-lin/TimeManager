@@ -45,6 +45,8 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         //addBtn.setOnClickListener(this);
         settingBtn.setOnClickListener(this);
         // delBtn.setOnClickListener(this);
+        ImageView addBtn = rootView.findViewById(R.id.addingTaskBtn);
+        addBtn.setOnClickListener(this);
 
         //TODO To be deleted: Facked Calendar (搜索条件)
         calendar = Calendar.getInstance();//faked calendar
@@ -93,19 +95,19 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
 
             //IN CASE ADDING NEW SpecificTasks to Adapter
             //TODO Vison's part:
-//            case R.id.addBtn:
-//
-//                //TODO To be deleted: Faked
-//                SpecificTask specificTaskaa = new SpecificTask("Test1", calendar, calendar);
-//                specificTaskaa.setType(type);
-//                //===========================
-//
-//                ldh.insertToSpecificTaskTable(specificTaskaa);//Insert new SpecificTask into dB //TODO Change faked to real one
-//                ldh.showAllData(getActivity());//TODO To be deleted: Showing dB
-//                specificTasks.add(specificTaskaa);//Insert new SpecificTask into local ArrayList //TODO Change faked to real one
-//                adapter.updateSpecificTaskOverviewAdapter(specificTasks);//Update
-//                break;
-//
+            case R.id.addingTaskBtn:
+
+                //TODO To be deleted: Faked
+                SpecificTask specificTaskaa = new SpecificTask("Test1", calendar, calendar);
+                specificTaskaa.setType(type);
+                //===========================
+
+                ldh.insertToSpecificTaskTable(specificTaskaa);//Insert new SpecificTask into dB //TODO Change faked to real one
+                ldh.showAllData(getActivity());//TODO To be deleted: Showing dB
+                specificTasks.add(specificTaskaa);//Insert new SpecificTask into local ArrayList //TODO Change faked to real one
+                adapter.updateSpecificTaskOverviewAdapter(specificTasks);//Update
+                break;
+
 //            //IN CASE DELETING A Specific SpecificTasks to Adapter
 //            case R.id.delBtn:
 //                SpecificTask specificTaskToBeDeleted = ldh.specificTasksSortByStartTime(calendar).iterator().next();//TODO To be deleted: Faked
