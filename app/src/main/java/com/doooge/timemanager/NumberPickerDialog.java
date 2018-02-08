@@ -79,8 +79,8 @@ public class NumberPickerDialog extends DialogFragment {
         builder.setNeutralButton("Edit In Detail", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(getActivity(), TaskCreator.class);
-                startActivity(intent);//TODO Pass SpecificTask into TaskCreator!
+                Intent intent = new Intent(getActivity(), SpecificTaskCreator.class);
+                startActivity(intent);//TODO Pass SpecificTask into SpecificTaskCreator!
             }
         });
         builder.setView(numberPicker);

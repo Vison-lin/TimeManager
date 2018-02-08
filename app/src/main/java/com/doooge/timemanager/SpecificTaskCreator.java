@@ -15,7 +15,7 @@ import java.util.Calendar;
 import java.util.StringTokenizer;
 
 
-public class TaskCreator extends AppCompatActivity {
+public class SpecificTaskCreator extends AppCompatActivity {
 
     private static String startTime;
     private static String endTime;
