@@ -2,6 +2,8 @@ package com.doooge.timemanager;
 
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -23,19 +25,21 @@ public class SpecificTaskCreator extends AppCompatActivity {
     private MyHandler handler;
     private String userName;
     private LocalDatabaseHelper ldh = new LocalDatabaseHelper(this);
+    private CheckBox checkBox;
+    private Context context;
 
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.context = this;
         //Going from QuickAccessTask
         // Task task = (Task) getIntent().getSerializableExtra("givenTask");
         //Going from SpecificTaskOverViewAdapter
         SpecificTask specificTask = (SpecificTask) getIntent().getSerializableExtra("givenSpecificTask");
-
         setContentView(R.layout.taskcreator);
 
-       handler = new MyHandler(this);
+        handler = new MyHandler(this);
         mView = new TimeBarView(this);
         mView.Test(new TimeBarView.Callback() {
 
@@ -47,18 +51,29 @@ public class SpecificTaskCreator extends AppCompatActivity {
         });
         Button submit = findViewById(R.id.submitButton);
         Button delete = findViewById(R.id.deleteButton);
-        System.out.println((specificTask == null) + "=-======-=-=-=-=-=-=-=-=-=-=-=-==-==-==-=-=-");
-        if (specificTask == null) {
+        checkBox = findViewById(R.id.checkBox);
+        checkBox.setVisibility(View.INVISIBLE);
+
+        if (specificTask == null) {//true only if user creates a new SpecificTask
             delete.setVisibility(View.GONE);
-        } else {
+            checkBox.setVisibility(View.VISIBLE);
+        } else {//Users are from Main page
             delete.setVisibility(View.VISIBLE);
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO DELETE
+                }
+            });
 
         }
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addTask(v);
-                //TODO Hint: Add logic condition to see if user goes from main page and add delete operation if yes
+                Intent intent = new Intent(context, MainPageSlidesAdapter.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                context.startActivity(intent);
             }
         });
     }
@@ -84,8 +99,8 @@ public class SpecificTaskCreator extends AppCompatActivity {
             ldh.insertToTypeTable(type);
 
             //Add to Task table if user selected the checkBox
-            CheckBox checkBox = findViewById(R.id.checkBox);
-            if (checkBox.isChecked()) {
+
+            if ((checkBox.getVisibility() == View.VISIBLE) && checkBox.isChecked()) {
                 Task task = specificTask;
                 ldh.insertToTaskTable(task);
                 ldh.showAllData(this);
@@ -95,14 +110,16 @@ public class SpecificTaskCreator extends AppCompatActivity {
     }
 
     /**
-     *  To create Handler class for receiveing data from TimeBarView class.
+     * To create Handler class for receiveing data from TimeBarView class.
      */
 
-    private static class MyHandler extends Handler{
+    private static class MyHandler extends Handler {
         Activity activity;
-        private MyHandler(Activity activity){
-            this.activity= activity;
+
+        private MyHandler(Activity activity) {
+            this.activity = activity;
         }
+
         @Override
         public void handleMessage(android.os.Message msg) {
             if (msg.what == 0) {

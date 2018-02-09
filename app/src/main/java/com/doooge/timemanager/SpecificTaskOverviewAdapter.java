@@ -71,7 +71,7 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
 
                 NumberPickerDialog newFragment = new NumberPickerDialog();
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("givenSpecificTask", specificTask);
+                bundle.putSerializable("givenSpecificTask", specificTask);
                 newFragment.setArguments(bundle);
                 newFragment.setValueChangeListener(SpecificTaskOverviewAdapter.this);
                 newFragment.show(((FragmentActivity) context).getSupportFragmentManager(), "time picker");

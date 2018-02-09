@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -61,20 +60,6 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         adapter = new SpecificTaskOverviewAdapter(specificTasks, ldh, getActivity());
         mListView = rootView.findViewById(R.id.taskList);
         mListView.setAdapter(adapter);
-
-
-        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO ====
-                return false;
-            }
-        });
-
-
-
-
         return rootView;
     }
 
