@@ -54,7 +54,7 @@ public class QuickAccessTaskAdapter extends BaseAdapter {
         taskTypeBlock.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 //TODO Correct
-                Intent intent = new Intent(viewGroup.getContext(), TaskCreator.class);
+                Intent intent = new Intent(viewGroup.getContext(), SpecificTaskCreator.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 viewGroup.getContext().startActivity(intent);
             }
