@@ -44,5 +44,94 @@ public class CalendarHelper {
         return calendar;
     }
 
+    /**
+     * Used for converting NumberPickerDialog's users' choice into real Minutes.
+     * Note: Only used for converting NumberPickerDialog only!
+     *
+     * @param input the integer that represent a specific time moment.
+     * @return return the corresponding time in int format
+     */
+    public static int correctMinutes(int input) {
+        switch (input) {
+            case 0:
+                return -180;
+
+            case 1:
+                return -165;
+
+            case 2:
+                return -150;
+
+            case 3:
+                return -135;
+
+            case 4:
+                return -120;
+
+            case 5:
+                return -105;
+
+            case 6:
+                return -90;
+
+            case 7:
+                return -75;
+
+            case 8:
+                return -60;
+
+            case 9:
+                return -45;
+
+            case 10:
+                return -30;
+
+            case 11:
+                return -15;
+
+            case 12:
+                return 0;
+
+            case 13:
+                return 15;
+
+            case 14:
+                return 30;
+
+            case 15:
+                return 45;
+
+            case 16:
+                return 60;
+
+            case 17:
+                return 75;
+
+            case 18:
+                return 90;
+
+            case 19:
+                return 105;
+
+            case 20:
+                return 120;
+
+            case 21:
+                return 135;
+
+            case 22:
+                return 150;
+
+            case 23:
+                return 160;
+
+            case 24:
+                return 180;
+
+            default:
+                throw new IllegalAccessError();
+        }
+
+    }
 
 }

@@ -3,8 +3,8 @@ package com.doooge.timemanager.SettingPage;
 import android.support.v7.app.AppCompatActivity;
 
 /**
- * Created by fredpan on 2018/1/26.
+ * Created by user on 2018/1/31.
  */
 
-public class TasksManagementActivity extends AppCompatActivity {
+public class TaskManagementActivity extends AppCompatActivity {
 }

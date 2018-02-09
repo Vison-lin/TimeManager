@@ -344,10 +344,7 @@ public class TimeBarView extends View {
         int X = (int) startPoint.getX() - x;
         int Y = (int) startPoint.getY() - y;
         double d = Math.sqrt(X ^ 2 + Y ^ 2);
-        if (d <= 10) {
-            return true;
-        }
-        return false;
+        return d <= 10;
 
     }
 
@@ -362,10 +359,7 @@ public class TimeBarView extends View {
         int X = (int) endPoint.getX() - x;
         int Y = (int) endPoint.getY() - y;
         double d = Math.sqrt(X ^ 2 + Y ^ 2);
-        if (d <= 10) {
-            return true;
-        }
-        return false;
+        return d <= 10;
 
     }
 
@@ -449,16 +443,16 @@ public class TimeBarView extends View {
 
 //    public Callback timeListener;
 
+    public void Test(Callback callback) {
+        handler = callback.execute();
+    }
+
     /**
-     * Those methods are used for achieving data call-back between this view and TaskCreator
+     * Those methods are used for achieving data call-back between this view and SpecificTaskCreator
      * activity
      */
     public interface Callback {
         Handler execute();
-    }
-
-    public void Test(Callback callback) {
-        handler = callback.execute();
     }
 
     private static class ChartUtil {
