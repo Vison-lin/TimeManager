@@ -55,11 +55,11 @@
                 android:src="@drawable/settingbuttonicon" />
 
             <ImageView
-                android:id="@+id/addingTaskBtn"
+                android:id="@+id/showCalender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="onClick"
+                android:onClick="showDatePickerDialog"
                 android:src="@drawable/addingbuttonicon" />
         </LinearLayout>
 
