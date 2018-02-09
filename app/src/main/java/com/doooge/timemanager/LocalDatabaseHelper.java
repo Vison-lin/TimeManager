@@ -274,7 +274,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      * @return Type Object
      * @key Primary key of TypeTable
      */
-    private Type findTypeByPrimaryKey(int key) throws IllegalArgumentException {
+    public Type findTypeByPrimaryKey(int key) throws IllegalArgumentException {
         SQLiteDatabase db = this.getWritableDatabase();
         int id;
         String name;

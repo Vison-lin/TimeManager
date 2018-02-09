@@ -27,7 +27,8 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
     private ArrayList<SpecificTask> specificTasks;
 
     //TODO To be deleted: Facked Calendar (搜索条件)
-    private Calendar calendar;
+    private Calendar calendar1;
+    private Calendar calendar2;
     //================================================
 
     @Override
@@ -49,9 +50,11 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         addBtn.setOnClickListener(this);
 
         //TODO To be deleted: Facked Calendar (搜索条件)
-        calendar = Calendar.getInstance();//faked calendar
-        calendar.set(2010, 0, 01);
-        specificTasks = ldh.specificTasksSortByStartTime(calendar);//search all specificTasks that start at the faked time
+        calendar1 = Calendar.getInstance();//faked calendar
+        calendar1.set(2010, 0, 01, 22, 40);
+        calendar2 = Calendar.getInstance();//faked calendar
+        calendar2.set(2010, 0, 01, 23, 00);
+        specificTasks = ldh.specificTasksSortByStartTime(calendar1);//search all specificTasks that start at the faked time
         //================================================
 
 
@@ -82,7 +85,12 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         //TODO To be deleted: Faked Type
         Type type = new Type("Type", "Color");
         type.setId(1);
-        ldh.insertToTypeTable(type);//Unnecessary here
+
+        Type type1 = new Type("type 1", "red");
+        type1.setId(2);
+        Type type2 = new Type("type 2", "blue");
+        type2.setId(3);
+
         //================================================
 
         //TODO SAMPLE: ADD AND DELETE FROM DB!
@@ -96,15 +104,30 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
             //IN CASE ADDING NEW SpecificTasks to Adapter
             //TODO Vison's part:
             case R.id.addingTaskBtn:
-
+                ldh.insertToTypeTable(type);//Unnecessary here
+                ldh.insertToTypeTable(type1);
+                ldh.insertToTypeTable(type2);
                 //TODO To be deleted: Faked
-                SpecificTask specificTaskaa = new SpecificTask("Test1", calendar, calendar);
-                specificTaskaa.setType(type);
+                SpecificTask specificTask1 = new SpecificTask("Test1", calendar1, calendar2);
+                specificTask1.setType(type);
+                SpecificTask specificTask2 = new SpecificTask("Test1", calendar1, calendar2);
+                specificTask1.setType(type);
+                SpecificTask specificTask3 = new SpecificTask("Test1", calendar1, calendar2);
+                specificTask1.setType(type);
+                specificTask2.setType(type);
+                specificTask3.setType(type1);//Different
+
                 //===========================
 
-                ldh.insertToSpecificTaskTable(specificTaskaa);//Insert new SpecificTask into dB //TODO Change faked to real one
+                ldh.insertToSpecificTaskTable(specificTask1);//Insert new SpecificTask into dB //TODO Change faked to real one
+                ldh.insertToSpecificTaskTable(specificTask2);
+                ldh.insertToSpecificTaskTable(specificTask3);
+                specificTasks.add(specificTask3);
+                specificTasks.add(specificTask2);
+                specificTasks.add(specificTask1);//Insert new SpecificTask into local ArrayList //TODO Change faked to real one
                 ldh.showAllData(getActivity());//TODO To be deleted: Showing dB
-                specificTasks.add(specificTaskaa);//Insert new SpecificTask into local ArrayList //TODO Change faked to real one
+
+
                 adapter.updateSpecificTaskOverviewAdapter(specificTasks);//Update
                 break;
 

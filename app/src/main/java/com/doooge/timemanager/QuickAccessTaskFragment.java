@@ -43,6 +43,5 @@ public class QuickAccessTaskFragment extends Fragment {
         return rootView;
     }
 
-
 }
 
