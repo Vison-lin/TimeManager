@@ -1,7 +1,9 @@
 package com.doooge.timemanager;
 
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,13 +41,13 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         ldh = new LocalDatabaseHelper(getActivity());
 
         //Assign button listeners to here
-        //Button addBtn = rootView.findViewById(R.id.addBtn);
+        // Button addBtn = rootView.findViewById(R.id.addBtn);
         ImageView settingBtn = rootView.findViewById(R.id.settingBtn);
         //Button delBtn = rootView.findViewById(R.id.delBtn);
         //addBtn.setOnClickListener(this);
         settingBtn.setOnClickListener(this);
         // delBtn.setOnClickListener(this);
-        ImageView addBtn = rootView.findViewById(R.id.addingTaskBtn);
+        ImageView addBtn = rootView.findViewById(R.id.showCalender);
         addBtn.setOnClickListener(this);
 
         //TODO To be deleted: Facked Calendar (搜索条件)
@@ -86,58 +88,18 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
                 startActivity(intent);
                 break;
 
-            //IN CASE ADDING NEW SpecificTasks to Adapter
-            //TODO Vison's part:
-            case R.id.addingTaskBtn:
-                ldh.insertToTypeTable(type);//Unnecessary here
-                ldh.insertToTypeTable(type1);
-                ldh.insertToTypeTable(type2);
-                //TODO To be deleted: Faked
-                SpecificTask specificTask1 = new SpecificTask("Test1", calendar1, calendar2);
-                specificTask1.setType(type);
-                SpecificTask specificTask2 = new SpecificTask("Test1", calendar1, calendar2);
-                specificTask1.setType(type);
-                SpecificTask specificTask3 = new SpecificTask("Test1", calendar1, calendar2);
-                specificTask1.setType(type);
-                specificTask2.setType(type);
-                specificTask3.setType(type1);//Different
-
-                //===========================
-
-                ldh.insertToSpecificTaskTable(specificTask1);//Insert new SpecificTask into dB //TODO Change faked to real one
-                ldh.insertToSpecificTaskTable(specificTask2);
-                ldh.insertToSpecificTaskTable(specificTask3);
-                specificTasks.add(specificTask3);
-                specificTasks.add(specificTask2);
-                specificTasks.add(specificTask1);//Insert new SpecificTask into local ArrayList //TODO Change faked to real one
-                ldh.showAllData(getActivity());//TODO To be deleted: Showing dB
-
-
-                adapter.updateSpecificTaskOverviewAdapter(specificTasks);//Update
+            case R.id.showCalender:
+                showDatePickerDialog();
                 break;
-
-//            //IN CASE DELETING A Specific SpecificTasks to Adapter
-//            case R.id.delBtn:
-//                SpecificTask specificTaskToBeDeleted = ldh.specificTasksSortByStartTime(calendar).iterator().next();//TODO To be deleted: Faked
-//                int id = specificTaskToBeDeleted.getId();
-//                Iterator<SpecificTask> iterator = specificTasks.iterator();
-//                boolean notFind = true;
-//                while (iterator.hasNext() && notFind) {
-//                    SpecificTask specificTask = iterator.next();
-//                    if (specificTask.getId() == id) {
-//                        specificTasks.remove(specificTask);
-//                        ldh.deleteSpecificTaskTable(id);
-//                        ldh.showAllData(getActivity());
-//                        notFind = false;
-//                    }
-//                }
-//                if (!notFind) {
-//                    adapter.updateSpecificTaskOverviewAdapter(specificTasks);
-//                } else {
-//                    throw new NoSuchElementException();
-//                }
-//                break;
         }
 
+
+    }
+
+
+    public void showDatePickerDialog() {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+        ((DatePickerFragment) newFragment).getCalendar();
     }
 }
