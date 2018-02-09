@@ -44,7 +44,7 @@ public class QuickAccessTaskAdapter extends BaseAdapter {
         View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_task_item, viewGroup, false);
 
         final Task task = getItem(position);
-        System.out.println("dddddddddddddddddddddddddddddddd" + task.getTaskName());
+
         Button taskTypeBlock = rowView.findViewById(R.id.taskTypeBtn);
 
         taskTypeBlock.setText(task.getTaskName());

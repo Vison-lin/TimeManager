@@ -116,6 +116,12 @@
             android:onClick="addTask"
             android:text="Button"
             tools:layout_editor_absoluteY="46dp" />
+
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete" />
     </LinearLayout>
 
 </LinearLayout>

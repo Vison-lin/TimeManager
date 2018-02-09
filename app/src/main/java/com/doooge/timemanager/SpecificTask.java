@@ -1,12 +1,16 @@
 package com.doooge.timemanager;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.Calendar;
 
 /**
  * Created by fredpan on 2018/1/20.
  */
 
-public class SpecificTask extends Task {
+public class SpecificTask extends Task implements Serializable, Parcelable {
 
     private int isCompleted;
     private String startTime;
@@ -51,5 +55,15 @@ public class SpecificTask extends Task {
 
     public void setStartTime(Calendar startTime) {
         this.startTime = CalendarHelper.convertCal2UTC(startTime);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
     }
 }

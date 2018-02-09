@@ -28,7 +28,11 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Task task = (Task) getIntent().getSerializableExtra("givenTask");
+        //Going from QuickAccessTask
+        // Task task = (Task) getIntent().getSerializableExtra("givenTask");
+        //Going from SpecificTaskOverViewAdapter
+        SpecificTask specificTask = (SpecificTask) getIntent().getSerializableExtra("givenSpecificTask");
+
         setContentView(R.layout.taskcreator);
 
        handler = new MyHandler(this);
@@ -42,6 +46,14 @@ public class SpecificTaskCreator extends AppCompatActivity {
             }
         });
         Button submit = findViewById(R.id.submitButton);
+        Button delete = findViewById(R.id.deleteButton);
+        System.out.println((specificTask == null) + "=-======-=-=-=-=-=-=-=-=-=-=-=-==-==-==-=-=-");
+        if (specificTask == null) {
+            delete.setVisibility(View.GONE);
+        } else {
+            delete.setVisibility(View.VISIBLE);
+
+        }
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
