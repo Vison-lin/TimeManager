@@ -134,4 +134,15 @@ public class CalendarHelper {
 
     }
 
+    /**
+     * Returns a long number represents the duration between the given start time Calendar instance and the given end time Calendar instance, In Millis.
+     *
+     * @param start Start time of a duration in Calendar format
+     * @param end   End time of a duration in Calendar format
+     * @return return a long value represents the duration between the start time and the end time, In Millis.
+     */
+    public static long durationOfStartAndEndTimeInMillis(Calendar start, Calendar end) {
+        return end.getTimeInMillis() - start.getTimeInMillis();
+    }
+
 }

@@ -13,6 +13,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.doooge.timemanager.Statistics.StatisticFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,12 +55,11 @@ public class MainPageSlidesAdapter extends FragmentActivity {
             }
         });
 
-
     }
 
     @Override
     public void onBackPressed() {
-        if (mPager.getCurrentItem() == 0) {
+        if (mPager.getCurrentItem() == 1) {
             // If the user is currently looking at the first step, allow the system to handle the
             // Back button. This calls finish() on this activity and pops the back stack.
             super.onBackPressed();
