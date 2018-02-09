@@ -28,7 +28,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Task task = (Task) getIntent().getSerializableExtra("givenTask");
         setContentView(R.layout.taskcreator);
 
        handler = new MyHandler(this);
@@ -68,6 +68,8 @@ public class SpecificTaskCreator extends AppCompatActivity {
             SpecificTask specificTask = new SpecificTask(userName, calStart, calEnd);
             ldh.insertToSpecificTaskTable(specificTask);
             ldh.showAllData(this);
+            Type type = new Type("", "");
+            ldh.insertToTypeTable(type);
 
             //Add to Task table if user selected the checkBox
             CheckBox checkBox = findViewById(R.id.checkBox);
