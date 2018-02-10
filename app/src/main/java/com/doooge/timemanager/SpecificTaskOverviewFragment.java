@@ -3,6 +3,7 @@ package com.doooge.timemanager;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.ListView;
+
+import com.doooge.timemanager.SettingPage.SettingActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -56,9 +59,8 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         switch (view.getId()) {
 
             case R.id.settingBtn:
-                ldh.showAllData(getContext());
-//                Intent intent = new Intent(getActivity(), SettingActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(getActivity(), SettingActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.showCalender:
