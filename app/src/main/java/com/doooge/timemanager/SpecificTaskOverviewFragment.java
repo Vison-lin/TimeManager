@@ -1,17 +1,16 @@
 package com.doooge.timemanager;
 
 
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.ListView;
-
-import com.doooge.timemanager.SettingPage.SettingActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,10 +25,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
     private LocalDatabaseHelper ldh;
     private SpecificTaskOverviewAdapter adapter;
     private ArrayList<SpecificTask> specificTasks;
-
     //TODO To be deleted: Facked Calendar (搜索条件)
-    private Calendar calendar1;
-    private Calendar calendar2;
     //================================================
 
     @Override
@@ -39,24 +35,13 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
                 R.layout.activity_task_overview, container, false);
 
         ldh = new LocalDatabaseHelper(getActivity());
-
         //Assign button listeners to here
-        // Button addBtn = rootView.findViewById(R.id.addBtn);
         ImageView settingBtn = rootView.findViewById(R.id.settingBtn);
-        //Button delBtn = rootView.findViewById(R.id.delBtn);
-        //addBtn.setOnClickListener(this);
         settingBtn.setOnClickListener(this);
-        // delBtn.setOnClickListener(this);
         ImageView addBtn = rootView.findViewById(R.id.showCalender);
         addBtn.setOnClickListener(this);
-
-        //TODO To be deleted: Facked Calendar (搜索条件)
-        calendar1 = Calendar.getInstance();//faked calendar
-        calendar1.set(2010, 0, 01, 22, 40);
-        calendar2 = Calendar.getInstance();//faked calendar
-        calendar2.set(2010, 0, 01, 23, 00);
-        specificTasks = ldh.specificTasksSortByStartTime(calendar1);//search all specificTasks that start at the faked time
-        //================================================
+        Calendar today = Calendar.getInstance();
+        specificTasks = ldh.specificTasksSortByStartTime(today);//search all specificTasks that start today
 
 
         adapter = new SpecificTaskOverviewAdapter(specificTasks, ldh, getActivity());
@@ -68,28 +53,19 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
     @Override
     public void onClick(View view) {
 
-
-        //TODO To be deleted: Faked Type
-        Type type = new Type("Type", "Color");
-        type.setId(1);
-
-        Type type1 = new Type("type 1", "red");
-        type1.setId(2);
-        Type type2 = new Type("type 2", "blue");
-        type2.setId(3);
-
-        //================================================
-
-        //TODO SAMPLE: ADD AND DELETE FROM DB!
         switch (view.getId()) {
 
             case R.id.settingBtn:
-                Intent intent = new Intent(getActivity(), SettingActivity.class);
-                startActivity(intent);
+                ldh.showAllData(getContext());
+//                Intent intent = new Intent(getActivity(), SettingActivity.class);
+//                startActivity(intent);
                 break;
 
             case R.id.showCalender:
-                showDatePickerDialog();
+                getSelectedDate();
+
+
+
                 break;
         }
 
@@ -97,9 +73,34 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
     }
 
 
-    public void showDatePickerDialog() {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
-        ((DatePickerFragment) newFragment).getCalendar();
+    public void getSelectedDate() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        final DatePicker picker = new DatePicker(getContext());
+        builder.setTitle("Create Year");
+        builder.setView(picker);
+        builder.setNegativeButton("Cancel", null);
+        builder.setPositiveButton("Select", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Calendar selectedCalendar = Calendar.getInstance();
+                selectedCalendar.set(picker.getYear(), picker.getMonth(), picker.getDayOfMonth());
+                specificTasks.clear();
+                specificTasks = ldh.specificTasksSortByStartTime(selectedCalendar);
+                adapter.updateSpecificTaskOverviewAdapter(specificTasks);
+            }
+        });
+        builder.setNeutralButton("Go back to today", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Calendar selectedCalendar = Calendar.getInstance();
+                specificTasks.clear();
+                specificTasks = ldh.specificTasksSortByStartTime(selectedCalendar);
+                adapter.updateSpecificTaskOverviewAdapter(specificTasks);
+            }
+        });
+
+        builder.show();
     }
+
+
 }

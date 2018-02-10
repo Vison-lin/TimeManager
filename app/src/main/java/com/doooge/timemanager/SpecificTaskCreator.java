@@ -94,7 +94,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
             calEnd.set(2017, 0, 31, Integer.parseInt(end[0]), Integer.parseInt(end[1]));
             SpecificTask specificTask = new SpecificTask(userName, calStart, calEnd);
             ldh.insertToSpecificTaskTable(specificTask);
-            ldh.showAllData(this);
             Type type = new Type("", "");
             ldh.insertToTypeTable(type);
 
@@ -103,7 +102,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
             if ((checkBox.getVisibility() == View.VISIBLE) && checkBox.isChecked()) {
                 Task task = specificTask;
                 ldh.insertToTaskTable(task);
-                ldh.showAllData(this);
             }
 
         }

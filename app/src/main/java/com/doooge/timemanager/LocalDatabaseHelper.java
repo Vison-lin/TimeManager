@@ -395,7 +395,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      */
     public ArrayList<SpecificTask> specificTasksSortByStartTime(Calendar day) {
         String calendarInString = CalendarHelper.convertCal2UTC(day);
-        String calendarInDay = calendarInString.substring(0, 10);//build up a subString in the form of yyyy-mm-dd. Example: 1993-08-21.
+        String calendarInDay = calendarInString.substring(0, 12);//build up a subString in the form of yyyy-mm-dd. Example: 1993-08-21.
         SQLiteDatabase db = this.getWritableDatabase();
         String selection = SPECIFICTASKS_START_DATE + " LIKE ?";
         Cursor cursor = db.query(SPECIFICTASKS_TABLE_NAME, null, selection, new String[]{"%" + calendarInDay + "%"}, null, null, SPECIFICTASKS_START_DATE + " ASC");
