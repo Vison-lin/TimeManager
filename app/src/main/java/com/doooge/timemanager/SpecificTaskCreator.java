@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Calendar;
+import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 
@@ -22,6 +23,11 @@ public class SpecificTaskCreator extends AppCompatActivity {
     private static String startTime;
     private static String endTime;
     private static boolean isOverDay;
+    private static int year;
+    private static int month;
+    private static int day;
+    private static Calendar calStart;
+    private static Calendar calEnd;
     public TimeBarView mView;
     private MyHandler handler;
     private String userName;
@@ -30,12 +36,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
     private TimePickerDialogInterface timePickerDialogInterface;
     private TextView startDate;
     private TextView endDate;
-    private static int year;
-    private static int month;
-    private static int day;
-    private static Calendar calStart;
-    private static Calendar calEnd;
-
     private CheckBox checkBox;
     private Context context;
 
@@ -45,9 +45,9 @@ public class SpecificTaskCreator extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.context = this;
         //Going from QuickAccessTask
-        // Task task = (Task) getIntent().getSerializableExtra("givenTask");
+        Task task = (Task) getIntent().getSerializableExtra("givenTask");
         //Going from SpecificTaskOverViewAdapter
-        SpecificTask specificTask = (SpecificTask) getIntent().getSerializableExtra("givenSpecificTask");
+        final SpecificTask specificTask = (SpecificTask) getIntent().getSerializableExtra("givenSpecificTask");
         setContentView(R.layout.taskcreator);
 
         endDate = findViewById(R.id.endDatePrint);
@@ -100,8 +100,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
         handler = new MyHandler(this, timePickerDialogInterface);
         mView = new TimeBarView(this);
         mView.Test(new TimeBarView.Callback() {
-
-
             @Override
             public Handler execute() {
                 return handler;
@@ -112,19 +110,28 @@ public class SpecificTaskCreator extends AppCompatActivity {
         checkBox = findViewById(R.id.checkBox);
         checkBox.setVisibility(View.INVISIBLE);
 
-        if (specificTask == null) {//true only if user creates a new SpecificTask
-            delete.setVisibility(View.GONE);
-            checkBox.setVisibility(View.VISIBLE);
-        } else {//Users are from Main page
+        if (task != null && specificTask == null) {//Users are from QuickAccessTask page
+            //TODO Vison: Fill all the related info for that Task
+        } else if (specificTask != null && task == null) {//Users are from Main page
+            //TODO Vison: Fill all the related info for that SpecificTask
             delete.setVisibility(View.VISIBLE);
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO DELETE
+                    boolean success = ldh.deleteSpecificTaskTable(specificTask.getId());
+                    if (!success) {
+                        throw new NoSuchElementException();
+                    }
                 }
             });
 
+        } else if (specificTask == null && task == null) {//true only if user creates a new SpecificTask
+            delete.setVisibility(View.GONE);//GONE: Affect the page format
+            checkBox.setVisibility(View.VISIBLE);
+        } else {
+            throw new IllegalStateException();
         }
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,7 +147,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
             }
         });
-
 
 
     }
@@ -172,16 +178,43 @@ public class SpecificTaskCreator extends AppCompatActivity {
         }
     }
 
+    public void initialDate() {
+        setYear(calStart.get(Calendar.YEAR));
+        setMonth(calStart.get(Calendar.MONTH) + 1);
+        setDay(calStart.get(Calendar.DATE));
+    }
+
+    public void setYear(int year) {
+        SpecificTaskCreator.year = year;
+
+    }
+
+    public void setMonth(int month) {
+        SpecificTaskCreator.month = month;
+    }
+
+    public void setDay(int day) {
+        SpecificTaskCreator.day = day;
+    }
+
+    public interface TimePickerDialogInterface {
+        void positiveListener(int year, int month, int day);
+
+        void negativeListener();
+
+        void updateEnd();
+    }
+
     /**
      * To create Handler class for receiveing data from TimeBarView class.
      */
 
-    private static class MyHandler extends Handler{
+    private static class MyHandler extends Handler {
         private Activity activity;
         private TimePickerDialogInterface c;
 
         private MyHandler(Activity activity, TimePickerDialogInterface c) {
-            this.activity= activity;
+            this.activity = activity;
             this.c = c;
         }
 
@@ -208,37 +241,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
         }
 
     }
-
-    public void initialDate() {
-        setYear(calStart.get(Calendar.YEAR));
-        setMonth(calStart.get(Calendar.MONTH) + 1);
-        setDay(calStart.get(Calendar.DATE));
-    }
-
-
-    public void setYear(int year) {
-        SpecificTaskCreator.year = year;
-
-    }
-
-    public void setMonth(int month) {
-        SpecificTaskCreator.month = month;
-    }
-
-    public void setDay(int day) {
-        SpecificTaskCreator.day = day;
-    }
-
-
-    public interface TimePickerDialogInterface {
-        void positiveListener(int year, int month, int day);
-
-        void negativeListener();
-
-        void updateEnd();
-    }
-
-
 
 
 }
