@@ -174,7 +174,7 @@ public class TimeBarView extends View {
          */
         if (handler != null) {
 
-            String result = getTime(progressStart) + "@" + getTime(progressEnd);
+            String result = getTime(progressStart) + "@" + getTime(progressEnd) + "@" + isOverDay(progressStart, progressEnd);
             Message message = handler.obtainMessage();
             message.what = 0;
             message.obj = result;
@@ -379,6 +379,13 @@ public class TimeBarView extends View {
         return result;
 
     }
+
+    private boolean isOverDay(int processStart, int processEnd) {
+        return processStart > processEnd;
+    }
+
+
+
 
 
     /**
