@@ -129,9 +129,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 addTask(v);
-                Intent intent = new Intent(context, MainPageSlidesAdapter.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                context.startActivity(intent);
             }
         });
 
@@ -167,6 +164,10 @@ public class SpecificTaskCreator extends AppCompatActivity {
                 Task task = specificTask;
                 ldh.insertToTaskTable(task);
             }
+
+            Intent intent = new Intent(context, MainPageSlidesAdapter.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            context.startActivity(intent);
 
         }
     }

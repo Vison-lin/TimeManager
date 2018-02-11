@@ -67,7 +67,6 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
                 getSelectedDate();
 
 
-
                 break;
         }
 
