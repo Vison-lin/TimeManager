@@ -1,12 +1,13 @@
 package com.doooge.timemanager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by fredpan on 2018/1/20.
  */
 
-public class Type {
+public class Type implements Serializable {
 
     private int id;
     private String name;

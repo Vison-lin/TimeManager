@@ -1,12 +1,13 @@
 package com.doooge.timemanager;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 /**
  * Created by fredpan on 2018/1/20.
  */
 
-public class SpecificTask extends Task {
+public class SpecificTask extends Task implements Serializable {
 
     private int isCompleted;
     private String startTime;
@@ -18,6 +19,7 @@ public class SpecificTask extends Task {
         setStartTime(startTime);
         setEndTime(endTime);
     }
+
 
     public Calendar getEndTime() {
         return CalendarHelper.convertUTC2Cal(endTime);
@@ -52,4 +54,5 @@ public class SpecificTask extends Task {
     public void setStartTime(Calendar startTime) {
         this.startTime = CalendarHelper.convertCal2UTC(startTime);
     }
+
 }

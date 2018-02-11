@@ -1,10 +1,12 @@
 package com.doooge.timemanager;
 
+import java.io.Serializable;
+
 /**
  * Created by fredpan on 2018/1/20.
  */
 
-public class Task {
+public class Task implements Serializable {
     private String taskName;
     private int id;
     private Type type;

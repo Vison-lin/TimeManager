@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.widget.NumberPicker;
 
+import java.util.NoSuchElementException;
+
 /**
  * Created by fredpan on 2018/2/2.
  */
@@ -16,10 +18,20 @@ import android.widget.NumberPicker;
 public class NumberPickerDialog extends DialogFragment {
 
 
+    SpecificTask specificTask = null;
     private NumberPicker.OnValueChangeListener valueChangeListener;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            specificTask = (SpecificTask) bundle.getSerializable("givenSpecificTask");
+        } else {
+            throw new NoSuchElementException();
+        }
+
+
 
         final NumberPicker numberPicker = new NumberPicker(getActivity());
 
@@ -80,7 +92,9 @@ public class NumberPickerDialog extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(getActivity(), SpecificTaskCreator.class);
-                startActivity(intent);//TODO Pass SpecificTask into SpecificTaskCreator!
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("givenSpecificTask", specificTask);
+                startActivity(intent);
             }
         });
         builder.setView(numberPicker);

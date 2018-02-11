@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 /**
  * Created by diana on 2018-01-27.
@@ -19,12 +18,9 @@ import java.util.Calendar;
 public class QuickAccessTaskFragment extends Fragment {
     private ListView mListView;
     private QuickAccessTaskAdapter adapter;
-    private ArrayList<SpecificTask> specificTasks;
+    private ArrayList<Task> tasks;
     private LocalDatabaseHelper ldh;
 
-    //TODO To be deleted: Facked Calendar (搜索条件)
-    private Calendar calendar;
-    //================================================
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -32,14 +28,8 @@ public class QuickAccessTaskFragment extends Fragment {
                 R.layout.activity_quick_access_task, container, false);
 
         ldh = new LocalDatabaseHelper(getActivity());
-
-        //TODO To be deleted: Facked Calendar (搜索条件)
-        calendar = Calendar.getInstance();//faked calendar
-        calendar.set(2010, 0, 01);
-        specificTasks = ldh.specificTasksSortByStartTime(calendar);//search all specificTasks that start at the faked time
-        //================================================
-
-        adapter = new QuickAccessTaskAdapter(specificTasks);
+        tasks = ldh.getAllTask();
+        adapter = new QuickAccessTaskAdapter(tasks);
         mListView = rootView.findViewById(R.id.taskList);
         mListView.setAdapter(adapter);
         ImageView viewAddTasksBtn = rootView.findViewById(R.id.addingTaskBtn);

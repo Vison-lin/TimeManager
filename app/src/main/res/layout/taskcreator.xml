@@ -10,8 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
 
@@ -28,8 +27,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
 
@@ -159,7 +157,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="This is a frequent tasks" />
-        <!--android:onClick="checkBoxSelection"/>-->
 
         <Button
             android:id="@+id/submitButton"
@@ -169,6 +166,12 @@
             android:onClick="addTask"
             android:text="Button"
             tools:layout_editor_absoluteY="46dp" />
+
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete" />
     </LinearLayout>
 
 </LinearLayout>

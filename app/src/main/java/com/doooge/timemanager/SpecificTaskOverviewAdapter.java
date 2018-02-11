@@ -1,6 +1,7 @@
 package com.doooge.timemanager;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,7 +68,11 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
                 selectedSpecificTask = null;
                 selectedSpecificTask = specificTask;
                 specificTasks.remove(specificTask);
+
                 NumberPickerDialog newFragment = new NumberPickerDialog();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("givenSpecificTask", specificTask);
+                newFragment.setArguments(bundle);
                 newFragment.setValueChangeListener(SpecificTaskOverviewAdapter.this);
                 newFragment.show(((FragmentActivity) context).getSupportFragmentManager(), "time picker");
 

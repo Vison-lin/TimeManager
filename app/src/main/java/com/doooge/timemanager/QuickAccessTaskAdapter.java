@@ -16,22 +16,22 @@ import java.util.ArrayList;
 
 public class QuickAccessTaskAdapter extends BaseAdapter {
     private Context mContext;
-    private ArrayList<SpecificTask> specificTasks;
+    private ArrayList<Task> tasks;
 
 
-    public QuickAccessTaskAdapter(ArrayList<SpecificTask> specificTasks) {
-        this.specificTasks = specificTasks;
+    public QuickAccessTaskAdapter(ArrayList<Task> tasks) {
+        this.tasks = tasks;
     }
 
     @Override
     public int getCount() {
-        return specificTasks.size();
+        return tasks.size();
     }
 
     @Override
-    public SpecificTask getItem(int position) {
+    public Task getItem(int position) {
 
-        return specificTasks.get(position);
+        return tasks.get(position);
     }
 
     @Override
@@ -39,26 +39,25 @@ public class QuickAccessTaskAdapter extends BaseAdapter {
         return position;
     }
     @Override
-    public View getView(int i, View view, final ViewGroup viewGroup) {
+    public View getView(int position, View view, final ViewGroup viewGroup) {
 
         View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_task_item, viewGroup, false);
 
-        Button taskTypeBlock = rowView.findViewById(R.id.taskTypeBtn);
-        System.out.println("====" + (taskTypeBlock.equals(null)));
+        final Task task = getItem(position);
 
-        //TODO To be deleted: Facked Type
-        //================================
-        taskTypeBlock.setText("Jogging");
-        //================================
+        Button taskTypeBlock = rowView.findViewById(R.id.taskTypeBtn);
+
+        taskTypeBlock.setText(task.getTaskName());
 
         taskTypeBlock.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                //TODO Correct
                 Intent intent = new Intent(viewGroup.getContext(), SpecificTaskCreator.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("givenTask", task);
                 viewGroup.getContext().startActivity(intent);
             }
         });
+
 
         return rowView;
     }
