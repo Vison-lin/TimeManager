@@ -65,7 +65,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
                     //TODO DELETE
                 }
             });
-
         }
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
