@@ -23,21 +23,6 @@
                 android:text="TaskName"
                 android:textSize="24sp" />
 
-            <TextView
-                android:id="@+id/taskHour"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TaskHour"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/taskType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TaskType"
-                android:textSize="24sp" />
         </LinearLayout>
 
     </LinearLayout>
