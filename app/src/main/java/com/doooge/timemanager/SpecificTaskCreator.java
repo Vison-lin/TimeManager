@@ -111,8 +111,10 @@ public class SpecificTaskCreator extends AppCompatActivity {
         checkBox.setVisibility(View.INVISIBLE);
 
         if (task != null && specificTask == null) {//Users are from QuickAccessTask page
+            delete.setVisibility(View.GONE);//GONE: Affect the page format
+            checkBox.setVisibility(View.INVISIBLE);
             //TODO Vison: Fill all the related info for that Task
-        } else if (specificTask != null && task == null) {//Users are from Main page
+        } else if (specificTask != null && task == null) {//Users are from Main page or TaskManagement page
             //TODO Vison: Fill all the related info for that SpecificTask
             delete.setVisibility(View.VISIBLE);
             delete.setOnClickListener(new View.OnClickListener() {
