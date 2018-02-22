@@ -13,8 +13,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.doooge.timemanager.WeekView.WeekViewEvent;
-
 import java.util.Calendar;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
@@ -132,11 +130,11 @@ public class SpecificTaskCreator extends AppCompatActivity {
         checkBox.setVisibility(View.INVISIBLE);
 
         if (task != null && specificTask == null) {//Users are from QuickAccessTask page
+            delete.setVisibility(View.GONE);//GONE: Affect the page format
+            checkBox.setVisibility(View.INVISIBLE);
             //TODO Vison: Fill all the related info for that Task
+        } else if (specificTask != null && task == null) {//Users are from Main page or TaskManagement page
 
-
-
-        } else if (specificTask != null && task == null) {//Users are from Main page
             delete.setVisibility(View.VISIBLE);
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -174,33 +172,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
 
     }
-    protected String getEventTitle(Calendar time) {
-        return String.format("Event of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH)+1, time.get(Calendar.DAY_OF_MONTH));
-    }
-
-//    public void addTaskSecondStyle(View view){
-//        EditText taskName = findViewById(R.id.taskName);
-//        userName = String.valueOf(taskName.getText());
-//        if (userName.equals("")) {
-//            taskName.setError("Enter a name.");
-//            taskName.setBackground(getResources().getDrawable(R.drawable.back_red));
-//        } else {
-//
-//            System.out.println(getEventTitle(calStart)+"===================");
-//
-//            WeekViewEvent event = new WeekViewEvent(1,userName, getEventTitle(calStart), calStart, calEnd);
-//            event.setColor(getResources().getColor(R.color.event_color_02));
-//
-//
-//            Intent intent = new Intent(context, SecondMainPage.class);
-//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            intent.putExtra("content",event);
-//            context.startActivity(intent);
-//
-//        }
-//
-//    }
-
 
     private void addTask(View view) {
         EditText taskName = findViewById(R.id.taskName);
