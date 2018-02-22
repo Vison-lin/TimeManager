@@ -163,7 +163,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="addTask"
+            android:onClick="addTaskSecondStyle"
             android:text="Button"
             tools:layout_editor_absoluteY="46dp" />
 
@@ -171,6 +171,7 @@
             android:id="@+id/deleteButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Delete" />
     </LinearLayout>
 

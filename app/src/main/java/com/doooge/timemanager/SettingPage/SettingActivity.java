@@ -33,7 +33,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 intentClass = TypeManagementActivity.class;
                 break;
             case R.id.tasksManagementBtn:
-                intentClass = TypeCreator.class;
+                intentClass = TaskManagementActivity.class;
                break;
             case R.id.changeMainPageStyleBtn:
                 intentClass = ChangeMainPageStyleActivity.class;

@@ -48,11 +48,11 @@ public class TimeBarView extends View {
     /**
      * The current process of start thumb
      */
-    private int progressStart;
+    private static int progressStart;
     /**
      * The current process of end thumb
      */
-    private int progressEnd;
+    private static int progressEnd;
     /**
      * The color of the string of intermediate progress percentage.
      */
@@ -98,6 +98,13 @@ public class TimeBarView extends View {
     public TimeBarView(Context context) {
         this(context, null);
     }
+    public TimeBarView(Context context,int progressStart,int progressEnd) {
+        this(context, null);
+        this.progressStart =progressStart;
+        this.progressEnd = progressEnd;
+        System.out.println(progressStart+"!!!!!!!!!!!");
+        System.out.println(progressEnd+"!!!!!end!!!!!!");
+    }
 
 
     public TimeBarView(Context context, AttributeSet attrs) {
@@ -118,7 +125,7 @@ public class TimeBarView extends View {
         roundProgressColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundProgressColor, Color.GRAY);
         roundWidth = mTypedArray.getDimension(R.styleable.RoundProgressBar_roundWidth, 20);
         textColor = mTypedArray.getColor(R.styleable.RoundProgressBar_textColor, Color.BLUE);
-        textSize = mTypedArray.getDimension(R.styleable.RoundProgressBar_textSize, 50);
+        textSize = mTypedArray.getDimension(R.styleable.RoundProgressBar_textSize_round, 50);
         max = mTypedArray.getInteger(R.styleable.RoundProgressBar_imageMax, 1440);
         mTypedArray.recycle();
 
@@ -145,6 +152,7 @@ public class TimeBarView extends View {
         thumbHalfheight1 = thumbEndPress.getIntrinsicHeight() / 2;
         thumbHalfWidth1 = thumbEndPress.getIntrinsicWidth() / 2;
         thumbEndPress.setBounds(-thumbHalfWidth1, -thumbHalfheight1, thumbHalfWidth1, thumbHalfheight1);
+
 
 
     }
@@ -189,6 +197,8 @@ public class TimeBarView extends View {
         RectF oval = new RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
 
         paint.setStyle(Paint.Style.STROKE);
+        System.out.println(progressStart+"================");
+        System.out.println(progressEnd+"=======end=========");
         if (progressStart >= progressEnd) {
 
             canvas.drawArc(oval, 360 * progressEnd / max + 270, 360 * (progressStart - progressEnd) / max, false, paint);
