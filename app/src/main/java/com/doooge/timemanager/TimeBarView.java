@@ -48,11 +48,11 @@ public class TimeBarView extends View {
     /**
      * The current process of start thumb
      */
-    private static int progressStart;
+    private static int progressStart = 0;
     /**
      * The current process of end thumb
      */
-    private static int progressEnd;
+    private static int progressEnd = 0;
     /**
      * The color of the string of intermediate progress percentage.
      */
