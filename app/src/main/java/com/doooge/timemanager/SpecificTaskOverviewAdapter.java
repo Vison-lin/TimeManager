@@ -38,7 +38,6 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
 
     @Override
     public SpecificTask getItem(int position) {
-
         return specificTasks.get(position);
     }
 
@@ -102,10 +101,6 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
 
             }
         });
-
-
-
-
         return rowView;
     }
 

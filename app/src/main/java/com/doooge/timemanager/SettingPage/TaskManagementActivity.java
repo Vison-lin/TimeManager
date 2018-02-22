@@ -45,5 +45,4 @@ public class TaskManagementActivity extends AppCompatActivity {
         }
     }
 
-
 }

@@ -28,8 +28,6 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
     private LocalDatabaseHelper ldh;
     private SpecificTaskOverviewAdapter adapter;
     private ArrayList<SpecificTask> specificTasks;
-    //TODO To be deleted: Facked Calendar (搜索条件)
-    //================================================
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,7 +63,6 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
 
             case R.id.showCalender:
                 getSelectedDate();
-
 
                 break;
         }

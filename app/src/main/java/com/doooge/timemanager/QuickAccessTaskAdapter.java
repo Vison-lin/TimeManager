@@ -1,6 +1,5 @@
 package com.doooge.timemanager;
 
-import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import java.util.ArrayList;
  */
 
 public class QuickAccessTaskAdapter extends BaseAdapter {
-    private Context mContext;
     private ArrayList<Task> tasks;
 
 
