@@ -4,16 +4,22 @@ package com.doooge.timemanager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.LightingColorFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
@@ -40,12 +46,20 @@ public class SpecificTaskCreator extends AppCompatActivity {
     private Context context;
     private Task task;
     private  SpecificTask specificTask;
+    private List<Type> typeList;
+    private List<String> mList;
+    private Spinner mSpinner;
+    private ArrayAdapter<String> mAdapter;
+    private Type type;
 
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.context = this;
+
+
+
         //Going from QuickAccessTask
         task = (Task) getIntent().getSerializableExtra("givenTask");
         //Going from SpecificTaskOverViewAdapter
@@ -170,6 +184,43 @@ public class SpecificTaskCreator extends AppCompatActivity {
             }
         });
 
+        typeList = ldh.getAllType();
+        mList = new ArrayList<String>();
+        for(Type i: typeList){
+            mList.add(i.getName());
+
+        }
+        if(typeList!=null){
+            mSpinner = (Spinner)findViewById(R.id.mSpinner);
+            mAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,mList);
+            mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mSpinner.setAdapter(mAdapter);
+            mSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener(){
+                public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                    // TODO Auto-generated method stub
+                /* 将所选mySpinner 的值带入myTextView 中*/
+                    type = typeList.get(arg2);
+                    TextView typeColor = findViewById(R.id.typeColor);
+                    int color = Integer.parseInt(type.getColor());
+                    typeColor.getBackground().setColorFilter(new LightingColorFilter(color, color));
+                    arg0.setVisibility(View.VISIBLE);
+                }
+                public void onNothingSelected(AdapterView<?> arg0) {
+                    // TODO Auto-generated method stub
+                    // myTextView.setText("NONE");
+                    arg0.setVisibility(View.VISIBLE);
+                }
+            });
+
+
+        }
+
+
+
+
+
+
+
 
     }
 
@@ -183,7 +234,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
             SpecificTask specificTask = new SpecificTask(userName, calStart, calEnd);
             ldh.insertToSpecificTaskTable(specificTask);
-            Type type = new Type("", "");
             ldh.insertToTypeTable(type);
 
             //Add to Task table if user selected the checkBox

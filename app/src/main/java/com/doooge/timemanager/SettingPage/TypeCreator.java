@@ -1,13 +1,21 @@
 package com.doooge.timemanager.SettingPage;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.doooge.timemanager.LocalDatabaseHelper;
 import com.doooge.timemanager.R;
+import com.doooge.timemanager.Type;
+
+import static java.lang.System.exit;
 
 /**
  * Created by fredpan on 2018/1/26.
@@ -21,7 +29,11 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
     private Button yellow;
     private Button violet;
     private Button red;
-    private int color;
+    private int color ;
+    private String name;
+    private EditText typeName;
+    private LocalDatabaseHelper ldh = new LocalDatabaseHelper(this);
+    private Type type;
 
 
     @Override
@@ -29,9 +41,23 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.typemanagement);
 
+        type = (Type)getIntent().getSerializableExtra("TypeInfo");
+        typeName = findViewById(R.id.typeName);
+        color= getResources().getColor(R.color.gray);
+        if(type!=null){
+            name = type.getName();
+            typeName.setText(name);
+            Button delete = findViewById(R.id.deleteType);
+            delete.setVisibility(View.VISIBLE);
+            Button create = findViewById(R.id.createType);
+            create.setText("Updated");
+            TextView title = findViewById(R.id.titleType);
+            title.setText("Updated the Type");
+            color = Integer.parseInt(type.getColor());
+        }
+
         createType = findViewById(R.id.createType);
         createType.setOnClickListener(this);
-
         blue = findViewById(R.id.blue_type);
         blue.setOnClickListener(this);
         green = findViewById(R.id.green_type);
@@ -54,8 +80,25 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
         switch (view.getId()) {
 
             case R.id.createType:
+                name = String.valueOf(typeName.getText());
+                if (name.equals("")) {
+                    typeName.setError("Enter a name.");
+                    typeName.setBackground(getResources().getDrawable(R.drawable.back_red));
+                } else {
+                    if(type==null) {
+                        Type type = new Type(name, color + "");
+                        ldh.insertToTypeTable(type);
+                        Intent intent = new Intent(TypeCreator.this, TypeManagementActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        this.startActivity(intent);
+                    }else{
+                        //TODO Fred please write a function for updating the type
 
 
+
+                    }
+
+                }
                 break;
 
             case R.id.blue_type:
@@ -88,7 +131,13 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
                 red.setBackground(getResources().getDrawable(R.drawable.red_button_roundedge_choosed));
                 Toast.makeText(getApplicationContext(), "choose red success !", Toast.LENGTH_SHORT).show();
                 break;
-
+            case R.id.deleteType:
+                //TODO Fred  please check why this is not functional
+                ldh.deleteTypeTable(type.getId());
+                Intent intent = new Intent(TypeCreator.this, TypeManagementActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                this.startActivity(intent);
+                break;
         }
     }
 
@@ -98,8 +147,6 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
         yellow.setBackground(getResources().getDrawable(R.drawable.yellow_button_roundedge));
         violet.setBackground(getResources().getDrawable(R.drawable.violet_button_roundedge));
         red.setBackground(getResources().getDrawable(R.drawable.red_button_roundedge));
-
-
 
     }
 
