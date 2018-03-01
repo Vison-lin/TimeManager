@@ -227,7 +227,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
 
     //HELPER METHODS
     /**
-     * 【***】ALWAYS: ADD AN TODO BEFORE USE IT AND SET TO PRIVATE AFTER DEBUGGED!【***】
+     * 【***】ALWAYS: ADD AN "TO_DO" BEFORE USE IT AND SET TO PRIVATE AFTER DEBUGGED!【***】
      *  To use it: set it as public.
      *  This method is used for displaying current Database for debugging only.
      *
