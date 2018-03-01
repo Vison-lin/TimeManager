@@ -45,21 +45,33 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         //create SpecificTasks_Table
         sqLiteDatabase.execSQL("create table " + SPECIFICTASKS_TABLE_NAME + " (" +
                 SPECIFICTASKS_PRIMARY_KEY + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                SPECIFICTASKS_NAME + " TEXT," +
-                SPECIFICTASKS_ISCOMPLETED + " INTEGER," +
-                SPECIFICTASKS_START_DATE + " TEXT," +
-                SPECIFICTASKS_END_DATE + " TEXT," +
-                SPECIFICTASKS_TYPE + " INTEGER)");
+                SPECIFICTASKS_NAME + " TEXT NOT NULL," +
+                SPECIFICTASKS_ISCOMPLETED + " INTEGER NOT NULL," +
+                SPECIFICTASKS_START_DATE + " TEXT NOT NULL," +
+                SPECIFICTASKS_END_DATE + " TEXT NOT NULL," +
+                SPECIFICTASKS_TYPE + " INTEGER NOT NULL)");
         //create Tasks_Table
         sqLiteDatabase.execSQL("create table " + TASKS_TABLE_NAME + " (" +
                 TASKS_PRIMARY_KEY + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                TASKS_NAME + " TEXT," +
-                TASKS_TYPE + " INTEGER)");
+                TASKS_NAME + " TEXT NOT NULL," +
+                TASKS_TYPE + " INTEGER NOT NULL)");
         //create Types_Table
         sqLiteDatabase.execSQL("create table " + TYPES_TABLE_NAME + " (" +
                 TYPES_PRIMARY_KEY + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                TYPES_NAME + " TEXT," +
-                TYPES_COLOR + " TEXT)");
+                TYPES_NAME + " TEXT NOT NULL," +
+                TYPES_COLOR + " TEXT NOT NULL)");
+        //Default type//TODO TO BE DISCUSSED
+        Type defaultType = new Type("default Type", "-1");//-1 stand for white
+        defaultType.setId(-999);
+        //insertToTypeTable(defaultType);
+        ContentValues contentValues = new ContentValues();
+        String typeName = defaultType.getName();
+        String typeColor = defaultType.getColor();
+        int id = defaultType.getId();
+        contentValues.put(TYPES_PRIMARY_KEY, id);
+        contentValues.put(TYPES_NAME, typeName);
+        contentValues.put(TYPES_COLOR, typeColor);
+        long result = sqLiteDatabase.insert(TYPES_TABLE_NAME, null, contentValues);
     }
 
 
@@ -156,6 +168,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      * @return return whether the deletion is successed
      */
     public boolean deleteTypeTable(int id) {
+        //TODO UPDATE BOTH TABLES!
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         long result = sqLiteDatabase.delete(TYPES_TABLE_NAME, TYPES_PRIMARY_KEY + "=" + id, null);
         return result != 0;
@@ -214,15 +227,20 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
 
     //HELPER METHODS
     /**
-     * This method is used for displaying current Database for debugging only.
+     * 【***】ALWAYS: ADD AN TODO BEFORE USE IT AND SET TO PRIVATE AFTER DEBUGGED!【***】
+     *  To use it: set it as public.
+     *  This method is used for displaying current Database for debugging only.
+     *
      * @param context pass current context
      */
+    //TODO
     public void showAllData(Context context) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         StringBuilder buffer = new StringBuilder();
 
         Cursor cursor1 = db.query(SPECIFICTASKS_TABLE_NAME, null, null, null, null, null, null, null);
+        buffer.append("\n\n\n【***】PLEASE GO TO LDH TO SET THIS METHOD AS PRIVATE AFTER EACH USE!!!【***】\n\n\n");
         buffer.append("===SpecificTasks_TABLE:===").append("\n");
         while (cursor1.moveToNext()) {
             buffer.append("SpecificTasks_ID: ").append(cursor1.getString(0)).append("\n");
