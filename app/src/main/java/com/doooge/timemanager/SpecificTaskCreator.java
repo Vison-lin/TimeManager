@@ -154,6 +154,9 @@ public class SpecificTaskCreator extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     boolean success = ldh.deleteSpecificTaskTable(specificTask.getId());
+                    Intent intent = new Intent(context, MainPageSlidesAdapter.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                     if (!success) {
                         throw new NoSuchElementException();
                     }
