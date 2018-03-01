@@ -29,7 +29,7 @@ public class QuickAccessTaskFragment extends Fragment {
 
         ldh = new LocalDatabaseHelper(getActivity());
         tasks = ldh.getAllTask();
-        adapter = new QuickAccessTaskAdapter(tasks);
+        adapter = new QuickAccessTaskAdapter(tasks, getContext(), ldh);
         mListView = rootView.findViewById(R.id.taskList);
         mListView.setAdapter(adapter);
         ImageView viewAddTasksBtn = rootView.findViewById(R.id.addingTaskBtn);
