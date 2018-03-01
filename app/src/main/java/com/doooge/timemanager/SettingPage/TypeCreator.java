@@ -27,6 +27,7 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
     private Button violet;
     private Button red;
     private int color ;
+    private int id;
     private String name;
     private EditText typeName;
     private LocalDatabaseHelper ldh = new LocalDatabaseHelper(this);
@@ -54,6 +55,7 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
             TextView title = findViewById(R.id.titleType);
             title.setText("Updated the Type");
             color = Integer.parseInt(type.getColor());
+            id = type.getId();
         }
         blue = findViewById(R.id.blue_type);
         blue.setOnClickListener(this);
@@ -89,8 +91,7 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         this.startActivity(intent);
                     }else{
-                        //TODO Fred please write a function for updating the type
-                        //ldh.updateTypeTable(newType);
+                        ldh.updateTypeTable(type);
                     }
 
                 }
@@ -127,13 +128,11 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
                 Toast.makeText(getApplicationContext(), "choose red success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.deleteType:
-                //TODO Fred  please check why this is not functional
-                System.out.println("!!!!!!!!!!!!!");
                 ldh.deleteTypeTable(type.getId());
                 ldh.showAllData(this);
-//                Intent intent = new Intent(TypeCreator.this, TypeManagementActivity.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                this.startActivity(intent);
+                Intent intent = new Intent(TypeCreator.this, TypeManagementActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                this.startActivity(intent);
                 break;
         }
     }

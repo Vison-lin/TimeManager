@@ -24,7 +24,7 @@ public class MainPageSlidesAdapter extends FragmentActivity {
     /**
      * The number of pages (3) to show.
      */
-    private static final int NUM_PAGES = 3;//TODO Static & Adding new Task PAGES To BE IMPLEMENTED
+    private static final int NUM_PAGES = 3;
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous

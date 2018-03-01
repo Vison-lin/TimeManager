@@ -217,7 +217,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      * This method is used for displaying current Database for debugging only.
      * @param context pass current context
      */
-    protected void showAllData(Context context) {
+    public void showAllData(Context context) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         StringBuilder buffer = new StringBuilder();
