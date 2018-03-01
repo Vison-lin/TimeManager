@@ -1,7 +1,6 @@
 package com.doooge.timemanager.SettingPage;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -14,8 +13,6 @@ import android.widget.Toast;
 import com.doooge.timemanager.LocalDatabaseHelper;
 import com.doooge.timemanager.R;
 import com.doooge.timemanager.Type;
-
-import static java.lang.System.exit;
 
 /**
  * Created by fredpan on 2018/1/26.
@@ -44,20 +41,20 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
         type = (Type)getIntent().getSerializableExtra("TypeInfo");
         typeName = findViewById(R.id.typeName);
         color= getResources().getColor(R.color.gray);
+        createType = findViewById(R.id.createType);
+        createType.setOnClickListener(this);
+        Button delete = findViewById(R.id.deleteType);
+        delete.setOnClickListener(this);
+        delete.setVisibility(View.INVISIBLE);
         if(type!=null){
             name = type.getName();
             typeName.setText(name);
-            Button delete = findViewById(R.id.deleteType);
             delete.setVisibility(View.VISIBLE);
-            Button create = findViewById(R.id.createType);
-            create.setText("Updated");
+            createType.setText("Updated");
             TextView title = findViewById(R.id.titleType);
             title.setText("Updated the Type");
             color = Integer.parseInt(type.getColor());
         }
-
-        createType = findViewById(R.id.createType);
-        createType.setOnClickListener(this);
         blue = findViewById(R.id.blue_type);
         blue.setOnClickListener(this);
         green = findViewById(R.id.green_type);
@@ -93,9 +90,7 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
                         this.startActivity(intent);
                     }else{
                         //TODO Fred please write a function for updating the type
-
-
-
+                        //ldh.updateTypeTable(newType);
                     }
 
                 }
@@ -133,10 +128,12 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.deleteType:
                 //TODO Fred  please check why this is not functional
+                System.out.println("!!!!!!!!!!!!!");
                 ldh.deleteTypeTable(type.getId());
-                Intent intent = new Intent(TypeCreator.this, TypeManagementActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                this.startActivity(intent);
+                ldh.showAllData(this);
+//                Intent intent = new Intent(TypeCreator.this, TypeManagementActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                this.startActivity(intent);
                 break;
         }
     }
