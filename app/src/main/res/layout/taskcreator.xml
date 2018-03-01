@@ -193,10 +193,15 @@
             android:layout_weight="1"
             android:text="This is a frequent tasks" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="horizontal">
         <Button
             android:id="@+id/submitButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="addTaskSecondStyle"
             android:text="Button"
@@ -204,10 +209,11 @@
 
         <Button
             android:id="@+id/deleteButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Delete" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

@@ -129,7 +129,7 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.deleteType:
                 ldh.deleteTypeTable(type.getId());
-                ldh.showAllData(this);
+                //TODO FRED: NO TYPE EXCEPTION - - to be discussed in the coming meeting! (Should we have a default but hidden type?)
                 Intent intent = new Intent(TypeCreator.this, TypeManagementActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 this.startActivity(intent);
