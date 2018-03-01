@@ -1,21 +1,15 @@
 package com.doooge.timemanager.SettingPage;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.LightingColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.TextView;
 
-import com.doooge.timemanager.LocalDatabaseHelper;
 import com.doooge.timemanager.R;
-import com.doooge.timemanager.SpecificTask;
-import com.doooge.timemanager.SpecificTaskCreator;
 import com.doooge.timemanager.Type;
 
 import java.util.ArrayList;
@@ -47,6 +41,8 @@ public class TypeManagementAdapter extends ArrayAdapter<Type> {
         typeButton.setText(type.getName());
         int color = Integer.parseInt(type.getColor());
         typeButton.getBackground().setColorFilter(new LightingColorFilter(color, color));
+
+        //TODO Vison: onClick to go to TaskManagement to display all the SpecificTasks that belongs to this type (Hint: dB: ldh.findSpecificTasksByType() )
         typeButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
