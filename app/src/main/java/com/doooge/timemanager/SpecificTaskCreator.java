@@ -191,7 +191,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
         }
         if(typeList!=null){
-            mSpinner = (Spinner)findViewById(R.id.mSpinner);
+            mSpinner = findViewById(R.id.mSpinner);
             mAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,mList);
             mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mSpinner.setAdapter(mAdapter);
@@ -233,8 +233,8 @@ public class SpecificTaskCreator extends AppCompatActivity {
         } else {
 
             SpecificTask specificTask = new SpecificTask(userName, calStart, calEnd);
+            specificTask.setType(type);
             ldh.insertToSpecificTaskTable(specificTask);
-            ldh.insertToTypeTable(type);
 
             //Add to Task table if user selected the checkBox
 
