@@ -26,6 +26,14 @@ public class TimeBarView extends View {
      */
     private static Handler handler;
     /**
+     * The current process of start thumb
+     */
+    private static int progressStart = 0;
+    /**
+     * The current process of end thumb
+     */
+    private static int progressEnd = 0;
+    /**
      * The paint
      */
     private Paint paint;
@@ -45,14 +53,6 @@ public class TimeBarView extends View {
      * The maximum process
      */
     private int max;
-    /**
-     * The current process of start thumb
-     */
-    private static int progressStart = 0;
-    /**
-     * The current process of end thumb
-     */
-    private static int progressEnd = 0;
     /**
      * The color of the string of intermediate progress percentage.
      */
@@ -98,12 +98,13 @@ public class TimeBarView extends View {
     public TimeBarView(Context context) {
         this(context, null);
     }
-    public TimeBarView(Context context,int progressStart,int progressEnd) {
+
+    public TimeBarView(Context context, int progressStart, int progressEnd) {
         this(context, null);
-        this.progressStart =progressStart;
-        this.progressEnd = progressEnd;
-        System.out.println(progressStart+"!!!!!!!!!!!");
-        System.out.println(progressEnd+"!!!!!end!!!!!!");
+        TimeBarView.progressStart = progressStart;
+        TimeBarView.progressEnd = progressEnd;
+        System.out.println(progressStart + "!!!!!!!!!!!");
+        System.out.println(progressEnd + "!!!!!end!!!!!!");
     }
 
 
@@ -197,8 +198,8 @@ public class TimeBarView extends View {
         RectF oval = new RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
 
         paint.setStyle(Paint.Style.STROKE);
-        System.out.println(progressStart+"================");
-        System.out.println(progressEnd+"=======end=========");
+        System.out.println(progressStart + "================");
+        System.out.println(progressEnd + "=======end=========");
         if (progressStart >= progressEnd) {
 
             canvas.drawArc(oval, 360 * progressEnd / max + 270, 360 * (progressStart - progressEnd) / max, false, paint);

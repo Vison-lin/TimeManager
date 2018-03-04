@@ -39,7 +39,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
     private CheckBox checkBox;
     private Context context;
     private Task task;
-    private  SpecificTask specificTask;
+    private SpecificTask specificTask;
 
     @Override
 
@@ -49,7 +49,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
         //Going from QuickAccessTask
         task = (Task) getIntent().getSerializableExtra("givenTask");
         //Going from SpecificTaskOverViewAdapter
-       specificTask = (SpecificTask) getIntent().getSerializableExtra("givenSpecificTask");
+        specificTask = (SpecificTask) getIntent().getSerializableExtra("givenSpecificTask");
         setContentView(R.layout.taskcreator);
 
         endDate = findViewById(R.id.endDatePrint);
@@ -59,7 +59,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
         calStart = Calendar.getInstance();
         calEnd = Calendar.getInstance();
 
-        if(specificTask!=null){
+        if (specificTask != null) {
             calStart = specificTask.getStartTime();
             calEnd = specificTask.getEndTime();
             String name = specificTask.getTaskName();
@@ -110,12 +110,12 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
         timePicker = new TimePickerDialog(this, timePickerDialogInterface);
         handler = new MyHandler(this, timePickerDialogInterface);
-        if(specificTask!=null){
-            int progressStart = (specificTask.getStartTime().get(Calendar.HOUR_OF_DAY)*60)+(specificTask.getStartTime().get(Calendar.MINUTE));
+        if (specificTask != null) {
+            int progressStart = (specificTask.getStartTime().get(Calendar.HOUR_OF_DAY) * 60) + (specificTask.getStartTime().get(Calendar.MINUTE));
 
-            int progressEnd = (specificTask.getEndTime().get(Calendar.HOUR_OF_DAY)*60)+(specificTask.getEndTime().get(Calendar.MINUTE));
-            mView = new TimeBarView(this,progressStart,progressEnd);
-        }else {
+            int progressEnd = (specificTask.getEndTime().get(Calendar.HOUR_OF_DAY) * 60) + (specificTask.getEndTime().get(Calendar.MINUTE));
+            mView = new TimeBarView(this, progressStart, progressEnd);
+        } else {
             mView = new TimeBarView(this);
         }
         mView.Test(new TimeBarView.Callback() {
@@ -156,7 +156,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 addTask(v);
+                addTask(v);
                 //addTaskSecondStyle(v);
             }
         });
