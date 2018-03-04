@@ -68,7 +68,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
         endDate = findViewById(R.id.endDatePrint);
         startDate = findViewById(R.id.startDatePrint);
-
+        typeList = ldh.getAllType();
 
         calStart = Calendar.getInstance();
         calEnd = Calendar.getInstance();
@@ -89,7 +89,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
         timePickerDialogInterface = new TimePickerDialogInterface() {
             @Override
             public void positiveListener(int year, int month, int day) {
-//                System.out.println(year + "===" + (month + 1) + "====" + day);//TODO Vison: Please DELETE if not use anymore!
                 setYear(year);
                 setMonth(month + 1);
                 setDay(day);
@@ -146,7 +145,9 @@ public class SpecificTaskCreator extends AppCompatActivity {
         if (task != null && specificTask == null) {//Users are from QuickAccessTask page
             delete.setVisibility(View.GONE);//GONE: Affect the page format
             checkBox.setVisibility(View.INVISIBLE);
-            //TODO Vison: Fill all the related info for that Task
+            EditText taskName = findViewById(R.id.taskName);
+            taskName.setText(task.getTaskName());
+            typeList.add(task.getType());
         } else if (specificTask != null && task == null) {//Users are from Main page or TaskManagement page
 
             delete.setVisibility(View.VISIBLE);
@@ -187,7 +188,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
             }
         });
 
-        typeList = ldh.getAllType();
+
         mList = new ArrayList<String>();
         for(Type i: typeList){
             mList.add(i.getName());
