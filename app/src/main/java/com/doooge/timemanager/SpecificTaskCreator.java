@@ -4,16 +4,22 @@ package com.doooge.timemanager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.LightingColorFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
@@ -39,17 +45,25 @@ public class SpecificTaskCreator extends AppCompatActivity {
     private CheckBox checkBox;
     private Context context;
     private Task task;
-    private SpecificTask specificTask;
+    private  SpecificTask specificTask;
+    private List<Type> typeList;
+    private List<String> mList;
+    private Spinner mSpinner;
+    private ArrayAdapter<String> mAdapter;
+    private Type type;
 
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.context = this;
+
+
+
         //Going from QuickAccessTask
         task = (Task) getIntent().getSerializableExtra("givenTask");
         //Going from SpecificTaskOverViewAdapter
-        specificTask = (SpecificTask) getIntent().getSerializableExtra("givenSpecificTask");
+       specificTask = (SpecificTask) getIntent().getSerializableExtra("givenSpecificTask");
         setContentView(R.layout.taskcreator);
 
         endDate = findViewById(R.id.endDatePrint);
@@ -59,7 +73,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
         calStart = Calendar.getInstance();
         calEnd = Calendar.getInstance();
 
-        if (specificTask != null) {
+        if(specificTask!=null){
             calStart = specificTask.getStartTime();
             calEnd = specificTask.getEndTime();
             String name = specificTask.getTaskName();
@@ -75,7 +89,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
         timePickerDialogInterface = new TimePickerDialogInterface() {
             @Override
             public void positiveListener(int year, int month, int day) {
-                System.out.println(year + "===" + (month + 1) + "====" + day);
+//                System.out.println(year + "===" + (month + 1) + "====" + day);//TODO Vison: Please DELETE if not use anymore!
                 setYear(year);
                 setMonth(month + 1);
                 setDay(day);
@@ -110,12 +124,12 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
         timePicker = new TimePickerDialog(this, timePickerDialogInterface);
         handler = new MyHandler(this, timePickerDialogInterface);
-        if (specificTask != null) {
-            int progressStart = (specificTask.getStartTime().get(Calendar.HOUR_OF_DAY) * 60) + (specificTask.getStartTime().get(Calendar.MINUTE));
+        if(specificTask!=null){
+            int progressStart = (specificTask.getStartTime().get(Calendar.HOUR_OF_DAY)*60)+(specificTask.getStartTime().get(Calendar.MINUTE));
 
-            int progressEnd = (specificTask.getEndTime().get(Calendar.HOUR_OF_DAY) * 60) + (specificTask.getEndTime().get(Calendar.MINUTE));
-            mView = new TimeBarView(this, progressStart, progressEnd);
-        } else {
+            int progressEnd = (specificTask.getEndTime().get(Calendar.HOUR_OF_DAY)*60)+(specificTask.getEndTime().get(Calendar.MINUTE));
+            mView = new TimeBarView(this,progressStart,progressEnd);
+        }else {
             mView = new TimeBarView(this);
         }
         mView.Test(new TimeBarView.Callback() {
@@ -140,6 +154,9 @@ public class SpecificTaskCreator extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     boolean success = ldh.deleteSpecificTaskTable(specificTask.getId());
+                    Intent intent = new Intent(context, MainPageSlidesAdapter.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                     if (!success) {
                         throw new NoSuchElementException();
                     }
@@ -156,7 +173,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addTask(v);
+                 addTask(v);
                 //addTaskSecondStyle(v);
             }
         });
@@ -170,6 +187,43 @@ public class SpecificTaskCreator extends AppCompatActivity {
             }
         });
 
+        typeList = ldh.getAllType();
+        mList = new ArrayList<String>();
+        for(Type i: typeList){
+            mList.add(i.getName());
+
+        }
+        if(typeList!=null){
+            mSpinner = findViewById(R.id.mSpinner);
+            mAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,mList);
+            mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            mSpinner.setAdapter(mAdapter);
+            mSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener(){
+                public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                    // TODO Auto-generated method stub
+                /* 将所选mySpinner 的值带入myTextView 中*/
+                    type = typeList.get(arg2);
+                    TextView typeColor = findViewById(R.id.typeColor);
+                    int color = Integer.parseInt(type.getColor());
+                    typeColor.getBackground().setColorFilter(new LightingColorFilter(color, color));
+                    arg0.setVisibility(View.VISIBLE);
+                }
+                public void onNothingSelected(AdapterView<?> arg0) {
+                    // TODO Auto-generated method stub
+                    // myTextView.setText("NONE");
+                    arg0.setVisibility(View.VISIBLE);
+                }
+            });
+
+
+        }
+
+
+
+
+
+
+
 
     }
 
@@ -182,9 +236,8 @@ public class SpecificTaskCreator extends AppCompatActivity {
         } else {
 
             SpecificTask specificTask = new SpecificTask(userName, calStart, calEnd);
+            specificTask.setType(type);
             ldh.insertToSpecificTaskTable(specificTask);
-            Type type = new Type("", "");
-            ldh.insertToTypeTable(type);
 
             //Add to Task table if user selected the checkBox
 

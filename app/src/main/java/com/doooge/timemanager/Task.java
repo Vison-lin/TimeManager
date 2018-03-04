@@ -13,9 +13,6 @@ public class Task implements Serializable {
 
     public Task(String taskName) {
         this.taskName = taskName;
-        //todo delete this.
-        type = new Type("11","11");
-        type.setId(1);
     }
 
     public String getTaskName() {

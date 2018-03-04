@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Type implements Serializable {
 
-    private int id;
+    private int id = -999;
     private String name;
     private String color;
     private ArrayList<Task> tasks;
