@@ -2,14 +2,18 @@ package com.doooge.timemanager.SettingPage;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.doooge.timemanager.LocalDatabaseHelper;
 import com.doooge.timemanager.R;
 import com.doooge.timemanager.SpecificTask;
+import com.doooge.timemanager.Type;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Created by diana on 2018-02-16.
@@ -20,6 +24,7 @@ public class TaskManagementActivity extends AppCompatActivity {
     private TaskManagementAdapter adapter;
     private ArrayList<SpecificTask> specificTasks;
     private LocalDatabaseHelper ldh;
+    private Spinner mSpinner;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,16 +39,45 @@ public class TaskManagementActivity extends AppCompatActivity {
         mListView.setAdapter(adapter);
 
         specificTasks = ldh.getAllSpecificTask();
-        finishAll();
+
+        spinner(adapter);
+
     }
 
-    public void finishAll() {
-        Iterator<SpecificTask> iterator = specificTasks.iterator();
-        while (iterator.hasNext()) {
-            SpecificTask data = iterator.next();
-            System.out.println(data.getTaskName());
+    private void spinner(final TaskManagementAdapter adapter) {
+        mSpinner = findViewById(R.id.taskManagement_spinner);
+        ArrayList<String> mList = new ArrayList<String>();
+        final ArrayList<Type> typeList = ldh.getAllType();
+        mList.add("Show all types");
+        for (Type i : typeList) {
+            mList.add(i.getName());
         }
-    }
+        ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mList);
+        mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinner.setAdapter(mAdapter);
+        mSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                // TODO Auto-generated method stub 根据Vison的改
+                /* 将所选mySpinner 的值带入myTextView 中*/
+                if (arg2 == 0) {//"Show all types"
+                    specificTasks.clear();
+                    specificTasks = new ArrayList<SpecificTask>();
+                    specificTasks = ldh.getAllSpecificTask();
+                } else {
+                    Type selectType = typeList.get(arg2);
+                    specificTasks.clear();
+                    specificTasks = new ArrayList<SpecificTask>();
+                    specificTasks = ldh.findSpecificTasksByType(selectType);
+                }
+                adapter.updateSpecificTaskOverviewAdapter(specificTasks);
+            }
 
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub 根据Vison的改
+                // myTextView.setText("NONE");
+                arg0.setVisibility(View.VISIBLE);
+            }
+        });
+    }
 
 }
