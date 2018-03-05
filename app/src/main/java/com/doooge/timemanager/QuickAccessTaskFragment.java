@@ -27,9 +27,9 @@ public class QuickAccessTaskFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.activity_quick_access_task, container, false);
 
-        ldh = new LocalDatabaseHelper(getActivity());
+        ldh = LocalDatabaseHelper.getInstance(getContext());
         tasks = ldh.getAllTask();
-        adapter = new QuickAccessTaskAdapter(tasks, getContext(), ldh);
+        adapter = new QuickAccessTaskAdapter(tasks, getContext());
         mListView = rootView.findViewById(R.id.taskList);
         mListView.setAdapter(adapter);
         ImageView viewAddTasksBtn = rootView.findViewById(R.id.addingTaskBtn);

@@ -19,8 +19,6 @@ import java.util.ArrayList;
 public class TypeManagementAdapter extends ArrayAdapter<Type> {
     private ArrayList<Type> listOfType;
     private Activity context;
-    private Type type;
-
 
     public TypeManagementAdapter(ArrayList<Type> list, Activity context) {
         super(context, R.layout.type_mainpage, list);

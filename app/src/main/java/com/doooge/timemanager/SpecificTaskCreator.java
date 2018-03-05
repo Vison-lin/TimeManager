@@ -37,7 +37,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
     public TimeBarView mView;
     private MyHandler handler;
     private String userName;
-    private LocalDatabaseHelper ldh = new LocalDatabaseHelper(this);
+    private LocalDatabaseHelper ldh;
     private TimePickerDialog timePicker;
     private TimePickerDialogInterface timePickerDialogInterface;
     private TextView startDate;
@@ -65,6 +65,8 @@ public class SpecificTaskCreator extends AppCompatActivity {
         //Going from SpecificTaskOverViewAdapter
        specificTask = (SpecificTask) getIntent().getSerializableExtra("givenSpecificTask");
         setContentView(R.layout.taskcreator);
+
+        ldh = LocalDatabaseHelper.getInstance(this);
 
         endDate = findViewById(R.id.endDatePrint);
         startDate = findViewById(R.id.startDatePrint);

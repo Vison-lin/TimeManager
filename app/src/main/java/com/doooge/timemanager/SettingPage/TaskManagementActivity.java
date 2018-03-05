@@ -31,10 +31,10 @@ public class TaskManagementActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_specifictasks);
 
-        ldh = new LocalDatabaseHelper(this);
+        ldh = LocalDatabaseHelper.getInstance(this);
         specificTasks = ldh.getAllSpecificTask();
 
-        adapter = new TaskManagementAdapter(specificTasks, ldh, this);
+        adapter = new TaskManagementAdapter(specificTasks);
         mListView = findViewById(R.id.taskList);
         mListView.setAdapter(adapter);
 

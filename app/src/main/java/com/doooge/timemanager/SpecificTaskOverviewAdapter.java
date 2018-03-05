@@ -25,9 +25,9 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
     private Context context;
     private SpecificTask selectedSpecificTask;
 
-    public SpecificTaskOverviewAdapter(ArrayList<SpecificTask> specificTasks, LocalDatabaseHelper ldh, Context context) {
+    public SpecificTaskOverviewAdapter(ArrayList<SpecificTask> specificTasks, Context context) {
         this.specificTasks = specificTasks;
-        this.ldh = ldh;
+        this.ldh = LocalDatabaseHelper.getInstance(context);
         this.context = context;
     }
 

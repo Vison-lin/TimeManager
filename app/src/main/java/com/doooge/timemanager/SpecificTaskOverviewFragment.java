@@ -35,7 +35,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.activity_task_overview, container, false);
 
-        ldh = new LocalDatabaseHelper(getActivity());
+        ldh = LocalDatabaseHelper.getInstance(getContext());
         //Assign button listeners to here
         ImageView settingBtn = rootView.findViewById(R.id.settingBtn);
         settingBtn.setOnClickListener(this);
@@ -45,7 +45,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         specificTasks = ldh.specificTasksSortByStartTime(today);//search all specificTasks that start today
 
 
-        adapter = new SpecificTaskOverviewAdapter(specificTasks, ldh, getActivity());
+        adapter = new SpecificTaskOverviewAdapter(specificTasks, getActivity());
         mListView = rootView.findViewById(R.id.taskList);
         mListView.setAdapter(adapter);
         return rootView;

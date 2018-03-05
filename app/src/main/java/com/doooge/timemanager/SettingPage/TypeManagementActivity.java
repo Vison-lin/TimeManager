@@ -30,7 +30,7 @@ public class TypeManagementActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.type_mainpage);
-        ldh = new LocalDatabaseHelper(this);
+        ldh = LocalDatabaseHelper.getInstance(this);
         try {
             typeList = ldh.getAllType();
         }catch (Exception e){

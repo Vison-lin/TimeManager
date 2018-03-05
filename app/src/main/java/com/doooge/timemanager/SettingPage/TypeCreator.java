@@ -30,7 +30,7 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
     private int id;
     private String name;
     private EditText typeName;
-    private LocalDatabaseHelper ldh = new LocalDatabaseHelper(this);
+    private LocalDatabaseHelper ldh = LocalDatabaseHelper.getInstance(this);
     private Type type;
 
 

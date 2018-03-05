@@ -20,24 +20,33 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
     private static final String SPECIFICTASKS_TABLE_NAME = "SpecificTasks_Table";
     private static final String TASKS_TABLE_NAME = "Tasks_Table";
     private static final String TYPES_TABLE_NAME = "Types_Table";
-
     private static final String SPECIFICTASKS_PRIMARY_KEY = "SpecificTask_ID";
     private static final String SPECIFICTASKS_NAME = "SpecificTask_name";
     private static final String SPECIFICTASKS_ISCOMPLETED = "SpecificTask_isCompleted";
     private static final String SPECIFICTASKS_START_DATE = "SpecificTask_startDate";
     private static final String SPECIFICTASKS_END_DATE = "SpecificTask_endDate";
     private static final String SPECIFICTASKS_TYPE = "SpecificTask_type";
-
     private static final String TASKS_PRIMARY_KEY = "Tasks_ID";
     private static final String TASKS_NAME = "Task_name";
     private static final String TASKS_TYPE = "Task_type";
-
     private static final String TYPES_PRIMARY_KEY = "Type_ID";
     private static final String TYPES_NAME = "Type_name";
     private static final String TYPES_COLOR = "Type_color";
+    private static LocalDatabaseHelper sInstance;
 
-    public LocalDatabaseHelper(Context context) {
+    private LocalDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
+    }
+
+    public static synchronized LocalDatabaseHelper getInstance(Context context) {
+
+        // Use the application context, which will ensure that you
+        // don't accidentally leak an Activity's context.
+        // See this article for more information: http://bit.ly/6LRzfx
+        if (sInstance == null) {
+            sInstance = new LocalDatabaseHelper(context.getApplicationContext());
+        }
+        return sInstance;
     }
 
     @Override
