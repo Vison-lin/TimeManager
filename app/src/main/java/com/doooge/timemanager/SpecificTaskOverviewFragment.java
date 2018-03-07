@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -28,22 +29,26 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
     private LocalDatabaseHelper ldh;
     private SpecificTaskOverviewAdapter adapter;
     private ArrayList<SpecificTask> specificTasks;
+    private Button calBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(
+        final ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.activity_task_overview, container, false);
 
         ldh = LocalDatabaseHelper.getInstance(getContext());
         //Assign button listeners to here
         ImageView settingBtn = rootView.findViewById(R.id.settingBtn);
         settingBtn.setOnClickListener(this);
-        ImageView addBtn = rootView.findViewById(R.id.showCalender);
-        addBtn.setOnClickListener(this);
+        calBtn = rootView.findViewById(R.id.showCalender);
+        calBtn.setOnClickListener(this);
+
         Calendar today = Calendar.getInstance();
         specificTasks = ldh.specificTasksSortByStartTime(today);//search all specificTasks that start today
 
+        //Calendar Btn
+        calBtn.setText(today.getTime().toString());
 
         adapter = new SpecificTaskOverviewAdapter(specificTasks, getActivity());
         mListView = rootView.findViewById(R.id.taskList);
@@ -64,7 +69,6 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
             case R.id.showCalender:
                 getSelectedDate();
 
-
                 break;
         }
 
@@ -75,6 +79,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
     public void getSelectedDate() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         final DatePicker picker = new DatePicker(getContext());
+        final Calendar[] finalSelectedCalendar = new Calendar[1];
         builder.setTitle("Create Year");
         builder.setView(picker);
         builder.setNegativeButton("Cancel", null);
@@ -86,6 +91,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
                 specificTasks.clear();
                 specificTasks = ldh.specificTasksSortByStartTime(selectedCalendar);
                 adapter.updateSpecificTaskOverviewAdapter(specificTasks);
+                calBtn.setText(selectedCalendar.getTime().toString());
             }
         });
         builder.setNeutralButton("Go back to today", new DialogInterface.OnClickListener() {
@@ -95,10 +101,22 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
                 specificTasks.clear();
                 specificTasks = ldh.specificTasksSortByStartTime(selectedCalendar);
                 adapter.updateSpecificTaskOverviewAdapter(specificTasks);
+
             }
         });
 
         builder.show();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            if (calBtn != null) {
+                calBtn.setText(Calendar.getInstance().getTime().toString());
+            }
+        } else {
+        }
     }
 
 
