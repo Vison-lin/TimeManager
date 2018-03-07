@@ -50,7 +50,9 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
         if(type!=null){
             name = type.getName();
             typeName.setText(name);
-            delete.setVisibility(View.VISIBLE);
+            if(type.getId()!=-999) {
+                delete.setVisibility(View.VISIBLE);
+            }
             createType.setText("Updated");
             TextView title = findViewById(R.id.titleType);
             title.setText("Updated the Type");
@@ -128,8 +130,10 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
                 Toast.makeText(getApplicationContext(), "choose red success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.deleteType:
+
+
+
                 ldh.deleteTypeTable(type.getId());
-                //TODO FRED: NO TYPE EXCEPTION - - to be discussed in the coming meeting! (Should we have a default but hidden type?)
                 Intent intent = new Intent(TypeCreator.this, TypeManagementActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 this.startActivity(intent);
