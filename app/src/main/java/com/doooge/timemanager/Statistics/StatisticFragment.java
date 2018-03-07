@@ -39,7 +39,7 @@ public class StatisticFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.statistic_page, container, false);
 
-        ldb = new LocalDatabaseHelper(getActivity());
+        ldb = LocalDatabaseHelper.getInstance(getActivity());
         linearLayout = rootView.findViewById(R.id.typeList);
         pieChartHelper = new PieChartHelper(getActivity());
 

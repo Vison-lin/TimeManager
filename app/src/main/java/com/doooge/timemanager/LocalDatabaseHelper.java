@@ -42,7 +42,6 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
 
         // Use the application context, which will ensure that you
         // don't accidentally leak an Activity's context.
-        // See this article for more information: http://bit.ly/6LRzfx
         if (sInstance == null) {
             sInstance = new LocalDatabaseHelper(context.getApplicationContext());
         }
@@ -69,7 +68,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
                 TYPES_PRIMARY_KEY + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 TYPES_NAME + " TEXT NOT NULL," +
                 TYPES_COLOR + " TEXT NOT NULL)");
-        //Default type//TODO TO BE DISCUSSED
+        //Default type
         Type defaultType = new Type("default Type", "-1");//-1 stand for white
         defaultType.setId(-999);
         //insertToTypeTable(defaultType);
@@ -242,7 +241,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      *
      * @param context pass current context
      */
-    //TODO
+    
     public void showAllData(Context context) {
         SQLiteDatabase db = this.getWritableDatabase();
 
