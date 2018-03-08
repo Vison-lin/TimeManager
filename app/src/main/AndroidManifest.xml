@@ -9,21 +9,36 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainPageSlidesAdapter">
-
+        <activity
+            android:name=".MainPageSlidesAdapter"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
-        <activity android:name=".SettingPage.SettingActivity"></activity>
-        <activity android:name=".SettingPage.HelpActivity" />
-        <activity android:name=".SettingPage.TypeCreator" />
-        <activity android:name=".SettingPage.TypeManagementActivity" />
-        <activity android:name=".SpecificTaskCreator" />
+        <activity
+            android:name=".SettingPage.SettingActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+        <activity
+            android:name=".SettingPage.HelpActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+        <activity
+            android:name=".SettingPage.TypeCreator"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+        <activity
+            android:name=".SettingPage.TypeManagementActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+        <activity
+            android:name=".SpecificTaskCreator"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
         <!--activity android:name=".SecondMainPageLauncher" />-->
-        <activity android:name=".SettingPage.TaskManagementActivity" />
+        <activity
+            android:name=".SettingPage.TaskManagementActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
     </application>
+
 
 </manifest>
