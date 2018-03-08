@@ -176,10 +176,24 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      * @return return whether the deletion is successed
      */
     public boolean deleteTypeTable(int id) {
-        //TODO UPDATE BOTH TABLES!
+        updateTaskAndSpecificTaskTableAfterDeletedType(id);
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         long result = sqLiteDatabase.delete(TYPES_TABLE_NAME, TYPES_PRIMARY_KEY + "=" + id, null);
         return result != 0;
+    }
+
+    private void updateTaskAndSpecificTaskTableAfterDeletedType(int typeId) {
+//        try {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues specificTaskContentValues = new ContentValues();
+        specificTaskContentValues.put(SPECIFICTASKS_TYPE, -999);
+        sqLiteDatabase.update(SPECIFICTASKS_TABLE_NAME, specificTaskContentValues, SPECIFICTASKS_TYPE + "=" + typeId, null);
+        ContentValues taskContentValues = new ContentValues();
+        taskContentValues.put(TASKS_TYPE, -999);
+        sqLiteDatabase.update(TASKS_TABLE_NAME, taskContentValues, TASKS_TYPE + "=" + typeId, null);
+//        } catch (Exception n){
+//            throw new IllegalStateException();
+//        }
     }
 
     //UPDATING METHOD FOR THREE TABLES
@@ -241,7 +255,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      *
      * @param context pass current context
      */
-    
+    //TODO
     public void showAllData(Context context) {
         SQLiteDatabase db = this.getWritableDatabase();
 

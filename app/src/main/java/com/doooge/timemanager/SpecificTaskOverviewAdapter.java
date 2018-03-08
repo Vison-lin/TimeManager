@@ -54,8 +54,10 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
         final View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_daily_task_list, viewGroup, false);
         TextView taskName = rowView.findViewById(R.id.taskName);
         TextView taskHour = rowView.findViewById(R.id.taskHour);
+        TextView taskType = rowView.findViewById(R.id.taskType);
         final SpecificTask specificTask = getItem(position);
         taskName.setText(specificTask.getTaskName());
+        taskType.setText(specificTask.getType().getName());
         Calendar start = specificTask.getStartTime();
         Calendar end = specificTask.getEndTime();
         String display = (start.get(Calendar.MONTH)+1) + "." + start.get(Calendar.DAY_OF_MONTH) + " " + start.get(Calendar.HOUR_OF_DAY) + ":" + start.get(Calendar.MINUTE) +

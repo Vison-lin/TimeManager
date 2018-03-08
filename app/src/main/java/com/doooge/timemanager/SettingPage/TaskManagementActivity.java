@@ -64,7 +64,7 @@ public class TaskManagementActivity extends AppCompatActivity {
                     specificTasks = new ArrayList<SpecificTask>();
                     specificTasks = ldh.getAllSpecificTask();
                 } else {
-                    Type selectType = typeList.get(arg2);
+                    Type selectType = typeList.get(arg2 - 1);//because "Show all types" is not in the typeList
                     specificTasks.clear();
                     specificTasks = new ArrayList<SpecificTask>();
                     specificTasks = ldh.findSpecificTasksByType(selectType);

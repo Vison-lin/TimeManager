@@ -130,9 +130,6 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
                 Toast.makeText(getApplicationContext(), "choose red success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.deleteType:
-
-
-
                 ldh.deleteTypeTable(type.getId());
                 Intent intent = new Intent(TypeCreator.this, TypeManagementActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
