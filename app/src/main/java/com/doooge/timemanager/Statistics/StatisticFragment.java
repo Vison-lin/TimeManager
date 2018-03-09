@@ -72,7 +72,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         pieDataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         pieDataSet.setValueFormatter(new PercentFormatter());
         pieDataSet.setValueTextSize(21f);
-        pieDataSet.setColors(R.color.gray, R.color.yellow); //TODO SetColor
+        //pieDataSet.setColors(R.color.gray, R.color.yellow); //TODO SetColor
 
         PieData pieData = new PieData(pieDataSet);
         pieData.setValueTextColor(Color.BLACK);
