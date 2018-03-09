@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.doooge.timemanager.LocalDatabaseHelper;
 import com.doooge.timemanager.R;
@@ -29,12 +31,14 @@ import java.util.Iterator;
  * Created by fredpan on 2018/1/31.
  */
 
-public class StatisticFragment extends Fragment implements OnChartValueSelectedListener {
+public class StatisticFragment extends Fragment implements OnChartValueSelectedListener, View.OnClickListener {
 
     private static PieChart pieChart;
     private static PieDataSet pieDataSet;
     private LinearLayout linearLayout;
     private LocalDatabaseHelper ldb;
+    private ImageButton selectPirChartModel;
+    private TextView pieChartModelSelectionDisplay;
     //Stores all the SpecificTasks with key by type ID.
     private ArrayList<SpecificTask> allSpecificTasks;
     private PieChartHelper pieChartHelper;
@@ -80,14 +84,19 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         pieChart.setData(pieData);
         pieChart.setUsePercentValues(true);
         pieChart.setEntryLabelColor(Color.BLACK);//Set data label color
+        pieChart.setDrawCenterText(false);
 
-        pieChart.setCenterText("Your Time" + "\n" + "Distribution");
-        pieChart.setCenterTextSize(27f);
 
 
         pieChart.invalidate();
         pieChart.setOnChartValueSelectedListener(this);
         pieChartCreation();
+
+        selectPirChartModel = rootView.findViewById(R.id.selectPieChartModel);
+        selectPirChartModel.setOnClickListener(this);
+
+        pieChartModelSelectionDisplay = rootView.findViewById(R.id.pieChartModelSelectionDisplay);
+
         return rootView;
     }
 
@@ -142,6 +151,15 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         }
     }
 
+    /*
+    ######################################################################################
+    ###########################        OnClikcListeners        ###########################
+    ######################################################################################
+     */
+
+    /*
+    OnClikcListener for pieChartSlide
+     */
     @Override
     public void onValueSelected(Entry e, Highlight h) {
         Type type = (Type) e.getData();
@@ -150,8 +168,19 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
     }
 
+    /*
+    OnClikcListener for pieChartSlide
+     */
     @Override
     public void onNothingSelected() {
 
+    }
+
+    /*
+    OnClikcListener for center button
+     */
+    @Override
+    public void onClick(View v) {
+        pieChartModelSelectionDisplay.setText("Your time distribution \n\n\n in a year");
     }
 }
