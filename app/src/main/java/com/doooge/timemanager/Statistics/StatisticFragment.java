@@ -1,5 +1,6 @@
 package com.doooge.timemanager.Statistics;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,8 +15,12 @@ import com.doooge.timemanager.R;
 import com.doooge.timemanager.SpecificTask;
 import com.doooge.timemanager.Type;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,7 +29,7 @@ import java.util.Iterator;
  * Created by fredpan on 2018/1/31.
  */
 
-public class StatisticFragment extends Fragment {
+public class StatisticFragment extends Fragment implements OnChartValueSelectedListener {
 
     private static PieChart pieChart;
     private static PieDataSet pieDataSet;
@@ -57,10 +62,31 @@ public class StatisticFragment extends Fragment {
         allSpecificTasks = ldb.getAllSpecificTask();
         pieDataSet = pieChartHelper.calculatePieChart(allSpecificTasks);
         pieDataSet.setSliceSpace(3f);
+
+        //Draw label outside of pieChart
+        pieDataSet.setValueLinePart1OffsetPercentage(90.f);
+        pieDataSet.setValueLinePart1Length(.5f);
+        pieDataSet.setValueLinePart2Length(.2f);
+        pieDataSet.setValueTextColor(Color.BLACK);
+        pieDataSet.setValueLineColor(Color.BLACK);
+        pieDataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        pieDataSet.setValueFormatter(new PercentFormatter());
+        pieDataSet.setValueTextSize(21f);
+        pieDataSet.setColors(R.color.gray, R.color.yellow); //TODO SetColor
+
         PieData pieData = new PieData(pieDataSet);
+        pieData.setValueTextColor(Color.BLACK);
+        pieData.setValueFormatter(new PercentFormatter());
         pieChart.setData(pieData);
+        pieChart.setUsePercentValues(true);
+        pieChart.setEntryLabelColor(Color.BLACK);//Set data label color
+
+        pieChart.setCenterText("Your Time" + "\n" + "Distribution");
+        pieChart.setCenterTextSize(27f);
+
 
         pieChart.invalidate();
+        pieChart.setOnChartValueSelectedListener(this);
         pieChartCreation();
         return rootView;
     }
@@ -116,4 +142,16 @@ public class StatisticFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onValueSelected(Entry e, Highlight h) {
+        Type type = (Type) e.getData();
+        System.out.println(type == null);
+        //TODO Linechart
+
+    }
+
+    @Override
+    public void onNothingSelected() {
+
+    }
 }

@@ -117,6 +117,7 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
      * @param newSpecificTasks pass a NEW ArrayList with all new elements that need to display on the screen.
      */
     public void updateSpecificTaskOverviewAdapter(ArrayList<SpecificTask> newSpecificTasks) {
+        specificTasks.clear();
         specificTasks = new ArrayList<>(newSpecificTasks);
         this.notifyDataSetChanged();
     }
