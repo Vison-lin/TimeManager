@@ -25,9 +25,9 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
     private Context context;
     private SpecificTask selectedSpecificTask;
 
-    public SpecificTaskOverviewAdapter(ArrayList<SpecificTask> specificTasks, LocalDatabaseHelper ldh, Context context) {
+    public SpecificTaskOverviewAdapter(ArrayList<SpecificTask> specificTasks, Context context) {
         this.specificTasks = specificTasks;
-        this.ldh = ldh;
+        this.ldh = LocalDatabaseHelper.getInstance(context);
         this.context = context;
     }
 
@@ -38,6 +38,7 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
 
     @Override
     public SpecificTask getItem(int position) {
+
         return specificTasks.get(position);
     }
 
@@ -57,8 +58,8 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
         taskName.setText(specificTask.getTaskName());
         Calendar start = specificTask.getStartTime();
         Calendar end = specificTask.getEndTime();
-        String display = (start.get(Calendar.MONTH) + 1) + "." + start.get(Calendar.DAY_OF_MONTH) + " " + start.get(Calendar.HOUR_OF_DAY) + ":" + start.get(Calendar.MINUTE) +
-                " - " + end.get(Calendar.MONTH) + "." + end.get(Calendar.DAY_OF_MONTH) + " " + end.get(Calendar.HOUR_OF_DAY) + ":" + end.get(Calendar.MINUTE);
+        String display = (start.get(Calendar.MONTH)+1) + "." + start.get(Calendar.DAY_OF_MONTH) + " " + start.get(Calendar.HOUR_OF_DAY) + ":" + start.get(Calendar.MINUTE) +
+                " - " + (end.get(Calendar.MONTH)+1) + "." + end.get(Calendar.DAY_OF_MONTH) + " " + end.get(Calendar.HOUR_OF_DAY) + ":" + end.get(Calendar.MINUTE);
         taskHour.setText(display);
 
         rowView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -101,6 +102,10 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
 
             }
         });
+
+
+
+
         return rowView;
     }
 

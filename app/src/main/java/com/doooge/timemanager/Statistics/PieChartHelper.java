@@ -73,7 +73,7 @@ class PieChartHelper {
         while (iterator3.hasNext()) {
             Map.Entry<Integer, Long> tmp = iterator3.next();
             if (totalTimeInMillis != 0) {
-                LocalDatabaseHelper ldb = new LocalDatabaseHelper(activity);
+                LocalDatabaseHelper ldb = LocalDatabaseHelper.getInstance(activity);
                 Type type = ldb.findTypeByPrimaryKey(tmp.getKey());
                 Long totalTimeOfType = tmp.getValue();
                 Float percentage = ((float) totalTimeOfType / totalTimeInMillis);

@@ -37,6 +37,7 @@ public class MainPageSlidesAdapter extends FragmentActivity {
      */
     private PagerAdapter mPagerAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +55,6 @@ public class MainPageSlidesAdapter extends FragmentActivity {
                 mPager.setCurrentItem(1);
             }
         });
-
     }
 
     @Override
@@ -69,11 +69,13 @@ public class MainPageSlidesAdapter extends FragmentActivity {
         }
     }
 
+
     /**
      * A simple pager adapter that represents 3 ScreenSlidePageFragment objects, in sequence.
      */
     private class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
         List<String> fragments = new ArrayList<>();
+
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
             fragments.add(StatisticFragment.class.getName());
@@ -84,7 +86,7 @@ public class MainPageSlidesAdapter extends FragmentActivity {
         @Override
         public Fragment getItem(int position) {
 
-           return Fragment.instantiate(getApplicationContext(),fragments.get(position));
+            return Fragment.instantiate(getApplicationContext(), fragments.get(position));
         }
 
         @Override
@@ -92,5 +94,4 @@ public class MainPageSlidesAdapter extends FragmentActivity {
             return NUM_PAGES;
         }
     }
-
 }

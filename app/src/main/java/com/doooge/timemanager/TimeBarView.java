@@ -117,6 +117,8 @@ public class TimeBarView extends View {
         paint = new Paint();
         startPoint = new Point(0, 0);
         endPoint = new Point(0, 0);
+        progressStart  =0;
+        progressEnd  = 0;
 
 
         TypedArray mTypedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundProgressBar);

@@ -1,6 +1,5 @@
 package com.doooge.timemanager.SettingPage;
 
-import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.doooge.timemanager.LocalDatabaseHelper;
 import com.doooge.timemanager.R;
 import com.doooge.timemanager.SpecificTask;
 import com.doooge.timemanager.SpecificTaskCreator;
@@ -21,15 +19,11 @@ import java.util.ArrayList;
  */
 
 public class TaskManagementAdapter extends BaseAdapter {
-    LocalDatabaseHelper ldh;
     private ArrayList<SpecificTask> specificTasks;
-    private Context context;
 
 
-    public TaskManagementAdapter(ArrayList<SpecificTask> specificTasks, LocalDatabaseHelper ldh, Context context) {
+    public TaskManagementAdapter(ArrayList<SpecificTask> specificTasks) {
         this.specificTasks = specificTasks;
-        this.ldh = ldh;
-        this.context = context;
     }
 
     @Override
@@ -67,4 +61,13 @@ public class TaskManagementAdapter extends BaseAdapter {
         return rowView;
     }
 
+    /**
+     * This method is used for updating Adapter's view. One should call this method right after one changed the content.
+     *
+     * @param newSpecificTasks pass a NEW ArrayList with all new elements that need to display on the screen.
+     */
+    public void updateSpecificTaskOverviewAdapter(ArrayList<SpecificTask> newSpecificTasks) {
+        specificTasks = new ArrayList<>(newSpecificTasks);
+        this.notifyDataSetChanged();
+    }
 }

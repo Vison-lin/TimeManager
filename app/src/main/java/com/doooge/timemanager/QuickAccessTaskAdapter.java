@@ -17,16 +17,15 @@ import java.util.ArrayList;
  */
 
 public class QuickAccessTaskAdapter extends BaseAdapter {
-    private Context mContext;
     private ArrayList<Task> tasks;
     private Context context;
     private LocalDatabaseHelper ldh;
 
 
-    public QuickAccessTaskAdapter(ArrayList<Task> tasks, Context context, LocalDatabaseHelper ldh) {
+    public QuickAccessTaskAdapter(ArrayList<Task> tasks, Context context) {
         this.tasks = tasks;
         this.context = context;
-        this.ldh = ldh;
+        this.ldh = LocalDatabaseHelper.getInstance(context);
     }
 
     @Override
