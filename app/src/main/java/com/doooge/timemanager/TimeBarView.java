@@ -4,11 +4,14 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
@@ -123,11 +126,11 @@ public class TimeBarView extends View {
         TypedArray mTypedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundProgressBar);
 
         //Gets the customer property and default values.
-        roundColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundColor, Color.GREEN);
-        roundProgressColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundProgressColor, Color.GRAY);
-        roundWidth = mTypedArray.getDimension(R.styleable.RoundProgressBar_roundWidth, 20);
+        roundColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundColor, Color.BLACK);
+        roundProgressColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundProgressColor, getResources().getColor(R.color.event_color_01));
+        roundWidth = mTypedArray.getDimension(R.styleable.RoundProgressBar_roundWidth, 70);
         textColor = mTypedArray.getColor(R.styleable.RoundProgressBar_textColor, Color.BLUE);
-        textSize = mTypedArray.getDimension(R.styleable.RoundProgressBar_textSize_round, 50);
+        textSize = mTypedArray.getDimension(R.styleable.RoundProgressBar_textSize_round, 60);
         max = mTypedArray.getInteger(R.styleable.RoundProgressBar_imageMax, 1440);
         mTypedArray.recycle();
 
@@ -164,15 +167,22 @@ public class TimeBarView extends View {
         /**
          * draw the circle
          */
+        setLayerType(LAYER_TYPE_SOFTWARE, null);
+        //LinearGradient shader = new LinearGradient(0, 0, 800, 800, Color.BLACK, Color.BLACK, Shader.TileMode.REPEAT);
+        //paint.setShader(shader);
+        paint.setMaskFilter(new BlurMaskFilter(10, BlurMaskFilter.Blur.OUTER));
         paint.setColor(roundColor);
         paint.setStyle(Paint.Style.STROKE);
+
         paint.setStrokeWidth(roundWidth);
         paint.setAntiAlias(true);
+        paint.setDither(true);
         canvas.drawCircle(centerX, centerY, radius, paint);
 
         /**
          * draw the text of time
          */
+        paint = new Paint();
         paint.setStrokeWidth(0);
         paint.setColor(textColor);
         paint.setTextSize(textSize);
@@ -194,20 +204,18 @@ public class TimeBarView extends View {
         /**
          * draw arc and the process bar
          */
+        paint = new Paint();
+        paint.setMaskFilter(new BlurMaskFilter(60, BlurMaskFilter.Blur.INNER));
         paint.setStrokeWidth(roundWidth);
         paint.setColor(roundProgressColor);
         RectF oval = new RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
-
         paint.setStyle(Paint.Style.STROKE);
-        System.out.println(progressStart+"================");
-        System.out.println(progressEnd+"=======end=========");
         if (progressStart >= progressEnd) {
 
             canvas.drawArc(oval, 360 * progressEnd / max + 270, 360 * (progressStart - progressEnd) / max, false, paint);
         } else if (progressStart < progressEnd) {
             canvas.drawArc(oval, 360 * progressEnd / max + 270, 360 * (max - progressEnd + progressStart) / max, false, paint);
         }
-
 
         PointF progressStartPoint = ChartUtil.calcArcEndPointXY(centerX, centerY, radius, 360 * progressStart / max, 270);
         PointF progressEndPoint = ChartUtil.calcArcEndPointXY(centerX, centerY, radius, 360 * progressEnd / max, 270);
@@ -220,11 +228,6 @@ public class TimeBarView extends View {
         startPoint.setY(progressStartPoint.y);
         endPoint.setX(progressEndPoint.x);
         endPoint.setY(progressEndPoint.y);
-//        pointStartX = progressStartPoint.x;
-//        pointStartY = progressStartPoint.y;
-//        pointEndX = progressEndPoint.x;
-//        pointEndY = progressEndPoint.y;
-
 
         if (downOnStart && !downOnEnd) {
             canvas.translate(startPoint.getX(), startPoint.getY());
@@ -251,7 +254,6 @@ public class TimeBarView extends View {
             canvas.translate(startPoint.getX(), startPoint.getY());
             thumbStart.draw(canvas);
         }
-
 
         canvas.restore();
     }
@@ -287,13 +289,6 @@ public class TimeBarView extends View {
                 downOnStart = false;
                 downOnEnd = false;
                 invalidate();
-//                if (changeListener != null) {
-//                    changeListener.onProgressChangeEnd(max, progressStart);
-//                    changeListener.onProgressChangeEnd(max, progressEnd);
-//                }
-//                if (timeListener != null) {
-//                    timeListener.execute();
-//                }
                 break;
         }
         return super.onTouchEvent(event);
