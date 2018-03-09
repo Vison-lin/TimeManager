@@ -4,20 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_weight="3"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/taskcreator_backgound">
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
         android:orientation="vertical">
 
 
         <EditText
             android:id="@+id/taskName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:ems="10"
             android:hint="Enter the task name:"
             android:inputType="text"
@@ -27,7 +28,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
         android:orientation="vertical">
 
 
@@ -38,41 +40,27 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/startDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:text="StartDate:" />
-
-            <TextView
                 android:id="@+id/startDatePrint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:clickable="true"
-                android:text="                 click to choose" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/endDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="EndDate:   " />
+                android:text="2018.3.7"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/endDatePrint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:text="NULL" />
+                android:text="2018.3.7"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:textStyle="bold|italic" />
         </LinearLayout>
     </LinearLayout>
 
@@ -89,39 +77,25 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/startTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="StartTime:" />
-
-            <TextView
                 android:id="@+id/startTimePrint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:text="00:00" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/endTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Endtime:   " />
+                android:text="00:00"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/endTimePrint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:layout_weight="1"
-                android:text="00:00" />
+                android:text="00:00"
+                android:textColor="@color/blue"
+                android:textStyle="bold" />
+
         </LinearLayout>
 
     </LinearLayout>
@@ -143,21 +117,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Choose task type:" />
+                android:text="Choose task type:"
+                android:textColor="@color/gray"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/typeColor"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/back"
-                 />
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:background="@drawable/back" />
 
             <Spinner
                 android:id="@+id/mSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="3" />
         </LinearLayout>
     </LinearLayout>
 
@@ -173,8 +149,6 @@
             android:layout_height="match_parent"
 
 
-
-
             />
 
     </LinearLayout>
@@ -186,33 +160,38 @@
 
         android:orientation="vertical">
 
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="This is a frequent tasks" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:orientation="horizontal">
-        <Button
-            android:id="@+id/submitButton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="addTaskSecondStyle"
-            android:text="Button"
-            tools:layout_editor_absoluteY="46dp" />
 
-        <Button
-            android:id="@+id/deleteButton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Delete" />
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                style="@style/CheckBox"/>
+
+            <Button
+                android:id="@+id/deleteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="Delete" />
+
+            <Button
+                android:id="@+id/submitButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:onClick="addTaskSecondStyle"
+                android:text="Button" />
+
         </LinearLayout>
     </LinearLayout>
 
