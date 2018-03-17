@@ -25,7 +25,7 @@ class PieChartHelper {
     private final Activity activity;
     private PieDataSet pieDataSet;
 
-    public PieChartHelper(Activity activity) {
+    PieChartHelper(Activity activity) {
         this.activity = activity;
     }
 
@@ -38,13 +38,13 @@ class PieChartHelper {
             Pair<Type, Float> next = iterator.next();
             Type temp = next.first;
             float percentage = next.second;
-            pieEntry.add(new PieEntry(percentage, temp.getName()));
+            pieEntry.add(new PieEntry(percentage, temp.getName(), temp));
         }
         pieDataSet = new PieDataSet(pieEntry, "The PieChart For Selected Type of Tasks");
         return pieDataSet;
     }
 
-    public ArrayList<Pair<Type, Float>> calPercentage(ArrayList<SpecificTask> specificTasks) {
+    private ArrayList<Pair<Type, Float>> calPercentage(ArrayList<SpecificTask> specificTasks) {
 
         Iterator<SpecificTask> iterator1 = specificTasks.iterator();
         ArrayList<Pair<Type, Float>> specificTasksWithPercentage = new ArrayList<>();
