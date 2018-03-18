@@ -49,8 +49,8 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         calBtn = rootView.findViewById(R.id.showCalender);
         calBtn.setOnClickListener(this);
 
-        pageTitle = rootView.findViewById(R.id.activityTitleText);
         Calendar today = Calendar.getInstance();
+        pageTitle = rootView.findViewById(R.id.activityTitleText);
         specificTasks = ldh.specificTasksSortByStartTime(today);//search all specificTasks that start today
 
         //calBtn init & change text

@@ -20,9 +20,10 @@ public class CalendarHelper {
      * This method is used for converting Calendar Object to String in UTC format.
      */
     public static String convertCal2UTC(Calendar calendar) {
-        calendar.setTimeZone(TimeZone.getTimeZone("GMT"));//convert Date into UTC format
+        TimeZone timeZone = calendar.getTimeZone();
         Date time = calendar.getTime();
         DateFormat outputFmt = SimpleDateFormat.getDateTimeInstance();
+        outputFmt.setTimeZone(timeZone);//convert current calendar's time into standard GMT + 00:00
         return outputFmt.format(time);
     }
 
@@ -38,7 +39,7 @@ public class CalendarHelper {
         Calendar calendar = Calendar.getInstance();
         try {
             calendar.setTime(outputFmt.parse(utc));
-            calendar.setTimeZone(TimeZone.getTimeZone("GMT"));
+            calendar.setTimeZone(TimeZone.getDefault());//adjust time based on system timeZone (from GMT + 00:00)
         } catch (ParseException e) {
             e.printStackTrace();
         }
