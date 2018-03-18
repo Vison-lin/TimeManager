@@ -232,7 +232,6 @@
                             android:layout_gravity="bottom"
                             android:layout_margin="5dp"
                             android:background="@drawable/addbutton1"
-                            android:onClick="addTaskSecondStyle"
                             android:scaleType="fitXY" />
 
                     </FrameLayout>

@@ -38,7 +38,11 @@ public class TypeManagementAdapter extends ArrayAdapter<Type> {
         Button typeButton = view.findViewById(R.id.typeItem);
         typeButton.setText(type.getName());
         int color = Integer.parseInt(type.getColor());
-        typeButton.getBackground().setColorFilter(new LightingColorFilter(color, color));
+        if(color==parent.getResources().getColor(R.color.violet)){
+            typeButton.setBackground(parent.getResources().getDrawable(R.drawable.btn_bkdg_purple));
+        }else {
+            typeButton.getBackground().setColorFilter(new LightingColorFilter(color, color));
+        }
 
         //TODO Vison: onClick to go to TaskManagement to display all the SpecificTasks that belongs to this type (Hint: dB: ldh.findSpecificTasksByType() )
         typeButton.setOnLongClickListener(new View.OnLongClickListener() {
@@ -54,6 +58,8 @@ public class TypeManagementAdapter extends ArrayAdapter<Type> {
                 return false;
             }
         });
+
+
 
         return view;
     }

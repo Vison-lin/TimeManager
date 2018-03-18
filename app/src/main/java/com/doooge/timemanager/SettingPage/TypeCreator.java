@@ -1,6 +1,7 @@
 package com.doooge.timemanager.SettingPage;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,7 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
     private Button violet;
     private Button red;
     private int color ;
+    private Drawable color1;
     private int id;
     private String name;
     private EditText typeName;
@@ -102,7 +104,6 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
             case R.id.blue_type:
                 reSetchoose();
                 color = getResources().getColor(R.color.blue);
-                System.out.println("==="+color);
                 blue.setBackground(getResources().getDrawable(R.drawable.blue_button_roundedge_choosed));
                 Toast.makeText(getApplicationContext(), "choose blue success !", Toast.LENGTH_SHORT).show();
                 break;
@@ -123,8 +124,9 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
             case R.id.violet_type:
                 reSetchoose();
                 color = getResources().getColor(R.color.violet);
-                violet.setBackground(getResources().getDrawable(R.drawable.violet_button_roundedge_choosed));
-                Toast.makeText(getApplicationContext(), "choose violet success !", Toast.LENGTH_SHORT).show();
+                violet.setBackground(getResources().getDrawable(R.drawable.btn_bkdg_purple));
+                //violet.setBackground(getResources().getDrawable(R.drawable.violet_button_roundedge_choosed));
+                //Toast.makeText(getApplicationContext(), "choose violet success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.red_type:
                 reSetchoose();
