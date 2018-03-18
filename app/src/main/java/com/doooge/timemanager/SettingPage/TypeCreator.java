@@ -102,17 +102,20 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
             case R.id.blue_type:
                 reSetchoose();
                 color = getResources().getColor(R.color.blue);
+                System.out.println("==="+color);
                 blue.setBackground(getResources().getDrawable(R.drawable.blue_button_roundedge_choosed));
                 Toast.makeText(getApplicationContext(), "choose blue success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.green_type:
                 reSetchoose();
-                color = getResources().getColor(R.color.green);
+
+                color = R.color.green;System.out.println("==="+color);
                 green.setBackground(getResources().getDrawable(R.drawable.green_button_roundedge_choosed));
                 Toast.makeText(getApplicationContext(), "choose green success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.yellow_type:
                 reSetchoose();
+                System.out.println("==="+color);
                 color = getResources().getColor(R.color.yellow);
                 yellow.setBackground(getResources().getDrawable(R.drawable.yellow_button_roundedge_choosed));
                 Toast.makeText(getApplicationContext(), "choose yellow success !", Toast.LENGTH_SHORT).show();

@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -42,7 +43,8 @@ public class SpecificTaskCreator extends AppCompatActivity {
     private TimePickerDialogInterface timePickerDialogInterface;
     private TextView startDate;
     private TextView endDate;
-    private CheckBox checkBox;
+    private ImageButton checkBox;
+    private Boolean check =false;
     private Context context;
     private Task task;
     private  SpecificTask specificTask;
@@ -51,6 +53,8 @@ public class SpecificTaskCreator extends AppCompatActivity {
     private Spinner mSpinner;
     private ArrayAdapter<String> mAdapter;
     private Type type;
+    private Button submit;
+    private Button delete;
 
     @Override
 
@@ -71,6 +75,8 @@ public class SpecificTaskCreator extends AppCompatActivity {
         endDate = findViewById(R.id.endDatePrint);
         startDate = findViewById(R.id.startDatePrint);
         typeList = ldh.getAllType();
+        submit = findViewById(R.id.submitButton);
+        delete = findViewById(R.id.deleteButton);
 
         calStart = Calendar.getInstance();
         calEnd = Calendar.getInstance();
@@ -139,10 +145,21 @@ public class SpecificTaskCreator extends AppCompatActivity {
                 return handler;
             }
         });
-        Button submit = findViewById(R.id.submitButton);
-        Button delete = findViewById(R.id.deleteButton);
+
         checkBox = findViewById(R.id.checkBox);
         checkBox.setVisibility(View.INVISIBLE);
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(check==false){
+                    check =true;
+                    checkBox.setBackground(getResources().getDrawable(R.drawable.checkboxclicked));
+                }else{
+                    check =false;
+                    checkBox.setBackground(getResources().getDrawable(R.drawable.checkboxclick));
+                }
+            }
+        });
 
         if (task != null && specificTask == null) {//Users are from QuickAccessTask page
             delete.setVisibility(View.GONE);//GONE: Affect the page format
@@ -244,7 +261,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
             //Add to Task table if user selected the checkBox
 
-            if ((checkBox.getVisibility() == View.VISIBLE) && checkBox.isChecked()) {
+            if ((checkBox.getVisibility() == View.VISIBLE) && check) {
                 Task task = specificTask;
                 ldh.insertToTaskTable(task);
             }
