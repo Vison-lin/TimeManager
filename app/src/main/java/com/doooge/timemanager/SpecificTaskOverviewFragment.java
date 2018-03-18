@@ -167,7 +167,8 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         } else {
             taskStatus = "Tasks";
         }
-        pageTitle.setText(taskStatus + " in " + month + ". " + day + " " + year);
+        pageTitle.setText("Daily " + taskStatus);
+        //pageTitle.setText(taskStatus + " in " + month + ". " + day + " " + year);
     }
 
 
