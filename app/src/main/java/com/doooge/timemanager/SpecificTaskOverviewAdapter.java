@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -54,15 +55,18 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
         final View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_daily_task_list, viewGroup, false);
         TextView taskName = rowView.findViewById(R.id.taskName);
         TextView taskHour = rowView.findViewById(R.id.taskHour);
-        TextView taskType = rowView.findViewById(R.id.taskType);
+        Button taskType = rowView.findViewById(R.id.typeBtn);
         final SpecificTask specificTask = getItem(position);
+
         taskName.setText(specificTask.getTaskName());
-        taskType.setText(specificTask.getType().getName());
+        taskType.setText(String.format("%s", specificTask.getType().getName().substring(0, 2)));
         Calendar start = specificTask.getStartTime();
         Calendar end = specificTask.getEndTime();
         String display = (start.get(Calendar.MONTH)+1) + "." + start.get(Calendar.DAY_OF_MONTH) + " " + start.get(Calendar.HOUR_OF_DAY) + ":" + start.get(Calendar.MINUTE) +
                 " - " + (end.get(Calendar.MONTH)+1) + "." + end.get(Calendar.DAY_OF_MONTH) + " " + end.get(Calendar.HOUR_OF_DAY) + ":" + end.get(Calendar.MINUTE);
         taskHour.setText(display);
+
+        rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_incomp));
 
         rowView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -82,15 +86,18 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
 
             }
         });
+
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean success;
                 if (specificTask.isCompletedInBoolean()) {// If currently is completed and will be marked as incomplete
                     specificTask.setCompleted(0);
+                    rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_comp));
                     success = ldh.updateSpecificTaskTable(specificTask);
                 } else {// If currently is incomplete and will be marked as completed
                     specificTask.setCompleted(1);
+                    rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_incomp));
                     success = ldh.updateSpecificTaskTable(specificTask);
                 }
                 if (!success) {
@@ -99,15 +106,9 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
                 }
-
             }
         });
-
-
-
-
         return rowView;
     }
 
@@ -132,8 +133,6 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
         specificTasks.add(selectedSpecificTask);
         notifyDataSetChanged();
     }
-
-
 
 }
 

@@ -18,4 +18,6 @@
     <color name="toolbar_text">#8f000000</color>
     <color name="accent">#2789e4</color>
     <color name="gray">#9999CC</color>
+    <color name="task_comp">#C8E6C9</color>
+    <color name="task_incomp">#FFF9C4</color>
 </resources>

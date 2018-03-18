@@ -1,43 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/taskcreator_backgound">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="106dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/typeBtn"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp"
+            android:layout_marginTop="10sp"
+            android:background="@drawable/btn_bkgd_blue"
+            android:text="Wo"
+            android:textSize="30sp" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/taskName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TaskName"
-                android:textSize="24sp" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10sp"
+                android:text="taskName"
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/taskHour"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TaskHour"
-                android:textSize="24sp" />
 
-            <TextView
-                android:id="@+id/taskType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TaskType"
-                android:textSize="24sp" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="taskHour"
+                android:textSize="20sp" />
         </LinearLayout>
 
 
