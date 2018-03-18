@@ -56,7 +56,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         //calBtn init & change text
         calMonth = rootView.findViewById(R.id.calMonth);
         calDay = rootView.findViewById(R.id.calDay);
-        //System.out.println("!!!!!!!!!!!!!!!!!"+calMonth==null);
+
         updateCalBtnText(today);
         updatePageTitle(today);
         adapter = new SpecificTaskOverviewAdapter(specificTasks, getActivity());
