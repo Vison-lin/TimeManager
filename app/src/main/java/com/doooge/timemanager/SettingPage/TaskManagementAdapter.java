@@ -54,6 +54,7 @@ public class TaskManagementAdapter extends BaseAdapter {
                 Intent intent = new Intent(viewGroup.getContext(), SpecificTaskCreator.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("givenSpecificTask", specificTask);
+                intent.putExtra("taskManagement","taskManagement");
                 viewGroup.getContext().startActivity(intent);
 
             }

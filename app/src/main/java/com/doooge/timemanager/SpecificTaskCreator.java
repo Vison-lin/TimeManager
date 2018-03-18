@@ -18,6 +18,8 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.doooge.timemanager.SettingPage.TaskManagementActivity;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -48,13 +50,13 @@ public class SpecificTaskCreator extends AppCompatActivity {
     private Context context;
     private Task task;
     private  SpecificTask specificTask;
+    private String taskManagement;
     private List<Type> typeList;
     private List<String> mList;
     private Spinner mSpinner;
     private ArrayAdapter<String> mAdapter;
     private Type type;
-    private Button submit;
-    private Button delete;
+    private boolean update;
 
     @Override
 
@@ -68,6 +70,8 @@ public class SpecificTaskCreator extends AppCompatActivity {
         task = (Task) getIntent().getSerializableExtra("givenTask");
         //Going from SpecificTaskOverViewAdapter
        specificTask = (SpecificTask) getIntent().getSerializableExtra("givenSpecificTask");
+       taskManagement=(String)getIntent().getSerializableExtra("taskManagement");
+
         setContentView(R.layout.taskcreator);
 
         ldh = LocalDatabaseHelper.getInstance(this);
@@ -75,8 +79,9 @@ public class SpecificTaskCreator extends AppCompatActivity {
         endDate = findViewById(R.id.endDatePrint);
         startDate = findViewById(R.id.startDatePrint);
         typeList = ldh.getAllType();
-        submit = findViewById(R.id.submitButton);
-        delete = findViewById(R.id.deleteButton);
+        Button submit = findViewById(R.id.submitButton);
+        Button delete = findViewById(R.id.deleteButton);
+        update =false;
 
         calStart = Calendar.getInstance();
         calEnd = Calendar.getInstance();
@@ -168,7 +173,8 @@ public class SpecificTaskCreator extends AppCompatActivity {
             taskName.setText(task.getTaskName());
             typeList.add(task.getType());
         } else if (specificTask != null && task == null) {//Users are from Main page or TaskManagement page
-
+            update = true;
+            submit.setBackground(getResources().getDrawable(R.drawable.update));
             delete.setVisibility(View.VISIBLE);
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -194,7 +200,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                  addTask(v);
-                //addTaskSecondStyle(v);
             }
         });
 
@@ -225,7 +230,23 @@ public class SpecificTaskCreator extends AppCompatActivity {
                     type = typeList.get(arg2);
                     TextView typeColor = findViewById(R.id.typeColor);
                     int color = Integer.parseInt(type.getColor());
-                    typeColor.getBackground().setColorFilter(new LightingColorFilter(color, color));
+                    if(color==getResources().getColor(R.color.violet)){
+                        typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkdg_purple));
+                    }else if(color==-1){
+                        typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_default));
+                    }else if(color==getResources().getColor(R.color.green)){
+                        typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_green));
+                    }else if(color==getResources().getColor(R.color.blue)){
+                        typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_blue));
+                    }else if(color==getResources().getColor(R.color.red)){
+                        typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_red));
+                    }else if(color==getResources().getColor(R.color.yellow)){
+                        typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_yellow));
+                    }
+                    else {
+                        typeColor.getBackground().setColorFilter(new LightingColorFilter(color, color));
+                    }
+
                     arg0.setVisibility(View.VISIBLE);
                 }
                 public void onNothingSelected(AdapterView<?> arg0) {
@@ -257,7 +278,11 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
             SpecificTask specificTask = new SpecificTask(userName, calStart, calEnd);
             specificTask.setType(type);
-            ldh.insertToSpecificTaskTable(specificTask);
+            if(update){
+                ldh.updateSpecificTaskTable(specificTask);
+            }else {
+                ldh.insertToSpecificTaskTable(specificTask);
+            }
 
             //Add to Task table if user selected the checkBox
 
@@ -265,10 +290,18 @@ public class SpecificTaskCreator extends AppCompatActivity {
                 Task task = specificTask;
                 ldh.insertToTaskTable(task);
             }
+            if(taskManagement!=null){
+                Intent intent = new Intent(context, TaskManagementActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                context.startActivity(intent);
 
-            Intent intent = new Intent(context, MainPageSlidesAdapter.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            context.startActivity(intent);
+            }else {
+
+                Intent intent = new Intent(context, MainPageSlidesAdapter.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                context.startActivity(intent);
+
+            }
 
         }
     }

@@ -40,11 +40,31 @@ public class TypeManagementAdapter extends ArrayAdapter<Type> {
         int color = Integer.parseInt(type.getColor());
         if(color==parent.getResources().getColor(R.color.violet)){
             typeButton.setBackground(parent.getResources().getDrawable(R.drawable.btn_bkdg_purple));
-        }else {
+        }else if(color==-1){
+            typeButton.setBackground(parent.getResources().getDrawable(R.drawable.btn_bkgd_default));
+        }else if(color==parent.getResources().getColor(R.color.green)){
+            typeButton.setBackground(parent.getResources().getDrawable(R.drawable.btn_bkgd_green));
+        }else if(color==parent.getResources().getColor(R.color.blue)){
+            typeButton.setBackground(parent.getResources().getDrawable(R.drawable.btn_bkgd_blue));
+        }else if(color==parent.getResources().getColor(R.color.red)){
+            typeButton.setBackground(parent.getResources().getDrawable(R.drawable.btn_bkgd_red));
+        }else if(color==parent.getResources().getColor(R.color.yellow)){
+            typeButton.setBackground(parent.getResources().getDrawable(R.drawable.btn_bkgd_yellow));
+        }
+        else {
             typeButton.getBackground().setColorFilter(new LightingColorFilter(color, color));
         }
 
-        //TODO Vison: onClick to go to TaskManagement to display all the SpecificTasks that belongs to this type (Hint: dB: ldh.findSpecificTasksByType() )
+        typeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(context,TaskManagementActivity.class);
+                intent.putExtra("TypeInfo",type);
+                context.startActivity(intent);
+            }
+        });
+
+
         typeButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {

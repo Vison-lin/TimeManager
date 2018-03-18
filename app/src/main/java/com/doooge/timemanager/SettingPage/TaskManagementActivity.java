@@ -25,6 +25,7 @@ public class TaskManagementActivity extends AppCompatActivity {
     private ArrayList<SpecificTask> specificTasks;
     private LocalDatabaseHelper ldh;
     private Spinner mSpinner;
+    private Type type;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,8 +33,12 @@ public class TaskManagementActivity extends AppCompatActivity {
         setContentView(R.layout.activity_all_specifictasks);
 
         ldh = LocalDatabaseHelper.getInstance(this);
-        specificTasks = ldh.getAllSpecificTask();
-
+        type = (Type)getIntent().getSerializableExtra("TypeInfo");
+        if(type!=null) {
+            specificTasks = ldh.findSpecificTasksByType(type);
+        }else {
+            specificTasks = ldh.getAllSpecificTask();
+        }
         adapter = new TaskManagementAdapter(specificTasks);
         mListView = findViewById(R.id.taskList);
         mListView.setAdapter(adapter);
