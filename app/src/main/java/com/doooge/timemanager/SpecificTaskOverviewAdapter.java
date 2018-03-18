@@ -66,8 +66,6 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
                 " - " + (end.get(Calendar.MONTH)+1) + "." + end.get(Calendar.DAY_OF_MONTH) + " " + end.get(Calendar.HOUR_OF_DAY) + ":" + end.get(Calendar.MINUTE);
         taskHour.setText(display);
 
-        rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_incomp));
-
         rowView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
