@@ -8,33 +8,34 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="9">
-
+        <!--<ImageButton-->
+        <!--android:id="@+id/selectPieChartModel"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--/>-->
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true" />
 
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
-
-            <ImageButton
-                android:id="@+id/selectPieChartModel"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <TextView
-                android:id="@+id/pieChartModelSelectionDisplay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="TIME DISTRIBUTION\nBY YEAR"
-                android:textSize="21dp" />
+        <!--<FrameLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true">-->
 
 
-        </FrameLayout>
+        <!--<TextView-->
+        <!--android:id="@+id/pieChartModelSelectionDisplay"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:gravity="center"-->
+        <!--android:text="TIME DISTRIBUTION\nBY YEAR"-->
+        <!--android:textSize="21dp" />-->
+
+
+        <!--</FrameLayout>-->
     </RelativeLayout>
 
     <LinearLayout

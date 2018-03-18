@@ -1,16 +1,20 @@
 package com.doooge.timemanager.Statistics;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.doooge.timemanager.LocalDatabaseHelper;
 import com.doooge.timemanager.R;
@@ -22,6 +26,8 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.ChartTouchListener;
+import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.util.ArrayList;
@@ -31,14 +37,15 @@ import java.util.Iterator;
  * Created by fredpan on 2018/1/31.
  */
 
-public class StatisticFragment extends Fragment implements OnChartValueSelectedListener, View.OnClickListener {
+public class StatisticFragment extends Fragment implements OnChartValueSelectedListener, OnChartGestureListener {
 
     private static PieChart pieChart;
     private static PieDataSet pieDataSet;
     private LinearLayout linearLayout;
     private LocalDatabaseHelper ldb;
     private ImageButton selectPirChartModel;
-    private TextView pieChartModelSelectionDisplay;
+    private float holeRadius;
+    //private TextView pieChartModelSelectionDisplay;
     //Stores all the SpecificTasks with key by type ID.
     private ArrayList<SpecificTask> allSpecificTasks;
     private PieChartHelper pieChartHelper;
@@ -63,7 +70,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         //PIECHART
         pieChart = rootView.findViewById(R.id.pieChart);
         //Show all types' percentages
-        allSpecificTasks = ldb.getAllSpecificTask();
+        allSpecificTasks = ldb.getAllSpecificTask();//todo Maybe changed to default: show by month then enable users to choose different range
         pieDataSet = pieChartHelper.calculatePieChart(allSpecificTasks);
         pieDataSet.setSliceSpace(3f);
 
@@ -84,18 +91,24 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         pieChart.setData(pieData);
         pieChart.setUsePercentValues(true);
         pieChart.setEntryLabelColor(Color.BLACK);//Set data label color
-        pieChart.setDrawCenterText(false);
+        pieChart.setDrawCenterText(true);
+        pieChart.setCenterText("Time distribution \nBy Month");
 
-
+        holeRadius = pieChart.getHoleRadius();//size of button should be
 
         pieChart.invalidate();
         pieChart.setOnChartValueSelectedListener(this);
+        pieChart.setOnChartGestureListener(this);
         pieChartCreation();
 
-        selectPirChartModel = rootView.findViewById(R.id.selectPieChartModel);
-        selectPirChartModel.setOnClickListener(this);
+        //selectPirChartModel = rootView.findViewById(R.id.selectPieChartModel);
+        //selectPirChartModel.setOnClickListener(this);
+//        int width= Math.round(holeRadius)*2;
+//        int heigth= Math.round(holeRadius)*2;
+//        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width, heigth);
+//        selectPirChartModel.setLayoutParams(layoutParams);
 
-        pieChartModelSelectionDisplay = rootView.findViewById(R.id.pieChartModelSelectionDisplay);
+        //pieChartModelSelectionDisplay = rootView.findViewById(R.id.pieChartModelSelectionDisplay);
 
         return rootView;
     }
@@ -163,8 +176,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
     @Override
     public void onValueSelected(Entry e, Highlight h) {
         Type type = (Type) e.getData();
-        System.out.println(type == null);
-        //TODO Linechart
+        //TODO Linechart (maybe next version)
 
     }
 
@@ -176,11 +188,95 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
     }
 
+
+    @Override
+    public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
+        System.out.println("1111");
+    }
+
+    @Override
+    public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
+        System.out.println("2222");
+    }
+
     /*
     OnClikcListener for center button
-     */
+    */
     @Override
-    public void onClick(View v) {
-        pieChartModelSelectionDisplay.setText("Your time distribution \n\n\n in a year");
+    public void onChartLongPressed(MotionEvent me) {//safely enough to implemented as a button
+        // Instantiate an AlertDialog.Builder with its constructor
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+
+        // Chain together various setter methods to set the dialog characteristics
+        builder.setMessage(R.string.select_shown_data_range_message);
+
+        // Add the buttons
+        builder.setPositiveButton(R.string.shownDataByYear, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                pieChart.setCenterText("Time distribution \nBy Year");
+                pieChart.invalidate();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton(R.string.shownDataByMonth, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                pieChart.setCenterText("Time distribution \nBy Month");
+                pieChart.invalidate();
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNeutralButton(R.string.shownDataByDay, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                pieChart.setCenterText("Time distribution \nBy Day");
+                pieChart.invalidate();
+                dialog.dismiss();
+            }
+        });
+
+        // Get the AlertDialog from create()
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        //set positions for three btns:
+        final Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        LinearLayout.LayoutParams positiveButtonLL = (LinearLayout.LayoutParams) positiveButton.getLayoutParams();
+        positiveButtonLL.gravity = Gravity.CENTER;
+        positiveButton.setLayoutParams(positiveButtonLL);
+
+        final Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+        LinearLayout.LayoutParams negativeButtonLL = (LinearLayout.LayoutParams) negativeButton.getLayoutParams();
+        negativeButtonLL.gravity = Gravity.CENTER;
+        negativeButton.setLayoutParams(negativeButtonLL);
+
+        final Button neutralButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+        LinearLayout.LayoutParams neutralButtonLL = (LinearLayout.LayoutParams) neutralButton.getLayoutParams();
+        neutralButtonLL.gravity = Gravity.CENTER;
+        neutralButton.setLayoutParams(neutralButtonLL);
+    }
+
+    @Override
+    public void onChartDoubleTapped(MotionEvent me) {
+        System.out.println("4444");
+    }
+
+    @Override
+    public void onChartSingleTapped(MotionEvent me) {
+        System.out.println("5555");
+    }
+
+    @Override
+    public void onChartFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
+        System.out.println("666");
+    }
+
+    @Override
+    public void onChartScale(MotionEvent me, float scaleX, float scaleY) {
+        System.out.println("777");
+    }
+
+    @Override
+    public void onChartTranslate(MotionEvent me, float dX, float dY) {
+        System.out.println("888");
     }
 }
