@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 
 
 /**
@@ -488,5 +489,25 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(TYPES_TABLE_NAME, null, null, null, null, null, null);
         return findTypeByCursor(cursor);
+    }
+
+    public ArrayList<SpecificTask> findSpecificTasksByType(ArrayList<Type> types) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String[] typeID = new String[types.size()];
+        String selection = SPECIFICTASKS_TYPE + " =?";
+        Iterator<Type> iterator = types.iterator();
+        if (types.size() == 0) {
+            throw new IndexOutOfBoundsException();//Always have at least one type
+        }
+        typeID[0] = iterator.next().getId() + "";
+        int i = 1;
+        while (iterator.hasNext()) {
+            String singleTypeID = iterator.next().getId() + "";
+            typeID[i] = singleTypeID;
+            selection = selection + "OR " + SPECIFICTASKS_TYPE + " =?";
+            i++;
+        }
+        Cursor cursor = db.query(SPECIFICTASKS_TABLE_NAME, null, selection, typeID, null, null, SPECIFICTASKS_START_DATE + " ASC");
+        return findSpecificTaskByCursor(cursor);
     }
 }

@@ -5,16 +5,20 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.doooge.timemanager.LocalDatabaseHelper;
 import com.doooge.timemanager.R;
@@ -45,6 +49,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
     private LocalDatabaseHelper ldb;
     private ImageButton selectPirChartModel;
     private float holeRadius;
+    //private Context context;
     //private TextView pieChartModelSelectionDisplay;
     //Stores all the SpecificTasks with key by type ID.
     private ArrayList<SpecificTask> allSpecificTasks;
@@ -70,20 +75,10 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         //PIECHART
         pieChart = rootView.findViewById(R.id.pieChart);
         //Show all types' percentages
+        //TODO select by Time Period
         allSpecificTasks = ldb.getAllSpecificTask();//todo Maybe changed to default: show by month then enable users to choose different range
         pieDataSet = pieChartHelper.calculatePieChart(allSpecificTasks);
         pieDataSet.setSliceSpace(3f);
-
-        //Draw label outside of pieChart
-        pieDataSet.setValueLinePart1OffsetPercentage(90.f);
-        pieDataSet.setValueLinePart1Length(.5f);
-        pieDataSet.setValueLinePart2Length(.2f);
-        pieDataSet.setValueTextColor(Color.BLACK);
-        pieDataSet.setValueLineColor(Color.BLACK);
-        pieDataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
-        pieDataSet.setValueFormatter(new PercentFormatter());
-        pieDataSet.setValueTextSize(21f);
-        //pieDataSet.setColors(R.color.gray, R.color.yellow); //TODO SetColor
 
         PieData pieData = new PieData(pieDataSet);
         pieData.setValueTextColor(Color.BLACK);
@@ -93,22 +88,14 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         pieChart.setEntryLabelColor(Color.BLACK);//Set data label color
         pieChart.setDrawCenterText(true);
         pieChart.setCenterText("Time distribution \nBy Month");
+        pieChart.setCenterTextSize(33f);
 
         holeRadius = pieChart.getHoleRadius();//size of button should be
 
         pieChart.invalidate();
         pieChart.setOnChartValueSelectedListener(this);
         pieChart.setOnChartGestureListener(this);
-        pieChartCreation();
 
-        //selectPirChartModel = rootView.findViewById(R.id.selectPieChartModel);
-        //selectPirChartModel.setOnClickListener(this);
-//        int width= Math.round(holeRadius)*2;
-//        int heigth= Math.round(holeRadius)*2;
-//        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width, heigth);
-//        selectPirChartModel.setLayoutParams(layoutParams);
-
-        //pieChartModelSelectionDisplay = rootView.findViewById(R.id.pieChartModelSelectionDisplay);
 
         return rootView;
     }
@@ -191,12 +178,12 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
     @Override
     public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
-        System.out.println("1111");
+        //System.out.println("1111");
     }
 
     @Override
     public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
-        System.out.println("2222");
+        // System.out.println("2222");
     }
 
     /*
@@ -205,78 +192,165 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
     @Override
     public void onChartLongPressed(MotionEvent me) {//safely enough to implemented as a button
         // Instantiate an AlertDialog.Builder with its constructor
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
 
-        // Chain together various setter methods to set the dialog characteristics
-        builder.setMessage(R.string.select_shown_data_range_message);
+        final ArrayList<Type> selectedtypes = new ArrayList<>();
 
-        // Add the buttons
-        builder.setPositiveButton(R.string.shownDataByYear, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                pieChart.setCenterText("Time distribution \nBy Year");
-                pieChart.invalidate();
+        final ArrayAdapter<Type> arrayAdapter = new ArrayAdapter<Type>(this.getContext(), android.R.layout.select_dialog_multichoice);
+
+        final ArrayList<Type> types = ldb.getAllType();
+        //ArrayList<String> typeNameWithID = new ArrayList<>();
+        Iterator<Type> iterator = types.iterator();
+        while (iterator.hasNext()) {
+            Type type = iterator.next();
+            arrayAdapter.add(type);
+            //typeNameWithID.add(type.getName()+"@")
+        }
+
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
+        alertBuilder.setTitle("Please select the types you want to see:");
+        alertBuilder.setAdapter(arrayAdapter, null);
+        alertBuilder.setPositiveButton("Ok", null);
+        alertBuilder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
         });
-        builder.setNegativeButton(R.string.shownDataByMonth, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                pieChart.setCenterText("Time distribution \nBy Month");
-                pieChart.invalidate();
-                dialog.dismiss();
+        final AlertDialog alertDialog = alertBuilder.create();
+
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+            @Override
+            public void onShow(final DialogInterface dialog) {
+
+                Button positiveBtn = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                positiveBtn.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        if (selectedtypes.size() == 0) {//user selected nothing
+                            Toast.makeText(getContext(), "Please choose at least one type!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            ArrayList<SpecificTask> specificTasks = ldb.findSpecificTasksByType(selectedtypes);
+                            allSpecificTasks.clear();
+                            allSpecificTasks = specificTasks;
+                            PieDataSet newPieDataSet = pieChartHelper.calculatePieChart(allSpecificTasks);
+                            newPieDataSet.setSliceSpace(3f);
+                            PieData newPieData = new PieData(newPieDataSet);
+                            pieChart.setData(newPieData);
+                            pieChart.notifyDataSetChanged();
+                            pieChart.invalidate();
+                            dialog.dismiss();
+                        }
+
+                    }
+
+                });
             }
         });
 
-        builder.setNeutralButton(R.string.shownDataByDay, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                pieChart.setCenterText("Time distribution \nBy Day");
-                pieChart.invalidate();
-                dialog.dismiss();
+        alertDialog.getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        //todo pre-select all the shown type
+        alertDialog.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // check the checkbox state
+                CheckedTextView checkedTextView = ((CheckedTextView) view);
+                boolean checked = checkedTextView.isChecked();
+                Type type = (Type) parent.getItemAtPosition(position);
+                if (checked) {
+                    selectedtypes.add(type);
+                }
+                if (!checked) {
+                    boolean foundAndRemoved = selectedtypes.remove(type);
+                    if (!foundAndRemoved) {
+                        throw new IllegalStateException();
+                    }
+
+
+                }
+
+
             }
         });
 
-        // Get the AlertDialog from create()
-        AlertDialog dialog = builder.create();
-        dialog.show();
 
-        //set positions for three btns:
-        final Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-        LinearLayout.LayoutParams positiveButtonLL = (LinearLayout.LayoutParams) positiveButton.getLayoutParams();
-        positiveButtonLL.gravity = Gravity.CENTER;
-        positiveButton.setLayoutParams(positiveButtonLL);
-
-        final Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-        LinearLayout.LayoutParams negativeButtonLL = (LinearLayout.LayoutParams) negativeButton.getLayoutParams();
-        negativeButtonLL.gravity = Gravity.CENTER;
-        negativeButton.setLayoutParams(negativeButtonLL);
-
-        final Button neutralButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
-        LinearLayout.LayoutParams neutralButtonLL = (LinearLayout.LayoutParams) neutralButton.getLayoutParams();
-        neutralButtonLL.gravity = Gravity.CENTER;
-        neutralButton.setLayoutParams(neutralButtonLL);
+        alertDialog.show();
     }
+
+
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+//
+//        // Chain together various setter methods to set the dialog characteristics
+//        builder.setMessage(R.string.select_shown_data_range_message);
+//
+//        // Add the buttons
+//        builder.setPositiveButton(R.string.shownDataByYear, new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//                pieChart.setCenterText("Time distribution \nBy Year");
+//                pieChart.invalidate();
+//                dialog.dismiss();
+//            }
+//        });
+//        builder.setNegativeButton(R.string.shownDataByMonth, new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//                pieChart.setCenterText("Time distribution \nBy Month");
+//                pieChart.invalidate();
+//                dialog.dismiss();
+//            }
+//        });
+//
+//        builder.setNeutralButton(R.string.shownDataByDay, new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//                pieChart.setCenterText("Time distribution \nBy Day");
+//                pieChart.invalidate();
+//                dialog.dismiss();
+//            }
+//        });
+//
+//        // Get the AlertDialog from create()
+//        AlertDialog dialog = builder.create();
+//        dialog.show();
+//
+//        //set positions for three btns:
+//        final Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+//        LinearLayout.LayoutParams positiveButtonLL = (LinearLayout.LayoutParams) positiveButton.getLayoutParams();
+//        positiveButtonLL.gravity = Gravity.CENTER;
+//        positiveButton.setLayoutParams(positiveButtonLL);
+//
+//        final Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+//        LinearLayout.LayoutParams negativeButtonLL = (LinearLayout.LayoutParams) negativeButton.getLayoutParams();
+//        negativeButtonLL.gravity = Gravity.CENTER;
+//        negativeButton.setLayoutParams(negativeButtonLL);
+//
+//        final Button neutralButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+//        LinearLayout.LayoutParams neutralButtonLL = (LinearLayout.LayoutParams) neutralButton.getLayoutParams();
+//        neutralButtonLL.gravity = Gravity.CENTER;
+//        neutralButton.setLayoutParams(neutralButtonLL);
+
 
     @Override
     public void onChartDoubleTapped(MotionEvent me) {
-        System.out.println("4444");
+        //System.out.println("4444");
     }
 
     @Override
     public void onChartSingleTapped(MotionEvent me) {
-        System.out.println("5555");
+        //System.out.println("5555");
     }
 
     @Override
     public void onChartFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
-        System.out.println("666");
+        //System.out.println("666");
     }
 
     @Override
     public void onChartScale(MotionEvent me, float scaleX, float scaleY) {
-        System.out.println("777");
+        //System.out.println("777");
     }
 
     @Override
     public void onChartTranslate(MotionEvent me, float dX, float dY) {
-        System.out.println("888");
+        //System.out.println("888");
     }
 }
