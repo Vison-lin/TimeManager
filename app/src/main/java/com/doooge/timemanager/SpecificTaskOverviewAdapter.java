@@ -93,11 +93,11 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
                 boolean success;
                 if (specificTask.isCompletedInBoolean()) {// If currently is completed and will be marked as incomplete
                     specificTask.setCompleted(0);
-                    rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_comp));
+                    rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_incomp));
                     success = ldh.updateSpecificTaskTable(specificTask);
                 } else {// If currently is incomplete and will be marked as completed
                     specificTask.setCompleted(1);
-                    rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_incomp));
+                    rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_comp));
                     success = ldh.updateSpecificTaskTable(specificTask);
                 }
                 if (!success) {
