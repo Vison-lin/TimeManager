@@ -5,15 +5,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/taskcreator_backgound"
         android:orientation="vertical">
 
         <Button
             android:id="@+id/taskTypeBtn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="20dp"
             android:layout_weight="1"
-            android:background="@drawable/back"
-            android:layout_margin="20dp"/>
+            android:background="@drawable/back" />
 
     </LinearLayout>
 </RelativeLayout>
