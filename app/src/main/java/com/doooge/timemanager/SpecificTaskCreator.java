@@ -50,6 +50,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
     private Context context;
     private Task task;
     private  SpecificTask specificTask;
+    private SpecificTask specificTask_new;
     private String taskManagement;
     private List<Type> typeList;
     private List<String> mList;
@@ -276,18 +277,22 @@ public class SpecificTaskCreator extends AppCompatActivity {
             taskName.setBackground(getResources().getDrawable(R.drawable.back_red));
         } else {
 
-            SpecificTask specificTask = new SpecificTask(userName, calStart, calEnd);
-            specificTask.setType(type);
+
             if(update){
+                specificTask.setTaskName(userName);
+                specificTask.setStartTime(calStart);
+                specificTask.setEndTime(calEnd);
                 ldh.updateSpecificTaskTable(specificTask);
             }else {
-                ldh.insertToSpecificTaskTable(specificTask);
+                specificTask_new = new SpecificTask(userName, calStart, calEnd);
+                specificTask_new.setType(type);
+                ldh.insertToSpecificTaskTable(specificTask_new);
             }
 
             //Add to Task table if user selected the checkBox
 
             if ((checkBox.getVisibility() == View.VISIBLE) && check) {
-                Task task = specificTask;
+                Task task = specificTask_new;
                 ldh.insertToTaskTable(task);
             }
             if(taskManagement!=null){
