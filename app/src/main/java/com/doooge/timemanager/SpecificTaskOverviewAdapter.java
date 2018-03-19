@@ -57,18 +57,18 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
         TextView taskHour = rowView.findViewById(R.id.taskHour);
         Button taskType = rowView.findViewById(R.id.typeBtn);
         final SpecificTask specificTask = getItem(position);
-        int color =Integer.parseInt(specificTask.getType().getColor());
-        if(color==viewGroup.getResources().getColor(R.color.violet)){
-            taskType.setBackground(viewGroup.getResources().getDrawable(R.drawable.btn_bkdg_purple));
-        }else if(color==-1){
+        int color = Integer.parseInt(specificTask.getType().getColor());
+        if (color == viewGroup.getResources().getColor(R.color.violet)) {
+            taskType.setBackground(viewGroup.getResources().getDrawable(R.drawable.btn_bkgd_purple));
+        } else if (color == -1) {
             taskType.setBackground(viewGroup.getResources().getDrawable(R.drawable.btn_bkgd_default));
-        }else if(color==viewGroup.getResources().getColor(R.color.green)){
+        } else if (color == viewGroup.getResources().getColor(R.color.green)) {
             taskType.setBackground(viewGroup.getResources().getDrawable(R.drawable.btn_bkgd_green));
-        }else if(color==viewGroup.getResources().getColor(R.color.blue)){
+        } else if (color == viewGroup.getResources().getColor(R.color.blue)) {
             taskType.setBackground(viewGroup.getResources().getDrawable(R.drawable.btn_bkgd_blue));
-        }else if(color==viewGroup.getResources().getColor(R.color.red)){
+        } else if (color == viewGroup.getResources().getColor(R.color.red)) {
             taskType.setBackground(viewGroup.getResources().getDrawable(R.drawable.btn_bkgd_red));
-        }else if(color==viewGroup.getResources().getColor(R.color.yellow)){
+        } else if (color == viewGroup.getResources().getColor(R.color.yellow)) {
             taskType.setBackground(viewGroup.getResources().getDrawable(R.drawable.btn_bkgd_yellow));
         }
 
