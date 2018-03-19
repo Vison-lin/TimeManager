@@ -110,7 +110,7 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
             case R.id.green_type:
                 reSetchoose();
 
-                color = R.color.green;System.out.println("==="+color);
+                color = getResources().getColor(R.color.green);
                 green.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_green_choosed));
                 Toast.makeText(getApplicationContext(), "choose green success !", Toast.LENGTH_SHORT).show();
                 break;

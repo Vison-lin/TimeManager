@@ -74,7 +74,11 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
 
 
         taskName.setText(specificTask.getTaskName());
-        taskType.setText(String.format("%s", specificTask.getType().getName().substring(0, 2)));
+        if(specificTask.getType().getName().length()<=1){
+            taskType.setText(String.format("%s", specificTask.getType().getName().substring(0, 1)));
+        }else {
+            taskType.setText(String.format("%s", specificTask.getType().getName().substring(0, 2)));
+        }
         Calendar start = specificTask.getStartTime();
         Calendar end = specificTask.getEndTime();
         String display = (start.get(Calendar.MONTH)+1) + "." + start.get(Calendar.DAY_OF_MONTH) + " " + start.get(Calendar.HOUR_OF_DAY) + ":" + start.get(Calendar.MINUTE) +
