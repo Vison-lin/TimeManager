@@ -1,6 +1,7 @@
 package com.doooge.timemanager.SettingPage;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,7 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
     private Button violet;
     private Button red;
     private int color ;
+    private Drawable color1;
     private int id;
     private String name;
     private EditText typeName;
@@ -102,35 +104,39 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
             case R.id.blue_type:
                 reSetchoose();
                 color = getResources().getColor(R.color.blue);
-                blue.setBackground(getResources().getDrawable(R.drawable.blue_button_roundedge_choosed));
+                blue.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_blue_choosed));
                 Toast.makeText(getApplicationContext(), "choose blue success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.green_type:
                 reSetchoose();
-                color = getResources().getColor(R.color.green);
-                green.setBackground(getResources().getDrawable(R.drawable.green_button_roundedge_choosed));
+
+                color = R.color.green;System.out.println("==="+color);
+                green.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_green_choosed));
                 Toast.makeText(getApplicationContext(), "choose green success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.yellow_type:
                 reSetchoose();
+                System.out.println("==="+color);
                 color = getResources().getColor(R.color.yellow);
-                yellow.setBackground(getResources().getDrawable(R.drawable.yellow_button_roundedge_choosed));
+                yellow.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_yellow_choosed));
                 Toast.makeText(getApplicationContext(), "choose yellow success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.violet_type:
                 reSetchoose();
                 color = getResources().getColor(R.color.violet);
-                violet.setBackground(getResources().getDrawable(R.drawable.violet_button_roundedge_choosed));
-                Toast.makeText(getApplicationContext(), "choose violet success !", Toast.LENGTH_SHORT).show();
+                violet.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_purple_choosed));
+                //violet.setBackground(getResources().getDrawable(R.drawable.violet_button_roundedge_choosed));
+                //Toast.makeText(getApplicationContext(), "choose violet success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.red_type:
                 reSetchoose();
                 color = getResources().getColor(R.color.red);
-                red.setBackground(getResources().getDrawable(R.drawable.red_button_roundedge_choosed));
+                red.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_red_choosed));
                 Toast.makeText(getApplicationContext(), "choose red success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.deleteType:
                 ldh.deleteTypeTable(type.getId());
+
                 Intent intent = new Intent(TypeCreator.this, TypeManagementActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 this.startActivity(intent);
@@ -139,11 +145,11 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
     }
 
     public void reSetchoose(){
-        blue.setBackground(getResources().getDrawable(R.drawable.blue_button_roundedge));
-        green.setBackground(getResources().getDrawable(R.drawable.green_button_roundedge));
-        yellow.setBackground(getResources().getDrawable(R.drawable.yellow_button_roundedge));
-        violet.setBackground(getResources().getDrawable(R.drawable.violet_button_roundedge));
-        red.setBackground(getResources().getDrawable(R.drawable.red_button_roundedge));
+        blue.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_blue));
+        green.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_green));
+        yellow.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_yellow));
+        violet.setBackground(getResources().getDrawable(R.drawable.btn_bkdg_purple));
+        red.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_red));
 
     }
 

@@ -230,12 +230,12 @@ public class TimeBarView extends View {
         endPoint.setY(progressEndPoint.y);
 
         if (downOnStart && !downOnEnd) {
-            canvas.translate(startPoint.getX(), startPoint.getY());
-            thumbStartPress.draw(canvas);
-            canvas.restore();
-            canvas.save();
             canvas.translate(endPoint.getX(), endPoint.getY());
             thumbEnd.draw(canvas);
+            canvas.restore();
+            canvas.save();
+            canvas.translate(startPoint.getX(), startPoint.getY());
+            thumbStartPress.draw(canvas);
 
         } else if (downOnEnd && !downOnStart) {
             canvas.translate(endPoint.getX(), endPoint.getY());

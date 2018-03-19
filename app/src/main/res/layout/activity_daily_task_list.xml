@@ -16,6 +16,7 @@
             android:layout_height="80dp"
             android:layout_marginLeft="10sp"
             android:layout_marginRight="10sp"
+            android:layout_marginTop="10sp"
             android:background="@drawable/btn_bkgd_blue"
             android:text="Wo"
             android:textSize="30sp" />
@@ -42,7 +43,6 @@
                 android:layout_height="match_parent"
                 android:text="taskHour"
                 android:textSize="20sp" />
-
         </LinearLayout>
 
 
