@@ -90,7 +90,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         final DatePicker picker = new DatePicker(getContext());
         final Calendar[] finalSelectedCalendar = new Calendar[1];
-        builder.setTitle("Create Year");
+        builder.setTitle("Create Year");//todo
         builder.setView(picker);
         builder.setNegativeButton("Cancel", null);
         builder.setPositiveButton("Select", new DialogInterface.OnClickListener() {
@@ -103,6 +103,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
                 adapter.updateSpecificTaskOverviewAdapter(specificTasks);
                 updateCalBtnText(selectedCalendar);
                 updatePageTitle(selectedCalendar);
+                //todo upadte statistic page
             }
         });
         builder.setNeutralButton("Go back to today", new DialogInterface.OnClickListener() {
