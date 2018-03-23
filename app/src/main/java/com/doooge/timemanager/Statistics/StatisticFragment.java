@@ -13,10 +13,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.doooge.timemanager.CalendarHelper;
 import com.doooge.timemanager.LocalDatabaseHelper;
 import com.doooge.timemanager.R;
 import com.doooge.timemanager.SpecificTask;
@@ -31,6 +34,7 @@ import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -87,7 +91,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         pieChart.setUsePercentValues(true);
         pieChart.setEntryLabelColor(Color.BLACK);//Set data label color
         pieChart.setDrawCenterText(true);
-        pieChart.setCenterText("Time distribution \nBy Month");
+        pieChart.setCenterText("Time distribution");
         pieChart.setCenterTextSize(33f);
 
         holeRadius = pieChart.getHoleRadius();//size of button should be
@@ -101,19 +105,17 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
     /*
     Update the data based on the given start and end date
-     *///TODO
+     */
     private void updatePieChart(Calendar start, Calendar end) {
-//        ArrayList<SpecificTask> specificTasks = ldb.findSpecificTasksByTypes();
-//        allSpecificTasks.clear();
-//        allSpecificTasks = specificTasks;
-//        PieDataSet newPieDataSet = pieChartHelper.calculatePieChart(allSpecificTasks);
-//        newPieDataSet.setSliceSpace(3f);
-//        PieData newPieData = new PieData(newPieDataSet);
-//        pieChart.setData(newPieData);
-//        pieChart.notifyDataSetChanged();
-//        pieChart.invalidate();
-        ArrayList<SpecificTask> a = ldb.findSpecificTasksByTime(start, end);
-        System.out.println(a.size());
+        ArrayList<SpecificTask> specificTasks = ldb.findSpecificTasksByTime(start, end);
+        allSpecificTasks.clear();
+        allSpecificTasks = specificTasks;
+        PieDataSet newPieDataSet = pieChartHelper.calculatePieChart(allSpecificTasks);
+        newPieDataSet.setSliceSpace(3f);
+        PieData newPieData = new PieData(newPieDataSet);
+        pieChart.setData(newPieData);
+        pieChart.notifyDataSetChanged();
+        pieChart.invalidate();
     }
 
     /*
@@ -261,6 +263,13 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
     @Override
     public void onClick(View v) {
 
+        final Calendar[] start = {Calendar.getInstance()};
+        final Calendar[] end = {Calendar.getInstance()};
+        final Button startDay;
+        final Button endDay;
+        final TextView duration;
+
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -272,7 +281,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        updatePieChart(Calendar.getInstance(), Calendar.getInstance());//todo change to real one
+                        updatePieChart(start[0], end[0]);
                     }
                 })
                 .setNegativeButton("Cancel", null)
@@ -280,34 +289,111 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         final AlertDialog dialog = builder.create();
         dialog.show();
 
-        // Show by past week todo
+        startDay = dialog.findViewById(R.id.startDayChoosed);
+        startDay.setText(CalendarHelper.convertCal2UTC(Calendar.getInstance()).substring(0, 10));//by default display today's data only
+        startDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                start[0] = displayAndGetSelectedDate(0);
+            }
+        });
+
+        endDay = dialog.findViewById(R.id.endDayChoosed);
+        endDay.setText(CalendarHelper.convertCal2UTC(Calendar.getInstance()).substring(0, 10));//by default display today's data only
+        endDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                end[0] = displayAndGetSelectedDate(1);
+            }
+        });
+
+        duration = dialog.findViewById(R.id.durationDisplay);
+        duration.setText("-------------");
+
+        //Show by today
+        final Button neutralButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);//Shown Today Only (DEFAULT)
+        neutralButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                start[0] = Calendar.getInstance();
+                end[0] = Calendar.getInstance();
+                //update the UI
+                startDay.setText(CalendarHelper.convertCal2UTC(start[0]).substring(0, 10));
+                endDay.setText(CalendarHelper.convertCal2UTC(end[0]).substring(0, 10));
+            }
+        });
+
+        // Show by past week
         final Button showByWeek = dialog.findViewById(R.id.showByWeek);
         showByWeek.setText(R.string.shownDataInPastWeek);
         showByWeek.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Year");
+                start[0] = Calendar.getInstance();
+                start[0].add(Calendar.DAY_OF_YEAR, -6);//6 days since dB include start day and end day!
+                end[0] = Calendar.getInstance();
+                //update the UI
+                startDay.setText(CalendarHelper.convertCal2UTC(start[0]).substring(0, 10));
+                endDay.setText(CalendarHelper.convertCal2UTC(end[0]).substring(0, 10));
             }
         });
 
-        //Show by past Month todo
+        //Show by past month
         final Button showByMonth = dialog.findViewById(R.id.showByMonth);
         showByMonth.setText(R.string.shownDataInPastMonth);
         showByMonth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Month");
+                start[0] = Calendar.getInstance();
+                start[0].add(Calendar.MONTH, -1);//last month
+                start[0].add(Calendar.DAY_OF_YEAR, 1);//but one day further
+                end[0] = Calendar.getInstance();
+                //update the UI
+                startDay.setText(CalendarHelper.convertCal2UTC(start[0]).substring(0, 10));
+                endDay.setText(CalendarHelper.convertCal2UTC(end[0]).substring(0, 10));
             }
         });
+    }
 
-        //Show by past week todo
+    /**
+     * @param title 0 for start picker title while 1 for end picker title
+     * @return Calendar instance
+     */
+    private Calendar displayAndGetSelectedDate(int title) {
+        final Calendar[] selectedCalendar = {Calendar.getInstance()};
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        final DatePicker picker = new DatePicker(getContext());
+        if (title == 0) {
+            builder.setTitle(R.string.durationStartPickerTitle);
+        } else if (title == 1) {
+            builder.setTitle(R.string.durationEndPickerTitle);
+        } else {
+            throw new InvalidParameterException();
+        }
+
+        builder.setView(picker);
+        builder.setNegativeButton("Cancel", null);
+        builder.setPositiveButton("Select", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                selectedCalendar[0].set(picker.getYear(), picker.getMonth(), picker.getDayOfMonth());
+            }
+        });
+        builder.setNeutralButton("Go back to today", null);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
         final Button neutralButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);//Shown Today Only (DEFAULT)
         neutralButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Calendar today = Calendar.getInstance();
+                //refresh the view to point users to today
+                picker.updateDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH));
             }
         });
 
+        return selectedCalendar[0];
     }
 }

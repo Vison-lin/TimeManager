@@ -435,7 +435,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
      */
     public ArrayList<SpecificTask> findSpecificTasksByTime(Calendar day) {
         String calendarInString = CalendarHelper.convertCal2UTC(day);
-        String calendarInDay = calendarInString.substring(0, 10);//build up a subString in the form of yyyy-mm-dd. Example: 1993-08-21.//todo
+        String calendarInDay = calendarInString.substring(0, 10);//build up a subString in the form of yyyy-mm-dd. Example: 1993-08-21.
         SQLiteDatabase db = this.getWritableDatabase();
         String selection = SPECIFICTASKS_START_DATE + " LIKE ?";
         Cursor cursor = db.query(SPECIFICTASKS_TABLE_NAME, null, selection, new String[]{"%" + calendarInDay + "%"}, null, null, SPECIFICTASKS_START_DATE + " ASC");
@@ -531,36 +531,30 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * get a collection of SpecificTasks that start and end in the given period of time
+     * get a collection of SpecificTasks that start and end in the given period of time (start day and end day are all INCLUSIVE)
      *
-     * @param start The start time that the collection of SpecificTasks you are looking for
-     * @param end   The end time that the collection of SpecificTakss you are looking for
+     * @param start The start time (INCLUSIVE) that the collection of SpecificTasks you are looking for
+     * @param end   The end time (INCLUSIVE) that the collection of SpecificTakss you are looking for
      * @return ArrayList of SpecificTask Objects that start and end in the given period of time
-     *///todo =================
+     * @exception IllegalStateException: start day must be the same as or before the end day!
+     */
     public ArrayList<SpecificTask> findSpecificTasksByTime(Calendar start, Calendar end) {
-        start.set(Calendar.HOUR_OF_DAY, 0);
-        start.set(Calendar.MINUTE, 0);
-        start.set(Calendar.SECOND, 0);
-
-        end.set(Calendar.HOUR_OF_DAY, 0);
-        end.set(Calendar.MINUTE, 0);
-        end.set(Calendar.SECOND, 0);
 
         String startCalendarInString = CalendarHelper.convertCal2UTC(start);
         String startCalendarInDay = startCalendarInString.substring(0, 10);//build up a subString in the form of yyyy-mm-dd. Example: 1993-08-21.
-        System.out.println(startCalendarInDay);
 
         String endCalendarInString = CalendarHelper.convertCal2UTC(end);
         String endCalendarInDay = endCalendarInString.substring(0, 10);//build up a subString in the form of yyyy-mm-dd. Example: 1993-08-21.
-        System.out.println(endCalendarInDay);
+
+        if (startCalendarInDay.compareTo(endCalendarInDay) > 0) {
+            throw new IllegalStateException();
+        }
 
         SQLiteDatabase db = this.getWritableDatabase();
         String selection = "strftime('%Y-%m-%d'," + SPECIFICTASKS_START_DATE + ") BETWEEN ? AND ? ";
         String[] dayCondition = new String[2];
         dayCondition[0] = startCalendarInDay;
         dayCondition[1] = endCalendarInDay;
-        //todo DEBUG
-        //rawQuery: Cursor cursor = db.rawQuery("SELECT * FROM " + SPECIFICTASKS_TABLE_NAME + " WHERE "+SPECIFICTASKS_START_DATE + " BETWEEN " +startCalendarInDay+" AND "+endCalendarInDay,null);
         Cursor cursor = db.query(SPECIFICTASKS_TABLE_NAME, null, selection, dayCondition, null, null, SPECIFICTASKS_START_DATE + " ASC");
         return findSpecificTaskByCursor(cursor);
     }

@@ -33,4 +33,6 @@
     <string name="shownDataInPastMonth">Show in past month</string>
     <string name="shownDataInToday">Show Today Only</string>
     <string name="select_shown_data_range_message">Please select the range of data you want to see:</string>
+    <string name="durationStartPickerTitle">Please choose the start day:</string>
+    <string name="durationEndPickerTitle">Please choose the end day:</string>
 </resources>

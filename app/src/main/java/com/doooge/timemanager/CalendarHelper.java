@@ -45,6 +45,7 @@ public class CalendarHelper {
         return calendar;
     }
 
+
     /**
      * Used for converting NumberPickerDialog's users' choice into real Minutes.
      * Note: Only used for converting NumberPickerDialog only!

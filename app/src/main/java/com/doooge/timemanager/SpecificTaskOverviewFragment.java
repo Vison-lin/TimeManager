@@ -89,7 +89,6 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
     public void getSelectedDate() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         final DatePicker picker = new DatePicker(getContext());
-        final Calendar[] finalSelectedCalendar = new Calendar[1];
         builder.setTitle("Create Year");//todo
         builder.setView(picker);
         builder.setNegativeButton("Cancel", null);
@@ -98,11 +97,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
             public void onClick(DialogInterface dialog, int which) {
                 Calendar selectedCalendar = Calendar.getInstance();
                 selectedCalendar.set(picker.getYear(), picker.getMonth(), picker.getDayOfMonth());
-                specificTasks.clear();
-                specificTasks = ldh.findSpecificTasksByTime(selectedCalendar);
-                adapter.updateSpecificTaskOverviewAdapter(specificTasks);
-                updateCalBtnText(selectedCalendar);
-                updatePageTitle(selectedCalendar);
+                updateView(selectedCalendar);
                 //todo upadte statistic page
             }
         });
@@ -110,11 +105,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Calendar selectedCalendar = Calendar.getInstance();
-                specificTasks.clear();
-                specificTasks = ldh.findSpecificTasksByTime(selectedCalendar);
-                adapter.updateSpecificTaskOverviewAdapter(specificTasks);
-                updateCalBtnText(selectedCalendar);
-                updatePageTitle(selectedCalendar);
+                updateView(selectedCalendar);
 
             }
         });
@@ -125,10 +116,10 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        //once user switch to other page, user will ge given today's task(s) after then went back
         if (isVisibleToUser) {
             if (calBtn != null) {
-                updateCalBtnText(Calendar.getInstance());
-                updatePageTitle(Calendar.getInstance());
+                updateView(Calendar.getInstance());//switch back to today
             }
         } else {
         }
@@ -150,15 +141,15 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
 
     private void updatePageTitle(Calendar calendar) {
         SimpleDateFormat getMonth = new SimpleDateFormat("MMMM");
-        String month = getMonth.format(calendar.getTime());
+        String month = getMonth.format(calendar.getTime());//todo delete if unused
         if (month.equals("September")) {
             month = month.substring(0, 4);
         } else {
             month = month.substring(0, 3);
         }
-        month = month.toUpperCase();
-        String day = calendar.get(Calendar.DAY_OF_MONTH) + "";
-        String year = calendar.get(Calendar.YEAR) + "";
+        month = month.toUpperCase();//todo delete if unused
+        String day = calendar.get(Calendar.DAY_OF_MONTH) + "";//todo delete if unused
+        String year = calendar.get(Calendar.YEAR) + "";//todo delete if unused
         String taskStatus;
         int numOfSpecificTask = specificTasks.size();
         if (numOfSpecificTask < 0) {
@@ -170,6 +161,19 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         }
         pageTitle.setText("Daily " + taskStatus);
         //pageTitle.setText(taskStatus + " in " + month + ". " + day + " " + year);
+    }
+
+    /**
+     * update the whole fragment view
+     *
+     * @param calendar the day to be shown
+     */
+    private void updateView(Calendar calendar) {
+        specificTasks.clear();
+        specificTasks = ldh.findSpecificTasksByTime(calendar);
+        adapter.updateSpecificTaskOverviewAdapter(specificTasks);
+        updateCalBtnText(calendar);
+        updatePageTitle(calendar);
     }
 
 
