@@ -4,17 +4,24 @@
     android:layout_height="match_parent"
     android:background="@drawable/taskcreator_backgound"
     android:orientation="vertical">
-
+    <!--<LinearLayout-->
+    <!--android:id="@+id/typeList"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="0dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:orientation="horizontal">-->
+    <!--</LinearLayout>-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="9">
-        <!--<ImageButton-->
-        <!--android:id="@+id/selectPieChartModel"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_centerInParent="true"-->
-        <!--/>-->
+
+        <Button
+            android:id="@+id/selectPieChartDIsplayPeriod"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true" />
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChart"
             android:layout_width="match_parent"
@@ -39,12 +46,5 @@
         <!--</FrameLayout>-->
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/typeList"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
 
-    </LinearLayout>
 </LinearLayout>

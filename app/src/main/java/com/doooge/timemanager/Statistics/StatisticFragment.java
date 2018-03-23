@@ -12,10 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CheckedTextView;
-import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -35,19 +32,20 @@ import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 
 /**
  * Created by fredpan on 2018/1/31.
  */
 
-public class StatisticFragment extends Fragment implements OnChartValueSelectedListener, OnChartGestureListener {
+public class StatisticFragment extends Fragment implements OnChartValueSelectedListener, OnChartGestureListener, View.OnClickListener {
 
     private static PieChart pieChart;
     private static PieDataSet pieDataSet;
     private LinearLayout linearLayout;
     private LocalDatabaseHelper ldb;
-    private ImageButton selectPirChartModel;
+    private Button selectPirChartDisplayDuration;
     private float holeRadius;
     //private Context context;
     //private TextView pieChartModelSelectionDisplay;
@@ -61,9 +59,11 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                 R.layout.statistic_page, container, false);
 
         ldb = LocalDatabaseHelper.getInstance(getActivity());
-        linearLayout = rootView.findViewById(R.id.typeList);
+        //linearLayout = rootView.findViewById(R.id.typeList);
         pieChartHelper = new PieChartHelper(getActivity());
 
+        selectPirChartDisplayDuration = rootView.findViewById(R.id.selectPieChartDIsplayPeriod);
+        selectPirChartDisplayDuration.setOnClickListener(this);
 
         /*
         All the charts' data will be refresh only if user add/remove SpecificTask.
@@ -96,59 +96,24 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         pieChart.setOnChartValueSelectedListener(this);
         pieChart.setOnChartGestureListener(this);
 
-
         return rootView;
     }
 
-    //PIECHART
-    private void pieChartCreation() {
-
-        ArrayList<Type> types = ldb.getAllType();
-        Iterator<Type> iterator = types.iterator();
-
-        while (iterator.hasNext()) {
-            final Type type = iterator.next();
-            final CheckBox ch = new CheckBox(getActivity());
-            ch.setChecked(true);
-
-            ch.setText(type.getName());
-            ch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {                                     //if users select a specific type
-                        ArrayList<SpecificTask> specificTasks = ldb.findSpecificTasksByType(type);
-                        allSpecificTasks.addAll(specificTasks);
-                        PieDataSet newPieDataSet = pieChartHelper.calculatePieChart(allSpecificTasks);
-                        newPieDataSet.setSliceSpace(3f);
-                        PieData newPieData = new PieData(newPieDataSet);
-                        pieChart.setData(newPieData);
-                        pieChart.notifyDataSetChanged();
-                        pieChart.invalidate();
-                    }
-                    if (!isChecked) {                                    //if users cancelled the selection of a specific type
-                        ArrayList<SpecificTask> newSpecificTasksList = new ArrayList<>();
-                        Iterator<SpecificTask> subIterator = allSpecificTasks.iterator();
-                        while (subIterator.hasNext()) {
-                            SpecificTask specificTaskToBeAdded = subIterator.next();
-                            Type typeToBeRemoved = specificTaskToBeAdded.getType();
-                            if (typeToBeRemoved.getId() != type.getId()) {// if is not the one to be removed
-                                newSpecificTasksList.add(specificTaskToBeAdded);
-                            }
-                        }
-                        allSpecificTasks = null;
-                        allSpecificTasks = newSpecificTasksList;
-                        pieDataSet = pieChartHelper.calculatePieChart(allSpecificTasks);
-                        pieDataSet.setSliceSpace(3f);
-                        PieData newPieData = new PieData(pieDataSet);
-                        pieChart.setData(newPieData);
-                        pieChart.notifyDataSetChanged();
-                        pieChart.invalidate();
-                    }
-                }
-            });
-
-            linearLayout.addView(ch);
-        }
+    /*
+    Update the data based on the given start and end date
+     *///TODO
+    private void updatePieChart(Calendar start, Calendar end) {
+//        ArrayList<SpecificTask> specificTasks = ldb.findSpecificTasksByTypes();
+//        allSpecificTasks.clear();
+//        allSpecificTasks = specificTasks;
+//        PieDataSet newPieDataSet = pieChartHelper.calculatePieChart(allSpecificTasks);
+//        newPieDataSet.setSliceSpace(3f);
+//        PieData newPieData = new PieData(newPieDataSet);
+//        pieChart.setData(newPieData);
+//        pieChart.notifyDataSetChanged();
+//        pieChart.invalidate();
+        ArrayList<SpecificTask> a = ldb.findSpecificTasksByTime(start, end);
+        System.out.println(a.size());
     }
 
     /*
@@ -167,9 +132,6 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
     }
 
-    /*
-    OnClikcListener for pieChartSlide
-     */
     @Override
     public void onNothingSelected() {
 
@@ -178,32 +140,27 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
     @Override
     public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
-        //System.out.println("1111");
     }
 
     @Override
     public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
-        // System.out.println("2222");
     }
 
     /*
-    OnClikcListener for center button
+    OnClikcListener for long press: Choose different types
     */
     @Override
     public void onChartLongPressed(MotionEvent me) {//safely enough to implemented as a button
-        // Instantiate an AlertDialog.Builder with its constructor
 
-        final ArrayList<Type> selectedtypes = new ArrayList<>();
-
+        final ArrayList<Type> selectedtypes = new ArrayList<>();// Instantiate an AlertDialog.Builder with its constructor
         final ArrayAdapter<Type> arrayAdapter = new ArrayAdapter<Type>(this.getContext(), android.R.layout.select_dialog_multichoice);
 
         final ArrayList<Type> types = ldb.getAllType();
-        //ArrayList<String> typeNameWithID = new ArrayList<>();
+
         Iterator<Type> iterator = types.iterator();
         while (iterator.hasNext()) {
             Type type = iterator.next();
             arrayAdapter.add(type);
-            //typeNameWithID.add(type.getName()+"@")
         }
 
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
@@ -231,7 +188,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                         if (selectedtypes.size() == 0) {//user selected nothing
                             Toast.makeText(getContext(), "Please choose at least one type!", Toast.LENGTH_SHORT).show();
                         } else {
-                            ArrayList<SpecificTask> specificTasks = ldb.findSpecificTasksByType(selectedtypes);
+                            ArrayList<SpecificTask> specificTasks = ldb.findSpecificTasksByTypes(selectedtypes);
                             allSpecificTasks.clear();
                             allSpecificTasks = specificTasks;
                             PieDataSet newPieDataSet = pieChartHelper.calculatePieChart(allSpecificTasks);
@@ -278,79 +235,79 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         alertDialog.show();
     }
 
-
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
-//
-//        // Chain together various setter methods to set the dialog characteristics
-//        builder.setMessage(R.string.select_shown_data_range_message);
-//
-//        // Add the buttons
-//        builder.setPositiveButton(R.string.shownDataByYear, new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//                pieChart.setCenterText("Time distribution \nBy Year");
-//                pieChart.invalidate();
-//                dialog.dismiss();
-//            }
-//        });
-//        builder.setNegativeButton(R.string.shownDataByMonth, new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//                pieChart.setCenterText("Time distribution \nBy Month");
-//                pieChart.invalidate();
-//                dialog.dismiss();
-//            }
-//        });
-//
-//        builder.setNeutralButton(R.string.shownDataByDay, new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//                pieChart.setCenterText("Time distribution \nBy Day");
-//                pieChart.invalidate();
-//                dialog.dismiss();
-//            }
-//        });
-//
-//        // Get the AlertDialog from create()
-//        AlertDialog dialog = builder.create();
-//        dialog.show();
-//
-//        //set positions for three btns:
-//        final Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-//        LinearLayout.LayoutParams positiveButtonLL = (LinearLayout.LayoutParams) positiveButton.getLayoutParams();
-//        positiveButtonLL.gravity = Gravity.CENTER;
-//        positiveButton.setLayoutParams(positiveButtonLL);
-//
-//        final Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-//        LinearLayout.LayoutParams negativeButtonLL = (LinearLayout.LayoutParams) negativeButton.getLayoutParams();
-//        negativeButtonLL.gravity = Gravity.CENTER;
-//        negativeButton.setLayoutParams(negativeButtonLL);
-//
-//        final Button neutralButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);
-//        LinearLayout.LayoutParams neutralButtonLL = (LinearLayout.LayoutParams) neutralButton.getLayoutParams();
-//        neutralButtonLL.gravity = Gravity.CENTER;
-//        neutralButton.setLayoutParams(neutralButtonLL);
-
-
     @Override
     public void onChartDoubleTapped(MotionEvent me) {
-        //System.out.println("4444");
     }
 
     @Override
     public void onChartSingleTapped(MotionEvent me) {
-        //System.out.println("5555");
     }
 
     @Override
     public void onChartFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
-        //System.out.println("666");
     }
 
     @Override
     public void onChartScale(MotionEvent me, float scaleX, float scaleY) {
-        //System.out.println("777");
     }
 
     @Override
     public void onChartTranslate(MotionEvent me, float dX, float dY) {
-        //System.out.println("888");
+    }
+
+    /*
+    OnClikcListener for btn: Choose different displaying duration
+    */
+    @Override
+    public void onClick(View v) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        // Get the layout inflater
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        builder.setView(inflater.inflate(R.layout.piechart_display_range_selection, null))
+                // Add action buttons
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        updatePieChart(Calendar.getInstance(), Calendar.getInstance());//todo change to real one
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .setNeutralButton(R.string.shownDataInToday, null);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        // Show by past week todo
+        final Button showByWeek = dialog.findViewById(R.id.showByWeek);
+        showByWeek.setText(R.string.shownDataInPastWeek);
+        showByWeek.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Year");
+            }
+        });
+
+        //Show by past Month todo
+        final Button showByMonth = dialog.findViewById(R.id.showByMonth);
+        showByMonth.setText(R.string.shownDataInPastMonth);
+        showByMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Month");
+            }
+        });
+
+        //Show by past week todo
+        final Button neutralButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);//Shown Today Only (DEFAULT)
+        neutralButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
     }
 }

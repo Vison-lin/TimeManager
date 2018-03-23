@@ -1,6 +1,5 @@
 package com.doooge.timemanager;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,7 +21,7 @@ public class CalendarHelper {
     public static String convertCal2UTC(Calendar calendar) {
         TimeZone timeZone = calendar.getTimeZone();
         Date time = calendar.getTime();
-        DateFormat outputFmt = SimpleDateFormat.getDateTimeInstance();
+        SimpleDateFormat outputFmt = new SimpleDateFormat("yyyy-MM-dd HH:mm");//SimpleDateFormat.getDateTimeInstance();
         outputFmt.setTimeZone(timeZone);//convert current calendar's time into standard GMT + 00:00
         return outputFmt.format(time);
     }
@@ -34,7 +33,7 @@ public class CalendarHelper {
      * This method is used for converting UTC in String to Calendar Object.
      */
     public static Calendar convertUTC2Cal(String utc) {
-        DateFormat outputFmt = SimpleDateFormat.getDateTimeInstance();
+        SimpleDateFormat outputFmt = new SimpleDateFormat("yyyy-MM-dd HH:mm");//SimpleDateFormat.getDateTimeInstance();
 
         Calendar calendar = Calendar.getInstance();
         try {

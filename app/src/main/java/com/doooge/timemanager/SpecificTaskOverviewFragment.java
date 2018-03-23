@@ -51,7 +51,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
 
         Calendar today = Calendar.getInstance();
         pageTitle = rootView.findViewById(R.id.activityTitleText);
-        specificTasks = ldh.specificTasksSortByStartTime(today);//search all specificTasks that start today
+        specificTasks = ldh.findSpecificTasksByTime(today);//search all specificTasks that start today
 
         //calBtn init & change text
         calMonth = rootView.findViewById(R.id.calMonth);
@@ -99,7 +99,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
                 Calendar selectedCalendar = Calendar.getInstance();
                 selectedCalendar.set(picker.getYear(), picker.getMonth(), picker.getDayOfMonth());
                 specificTasks.clear();
-                specificTasks = ldh.specificTasksSortByStartTime(selectedCalendar);
+                specificTasks = ldh.findSpecificTasksByTime(selectedCalendar);
                 adapter.updateSpecificTaskOverviewAdapter(specificTasks);
                 updateCalBtnText(selectedCalendar);
                 updatePageTitle(selectedCalendar);
@@ -111,7 +111,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
             public void onClick(DialogInterface dialog, int which) {
                 Calendar selectedCalendar = Calendar.getInstance();
                 specificTasks.clear();
-                specificTasks = ldh.specificTasksSortByStartTime(selectedCalendar);
+                specificTasks = ldh.findSpecificTasksByTime(selectedCalendar);
                 adapter.updateSpecificTaskOverviewAdapter(specificTasks);
                 updateCalBtnText(selectedCalendar);
                 updatePageTitle(selectedCalendar);
