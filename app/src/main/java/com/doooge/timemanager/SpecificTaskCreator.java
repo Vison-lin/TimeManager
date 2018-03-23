@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -282,6 +281,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
                 specificTask.setTaskName(userName);
                 specificTask.setStartTime(calStart);
                 specificTask.setEndTime(calEnd);
+                specificTask.setType(type);
                 ldh.updateSpecificTaskTable(specificTask);
             }else {
                 specificTask_new = new SpecificTask(userName, calStart, calEnd);
