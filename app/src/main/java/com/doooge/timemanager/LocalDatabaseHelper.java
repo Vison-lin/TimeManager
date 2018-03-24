@@ -70,7 +70,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
                 TYPES_NAME + " TEXT NOT NULL," +
                 TYPES_COLOR + " TEXT NOT NULL)");
         //Default type
-        Type defaultType = new Type("default Type", "-1");//-1 stand for white
+        Type defaultType = new Type("default Type", "-6710836");//-1 stand for gray
         defaultType.setId(-999);
         //insertToTypeTable(defaultType);
         ContentValues contentValues = new ContentValues();
@@ -558,4 +558,49 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.query(SPECIFICTASKS_TABLE_NAME, null, selection, dayCondition, null, null, SPECIFICTASKS_START_DATE + " ASC");
         return findSpecificTaskByCursor(cursor);
     }
+
+
+    public ArrayList<SpecificTask> findSpecificTasksByTypesDuringTime(ArrayList<Type> types, Calendar start, Calendar end) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String[] typeID = new String[types.size() + 2];
+
+        //selections and selection arguments for days:
+
+        String startCalendarInString = CalendarHelper.convertCal2UTC(start);
+        String startCalendarInDay = startCalendarInString.substring(0, 10);//build up a subString in the form of yyyy-mm-dd. Example: 1993-08-21.
+
+        String endCalendarInString = CalendarHelper.convertCal2UTC(end);
+        String endCalendarInDay = endCalendarInString.substring(0, 10);//build up a subString in the form of yyyy-mm-dd. Example: 1993-08-21.
+
+        if (startCalendarInDay.compareTo(endCalendarInDay) > 0) {
+            throw new IllegalStateException();
+        }
+
+        String selection = "( strftime('%Y-%m-%d'," + SPECIFICTASKS_START_DATE + ") BETWEEN ? AND ? ) AND ( " + SPECIFICTASKS_TYPE + " =?";
+        typeID[0] = startCalendarInDay;
+        typeID[1] = endCalendarInDay;
+        Iterator<Type> iterator = types.iterator();
+
+        if (types.size() == 0) {
+            throw new IndexOutOfBoundsException();//Always have at least one type
+        }
+
+        //selections and selection arguments for types:
+        typeID[2] = iterator.next().getId() + "";
+        int i = 3;
+        while (iterator.hasNext()) {
+            String singleTypeID = iterator.next().getId() + "";
+            typeID[i] = singleTypeID;
+            selection = selection + "OR " + SPECIFICTASKS_TYPE + " =?";
+            i++;
+        }
+
+        selection = selection + " )";
+
+        Cursor cursor = db.query(SPECIFICTASKS_TABLE_NAME, null, selection, typeID, null, null, SPECIFICTASKS_START_DATE + " ASC");
+        return findSpecificTaskByCursor(cursor);
+    }
+
 }

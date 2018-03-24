@@ -16,7 +16,6 @@ import android.widget.CheckedTextView;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.doooge.timemanager.CalendarHelper;
@@ -25,6 +24,7 @@ import com.doooge.timemanager.R;
 import com.doooge.timemanager.SpecificTask;
 import com.doooge.timemanager.Type;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -47,13 +47,16 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
     private static PieChart pieChart;
     private static PieDataSet pieDataSet;
+    private final Calendar[] selectedStartCal = {Calendar.getInstance()};
+    private final Calendar[] selectedEndCal = {Calendar.getInstance()};
     private LinearLayout linearLayout;
     private LocalDatabaseHelper ldb;
     private Button selectPirChartDisplayDuration;
-    private float holeRadius;
-    //private Context context;
-    //private TextView pieChartModelSelectionDisplay;
-    //Stores all the SpecificTasks with key by type ID.
+    private String selectedPieChartDisplayDurationBtnDisplay;
+    private ArrayList<Type> selectedtypes;//init below
+    private Button endDay;
+    private Button startDay;
+
     private ArrayList<SpecificTask> allSpecificTasks;
     private PieChartHelper pieChartHelper;
 
@@ -63,7 +66,8 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                 R.layout.statistic_page, container, false);
 
         ldb = LocalDatabaseHelper.getInstance(getActivity());
-        //linearLayout = rootView.findViewById(R.id.typeList);
+        selectedtypes = ldb.getAllType();//init
+
         pieChartHelper = new PieChartHelper(getActivity());
 
         selectPirChartDisplayDuration = rootView.findViewById(R.id.selectPieChartDIsplayPeriod);
@@ -78,9 +82,9 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
         //PIECHART
         pieChart = rootView.findViewById(R.id.pieChart);
-        //Show all types' percentages
-        //TODO select by Time Period
-        allSpecificTasks = ldb.getAllSpecificTask();//todo Maybe changed to default: show by month then enable users to choose different range
+
+        allSpecificTasks = ldb.findSpecificTasksByTime(Calendar.getInstance());//By default: show today's tasks
+        updateSelectedPieChartDisplayDurationBtnTEXT();
         pieDataSet = pieChartHelper.calculatePieChart(allSpecificTasks);
         pieDataSet.setSliceSpace(3f);
 
@@ -91,10 +95,11 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         pieChart.setUsePercentValues(true);
         pieChart.setEntryLabelColor(Color.BLACK);//Set data label color
         pieChart.setDrawCenterText(true);
-        pieChart.setCenterText("Time distribution");
+        updateCenterText();
         pieChart.setCenterTextSize(33f);
-
-        holeRadius = pieChart.getHoleRadius();//size of button should be
+        Description description = new Description();
+        description.setText("");
+        pieChart.setDescription(description);
 
         pieChart.invalidate();
         pieChart.setOnChartValueSelectedListener(this);
@@ -104,17 +109,22 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
     }
 
     /*
-    Update the data based on the given start and end date
+    Update the data based on the given selectedStartCal and selectedEndCal date
      */
-    private void updatePieChart(Calendar start, Calendar end) {
-        ArrayList<SpecificTask> specificTasks = ldb.findSpecificTasksByTime(start, end);
+    private void updatePieChart() {
+
+        ArrayList<SpecificTask> specificTasks = ldb.findSpecificTasksByTypesDuringTime(selectedtypes, selectedStartCal[0], selectedEndCal[0]);
         allSpecificTasks.clear();
         allSpecificTasks = specificTasks;
+
+        updateCenterText();
+
         PieDataSet newPieDataSet = pieChartHelper.calculatePieChart(allSpecificTasks);
         newPieDataSet.setSliceSpace(3f);
         PieData newPieData = new PieData(newPieDataSet);
         pieChart.setData(newPieData);
         pieChart.notifyDataSetChanged();
+
         pieChart.invalidate();
     }
 
@@ -154,7 +164,8 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
     @Override
     public void onChartLongPressed(MotionEvent me) {//safely enough to implemented as a button
 
-        final ArrayList<Type> selectedtypes = new ArrayList<>();// Instantiate an AlertDialog.Builder with its constructor
+        selectedtypes = new ArrayList<>();
+        // Instantiate an AlertDialog.Builder with its constructor
         final ArrayAdapter<Type> arrayAdapter = new ArrayAdapter<Type>(this.getContext(), android.R.layout.select_dialog_multichoice);
 
         final ArrayList<Type> types = ldb.getAllType();
@@ -190,15 +201,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                         if (selectedtypes.size() == 0) {//user selected nothing
                             Toast.makeText(getContext(), "Please choose at least one type!", Toast.LENGTH_SHORT).show();
                         } else {
-                            ArrayList<SpecificTask> specificTasks = ldb.findSpecificTasksByTypes(selectedtypes);
-                            allSpecificTasks.clear();
-                            allSpecificTasks = specificTasks;
-                            PieDataSet newPieDataSet = pieChartHelper.calculatePieChart(allSpecificTasks);
-                            newPieDataSet.setSliceSpace(3f);
-                            PieData newPieData = new PieData(newPieDataSet);
-                            pieChart.setData(newPieData);
-                            pieChart.notifyDataSetChanged();
-                            pieChart.invalidate();
+                            updatePieChart();
                             dialog.dismiss();
                         }
 
@@ -263,38 +266,40 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
     @Override
     public void onClick(View v) {
 
-        final Calendar[] start = {Calendar.getInstance()};
-        final Calendar[] end = {Calendar.getInstance()};
-        final Button startDay;
-        final Button endDay;
-        final TextView duration;
-
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // Get the layout inflater
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
-        builder.setView(inflater.inflate(R.layout.piechart_display_range_selection, null))
-                // Add action buttons
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        updatePieChart(start[0], end[0]);
-                    }
-                })
-                .setNegativeButton("Cancel", null)
-                .setNeutralButton(R.string.shownDataInToday, null);
+
         final AlertDialog dialog = builder.create();
         dialog.show();
+        dialog.getWindow().setContentView(R.layout.piechart_display_range_selection);
+
+        final Button submitButton = dialog.findViewById(R.id.submitPieChartTimeRangeChange);
+        submitButton.setText("OK");
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String startDayStr = CalendarHelper.convertCal2UTC(selectedStartCal[0]).substring(0, 10);
+                String endDayStr = CalendarHelper.convertCal2UTC(selectedEndCal[0]).substring(0, 10);
+                if (startDayStr.compareTo(endDayStr) > 0) {//if start day is greater than end day
+                    Toast.makeText(getContext(), "Start Date cannot after than the End Date !", Toast.LENGTH_SHORT).show();
+                } else {
+                    updateSelectedPieChartDisplayDurationBtnTEXT();
+                    updatePieChart();
+                    dialog.dismiss();
+                }
+            }
+        });
 
         startDay = dialog.findViewById(R.id.startDayChoosed);
         startDay.setText(CalendarHelper.convertCal2UTC(Calendar.getInstance()).substring(0, 10));//by default display today's data only
         startDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                start[0] = displayAndGetSelectedDate(0);
+                selectedStartCal[0] = displayAndGetSelectedDate(0);
             }
         });
 
@@ -303,23 +308,21 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         endDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                end[0] = displayAndGetSelectedDate(1);
+                selectedEndCal[0] = displayAndGetSelectedDate(1);
             }
         });
 
-        duration = dialog.findViewById(R.id.durationDisplay);
-        duration.setText("-------------");
-
         //Show by today
-        final Button neutralButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);//Shown Today Only (DEFAULT)
+        final Button neutralButton = dialog.findViewById(R.id.showTodayOnlyPieChartTimeRangeChange);//Shown Today Only (DEFAULT)
+        neutralButton.setText(R.string.shownDataInToday);
         neutralButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                start[0] = Calendar.getInstance();
-                end[0] = Calendar.getInstance();
+                selectedStartCal[0] = Calendar.getInstance();
+                selectedEndCal[0] = Calendar.getInstance();
                 //update the UI
-                startDay.setText(CalendarHelper.convertCal2UTC(start[0]).substring(0, 10));
-                endDay.setText(CalendarHelper.convertCal2UTC(end[0]).substring(0, 10));
+                startDay.setText(CalendarHelper.convertCal2UTC(selectedStartCal[0]).substring(0, 10));
+                endDay.setText(CalendarHelper.convertCal2UTC(selectedEndCal[0]).substring(0, 10));
             }
         });
 
@@ -329,12 +332,12 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         showByWeek.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                start[0] = Calendar.getInstance();
-                start[0].add(Calendar.DAY_OF_YEAR, -6);//6 days since dB include start day and end day!
-                end[0] = Calendar.getInstance();
+                selectedStartCal[0] = Calendar.getInstance();
+                selectedStartCal[0].add(Calendar.DAY_OF_YEAR, -6);//6 days since dB include selectedStartCal day and selectedEndCal day!
+                selectedEndCal[0] = Calendar.getInstance();
                 //update the UI
-                startDay.setText(CalendarHelper.convertCal2UTC(start[0]).substring(0, 10));
-                endDay.setText(CalendarHelper.convertCal2UTC(end[0]).substring(0, 10));
+                startDay.setText(CalendarHelper.convertCal2UTC(selectedStartCal[0]).substring(0, 10));
+                endDay.setText(CalendarHelper.convertCal2UTC(selectedEndCal[0]).substring(0, 10));
             }
         });
 
@@ -344,28 +347,39 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         showByMonth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                start[0] = Calendar.getInstance();
-                start[0].add(Calendar.MONTH, -1);//last month
-                start[0].add(Calendar.DAY_OF_YEAR, 1);//but one day further
-                end[0] = Calendar.getInstance();
+                selectedStartCal[0] = Calendar.getInstance();
+                selectedStartCal[0].add(Calendar.MONTH, -1);//last month
+                selectedStartCal[0].add(Calendar.DAY_OF_YEAR, 1);//but one day further
+                selectedEndCal[0] = Calendar.getInstance();
                 //update the UI
-                startDay.setText(CalendarHelper.convertCal2UTC(start[0]).substring(0, 10));
-                endDay.setText(CalendarHelper.convertCal2UTC(end[0]).substring(0, 10));
+                startDay.setText(CalendarHelper.convertCal2UTC(selectedStartCal[0]).substring(0, 10));
+                endDay.setText(CalendarHelper.convertCal2UTC(selectedEndCal[0]).substring(0, 10));
+            }
+        });
+
+        //Cancel
+        final Button cancel = dialog.findViewById(R.id.cancelPieChartTimeRangeChange);
+        cancel.setText("Cancel");
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
             }
         });
     }
 
     /**
-     * @param title 0 for start picker title while 1 for end picker title
+     * @param title 0 for selectedStartCal picker title while 1 for selectedEndCal picker title
      * @return Calendar instance
      */
-    private Calendar displayAndGetSelectedDate(int title) {
+    private Calendar displayAndGetSelectedDate(final int title) {
         final Calendar[] selectedCalendar = {Calendar.getInstance()};
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         final DatePicker picker = new DatePicker(getContext());
-        if (title == 0) {
+        picker.setMaxDate(Calendar.getInstance().getTimeInMillis());
+        if (title == 0) {//start
             builder.setTitle(R.string.durationStartPickerTitle);
-        } else if (title == 1) {
+        } else if (title == 1) {//end
             builder.setTitle(R.string.durationEndPickerTitle);
         } else {
             throw new InvalidParameterException();
@@ -377,6 +391,17 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 selectedCalendar[0].set(picker.getYear(), picker.getMonth(), picker.getDayOfMonth());
+                if (title == 0) {//start
+                    startDay.setText(CalendarHelper.convertCal2UTC(selectedStartCal[0]).substring(0, 10));
+
+
+                } else if (title == 1) {//end
+                    endDay.setText(CalendarHelper.convertCal2UTC(selectedEndCal[0]).substring(0, 10));
+
+
+                } else {
+                    throw new InvalidParameterException();
+                }
             }
         });
         builder.setNeutralButton("Go back to today", null);
@@ -395,5 +420,36 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         });
 
         return selectedCalendar[0];
+    }
+
+    private void updateCenterText() {
+        if (allSpecificTasks.size() == 0) { // no data warming
+            pieChart.setCenterText("No task down");
+        } else {
+            pieChart.setCenterText("Time distribution");
+        }
+    }
+
+    private void updateSelectedPieChartDisplayDurationBtnTEXT() {
+        String startDayStr = CalendarHelper.convertCal2UTC(selectedStartCal[0]).substring(0, 10);
+        String endDayStr = CalendarHelper.convertCal2UTC(selectedEndCal[0]).substring(0, 10);
+        if (startDayStr.compareTo(endDayStr) == 0) {//if shown one day only
+            selectedPieChartDisplayDurationBtnDisplay = "Tasks finished on date " +
+                    selectedStartCal[0].get(Calendar.YEAR) + "." +
+                    selectedStartCal[0].get(Calendar.MONTH) + "." +
+                    selectedStartCal[0].get(Calendar.DAY_OF_MONTH);
+        } else {
+            selectedPieChartDisplayDurationBtnDisplay = "Tasks finished during " +
+                    selectedStartCal[0].get(Calendar.YEAR) + "." +
+                    selectedStartCal[0].get(Calendar.MONTH) + "." +
+                    selectedStartCal[0].get(Calendar.DAY_OF_MONTH)
+                    + " ~ " +
+                    selectedEndCal[0].get(Calendar.YEAR) + "." +
+                    selectedEndCal[0].get(Calendar.MONTH) + "." +
+                    selectedEndCal[0].get(Calendar.DAY_OF_MONTH);
+        }
+        System.out.println(selectedPieChartDisplayDurationBtnDisplay);
+        selectPirChartDisplayDuration.setText(selectedPieChartDisplayDurationBtnDisplay);
+        selectedPieChartDisplayDurationBtnDisplay = "";
     }
 }
