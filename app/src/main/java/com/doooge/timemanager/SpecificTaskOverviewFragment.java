@@ -89,7 +89,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
     public void getSelectedDate() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         final DatePicker picker = new DatePicker(getContext());
-        builder.setTitle("Create Year");//todo
+        builder.setTitle("Select date");
         builder.setView(picker);
         builder.setNegativeButton("Cancel", null);
         builder.setPositiveButton("Select", new DialogInterface.OnClickListener() {
@@ -140,16 +140,6 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
     }
 
     private void updatePageTitle(Calendar calendar) {
-        SimpleDateFormat getMonth = new SimpleDateFormat("MMMM");
-        String month = getMonth.format(calendar.getTime());//todo delete if unused
-        if (month.equals("September")) {
-            month = month.substring(0, 4);
-        } else {
-            month = month.substring(0, 3);
-        }
-        month = month.toUpperCase();//todo delete if unused
-        String day = calendar.get(Calendar.DAY_OF_MONTH) + "";//todo delete if unused
-        String year = calendar.get(Calendar.YEAR) + "";//todo delete if unused
         String taskStatus;
         int numOfSpecificTask = specificTasks.size();
         if (numOfSpecificTask < 0) {

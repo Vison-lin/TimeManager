@@ -60,7 +60,6 @@ public class TimePickerDialog {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // TODO Auto-generated method stub
                         dialog.dismiss();
 
                         getDatePickerValue();
@@ -74,7 +73,6 @@ public class TimePickerDialog {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // TODO Auto-generated method stub
                         timePickerDialogInterface.negativeListener();
                         dialog.dismiss();
                     }

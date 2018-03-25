@@ -227,7 +227,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
             mSpinner.setAdapter(mAdapter);
             mSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener(){
                 public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                    // TODO Auto-generated method stub
                 /* 将所选mySpinner 的值带入myTextView 中*/
                 if(specificTask==null) {
                     type = typeList.get(arg2);
@@ -236,8 +235,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
                     arg0.setVisibility(View.VISIBLE);
                 }
                 public void onNothingSelected(AdapterView<?> arg0) {
-                    // TODO Auto-generated method stub
-                    // myTextView.setText("NONE");
                     arg0.setVisibility(View.VISIBLE);
                 }
             });
