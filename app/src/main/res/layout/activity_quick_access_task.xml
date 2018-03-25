@@ -11,33 +11,20 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="match_parent"
+            android:background="#3F51B5"
             android:gravity="center"
+            android:layout_weight="4"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/activityTitleText"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:text="New Task"
                 android:textAlignment="center"
-                android:textColor="#000000"
-                android:textSize="30sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="465dp"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-
-            <ListView
-                android:id="@+id/taskList"
-                android:layout_width="match_parent"
-                android:layout_height="464dp" />
+                android:textColor="#FFFFFF"
+                android:textSize="30sp" />
 
         </LinearLayout>
 
@@ -45,12 +32,32 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
+            android:layout_weight="1"
             android:orientation="horizontal">
+
+            <ListView
+                android:id="@+id/taskList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:background="#3F51B5"
+            android:layout_weight="4"
+            android:orientation="horizontal"
+            android:src="@drawable/settingbuttonicon">
+
 
             <ImageView
                 android:id="@+id/addingTaskBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:src="@drawable/addingbuttonicon" />
 
         </LinearLayout>
