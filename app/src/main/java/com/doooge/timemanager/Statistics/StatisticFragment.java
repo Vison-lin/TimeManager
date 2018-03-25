@@ -436,16 +436,16 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         if (startDayStr.compareTo(endDayStr) == 0) {//if shown one day only
             selectedPieChartDisplayDurationBtnDisplay = "Tasks finished on date " +
                     selectedStartCal[0].get(Calendar.YEAR) + "." +
-                    selectedStartCal[0].get(Calendar.MONTH) + "." +
+                    (selectedStartCal[0].get(Calendar.MONTH) + 1) + "." +
                     selectedStartCal[0].get(Calendar.DAY_OF_MONTH);
         } else {
             selectedPieChartDisplayDurationBtnDisplay = "Tasks finished during " +
                     selectedStartCal[0].get(Calendar.YEAR) + "." +
-                    selectedStartCal[0].get(Calendar.MONTH) + "." +
+                    (selectedStartCal[0].get(Calendar.MONTH) + 1) + "." +
                     selectedStartCal[0].get(Calendar.DAY_OF_MONTH)
                     + " ~ " +
                     selectedEndCal[0].get(Calendar.YEAR) + "." +
-                    selectedEndCal[0].get(Calendar.MONTH) + "." +
+                    (selectedEndCal[0].get(Calendar.MONTH) + 1) + "." +
                     selectedEndCal[0].get(Calendar.DAY_OF_MONTH);
         }
         System.out.println(selectedPieChartDisplayDurationBtnDisplay);
