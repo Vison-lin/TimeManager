@@ -62,7 +62,6 @@ public class TaskManagementActivity extends AppCompatActivity {
         mSpinner.setAdapter(mAdapter);
         mSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                // TODO Auto-generated method stub 根据Vison的改
                 /* 将所选mySpinner 的值带入myTextView 中*/
                 if (arg2 == 0) {//"Show all types"
                     specificTasks.clear();
@@ -78,8 +77,6 @@ public class TaskManagementActivity extends AppCompatActivity {
             }
 
             public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub 根据Vison的改
-                // myTextView.setText("NONE");
                 arg0.setVisibility(View.VISIBLE);
             }
         });

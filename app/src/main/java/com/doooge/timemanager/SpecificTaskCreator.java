@@ -227,6 +227,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
             mSpinner.setAdapter(mAdapter);
             mSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener(){
                 public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                /* 将所选mySpinner 的值带入myTextView 中*/
                 if(specificTask==null) {
                     type = typeList.get(arg2);
                     initialType();
@@ -254,6 +255,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
             taskName.setError("Enter a name.");
             taskName.setBackground(getResources().getDrawable(R.drawable.back_red));
         } else {
+
 
             if(update){
                 specificTask.setTaskName(userName);
