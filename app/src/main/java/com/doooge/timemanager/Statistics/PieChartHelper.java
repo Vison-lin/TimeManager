@@ -1,6 +1,7 @@
 package com.doooge.timemanager.Statistics;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.util.Pair;
 
 import com.doooge.timemanager.CalendarHelper;
@@ -9,6 +10,7 @@ import com.doooge.timemanager.SpecificTask;
 import com.doooge.timemanager.Type;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,14 +35,26 @@ class PieChartHelper {
         ArrayList<Pair<Type, Float>> specificTasksWithPercentage = calPercentage(specificTasks);
         Iterator<Pair<Type, Float>> iterator = specificTasksWithPercentage.iterator();
 
+        ArrayList<Integer> colors = new ArrayList<>();
         List<PieEntry> pieEntry = new ArrayList<>();
         while (iterator.hasNext()) {
             Pair<Type, Float> next = iterator.next();
             Type temp = next.first;
             float percentage = next.second;
             pieEntry.add(new PieEntry(percentage, temp.getName(), temp));
+            colors.add(Integer.parseInt(next.first.getColor()));
         }
         pieDataSet = new PieDataSet(pieEntry, "The PieChart For Selected Type of Tasks");
+        //Draw label outside of pieChart
+        pieDataSet.setValueLinePart1OffsetPercentage(90.f);
+        pieDataSet.setValueLinePart1Length(.5f);
+        pieDataSet.setValueLinePart2Length(.2f);
+        pieDataSet.setValueTextColor(Color.BLACK);
+        pieDataSet.setValueLineColor(Color.BLACK);
+        pieDataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        pieDataSet.setValueFormatter(new PercentFormatter());
+        pieDataSet.setValueTextSize(21f);
+        pieDataSet.setColors(colors);
         return pieDataSet;
     }
 
