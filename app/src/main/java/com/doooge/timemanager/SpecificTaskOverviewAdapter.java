@@ -72,6 +72,11 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
             taskType.setBackground(viewGroup.getResources().getDrawable(R.drawable.btn_bkgd_yellow));
         }
 
+        if (specificTask.isCompletedInBoolean() == true) {
+            rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_comp));
+        } else {
+            rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_incomp));
+        }
 
         taskName.setText(specificTask.getTaskName());
         if (specificTask.getType().getName().length() <= 1) {
