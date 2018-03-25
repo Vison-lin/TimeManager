@@ -92,7 +92,9 @@ public class SpecificTaskCreator extends AppCompatActivity {
             String name = specificTask.getTaskName();
             EditText taskName = findViewById(R.id.taskName);
             taskName.setText(name);
-
+            TextView typeColor = findViewById(R.id.typeColor);
+            type = specificTask.getType();
+            initialType();
         }
         initialDate();
 
@@ -227,26 +229,10 @@ public class SpecificTaskCreator extends AppCompatActivity {
                 public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                     // TODO Auto-generated method stub
                 /* 将所选mySpinner 的值带入myTextView 中*/
+                if(specificTask==null) {
                     type = typeList.get(arg2);
-                    TextView typeColor = findViewById(R.id.typeColor);
-                    int color = Integer.parseInt(type.getColor());
-                    if(color==getResources().getColor(R.color.violet)){
-                        typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkdg_purple));
-                    }else if(color==-1){
-                        typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_default));
-                    }else if(color==getResources().getColor(R.color.green)){
-                        typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_green));
-                    }else if(color==getResources().getColor(R.color.blue)){
-                        typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_blue));
-                    }else if(color==getResources().getColor(R.color.red)){
-                        typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_red));
-                    }else if(color==getResources().getColor(R.color.yellow)){
-                        typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_yellow));
-                    }
-                    else {
-                        typeColor.getBackground().setColorFilter(new LightingColorFilter(color, color));
-                    }
-
+                    initialType();
+                }
                     arg0.setVisibility(View.VISIBLE);
                 }
                 public void onNothingSelected(AdapterView<?> arg0) {
@@ -259,14 +245,11 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
         }
 
-
-
-
-
-
-
-
     }
+
+
+
+
 
     private void addTask(View view) {
         EditText taskName = findViewById(R.id.taskName);
@@ -316,6 +299,29 @@ public class SpecificTaskCreator extends AppCompatActivity {
         setMonth(calStart.get(Calendar.MONTH) + 1);
         setDay(calStart.get(Calendar.DATE));
     }
+
+    private void initialType(){
+        TextView typeColor = findViewById(R.id.typeColor);
+        int color = Integer.parseInt(type.getColor());
+        if(color==getResources().getColor(R.color.violet)){
+            typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkdg_purple));
+        }else if(color==-1){
+            typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_default));
+        }else if(color==getResources().getColor(R.color.green)){
+            typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_green));
+        }else if(color==getResources().getColor(R.color.blue)){
+            typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_blue));
+        }else if(color==getResources().getColor(R.color.red)){
+            typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_red));
+        }else if(color==getResources().getColor(R.color.yellow)){
+            typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_yellow));
+        }
+        else {
+            typeColor.getBackground().setColorFilter(new LightingColorFilter(color, color));
+        }
+    }
+
+
 
     public void setYear(int year) {
         SpecificTaskCreator.year = year;
