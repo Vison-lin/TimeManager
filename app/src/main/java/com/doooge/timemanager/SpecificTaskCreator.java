@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -232,7 +231,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
                     TextView typeColor = findViewById(R.id.typeColor);
                     int color = Integer.parseInt(type.getColor());
                     if(color==getResources().getColor(R.color.violet)){
-                        typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkdg_purple));
+                        typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_purple));
                     }else if(color==-1){
                         typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_default));
                     }else if(color==getResources().getColor(R.color.green)){

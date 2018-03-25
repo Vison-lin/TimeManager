@@ -53,7 +53,7 @@ public class QuickAccessTaskAdapter extends BaseAdapter {
         Button taskTypeBlock = rowView.findViewById(R.id.taskTypeBtn);
         int color =Integer.parseInt(task.getType().getColor());
         if(color==viewGroup.getResources().getColor(R.color.violet)){
-            taskTypeBlock.setBackground(viewGroup.getResources().getDrawable(R.drawable.btn_bkdg_purple));
+            taskTypeBlock.setBackground(viewGroup.getResources().getDrawable(R.drawable.btn_bkgd_purple));
         }else if(color==-1){
             taskTypeBlock.setBackground(viewGroup.getResources().getDrawable(R.drawable.btn_bkgd_default));
         }else if(color==viewGroup.getResources().getColor(R.color.green)){
