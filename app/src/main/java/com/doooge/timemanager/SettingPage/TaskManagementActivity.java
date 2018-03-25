@@ -35,7 +35,7 @@ public class TaskManagementActivity extends AppCompatActivity {
         ldh = LocalDatabaseHelper.getInstance(this);
         type = (Type)getIntent().getSerializableExtra("TypeInfo");
         if(type!=null) {
-            specificTasks = ldh.findSpecificTasksByType(type);
+            specificTasks = ldh.findSpecificTasksByTypes(type);
         }else {
             specificTasks = ldh.getAllSpecificTask();
         }
@@ -72,7 +72,7 @@ public class TaskManagementActivity extends AppCompatActivity {
                     Type selectType = typeList.get(arg2 - 1);//because "Show all types" is not in the typeList
                     specificTasks.clear();
                     specificTasks = new ArrayList<SpecificTask>();
-                    specificTasks = ldh.findSpecificTasksByType(selectType);
+                    specificTasks = ldh.findSpecificTasksByTypes(selectType);
                 }
                 adapter.updateSpecificTaskOverviewAdapter(specificTasks);
             }

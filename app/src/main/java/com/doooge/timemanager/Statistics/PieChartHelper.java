@@ -44,7 +44,7 @@ class PieChartHelper {
             pieEntry.add(new PieEntry(percentage, temp.getName(), temp));
             colors.add(Integer.parseInt(next.first.getColor()));
         }
-        pieDataSet = new PieDataSet(pieEntry, "The PieChart For Selected Type of Tasks");
+        pieDataSet = new PieDataSet(pieEntry, null);
         //Draw label outside of pieChart
         pieDataSet.setValueLinePart1OffsetPercentage(90.f);
         pieDataSet.setValueLinePart1Length(.5f);
@@ -63,6 +63,7 @@ class PieChartHelper {
         Iterator<SpecificTask> iterator1 = specificTasks.iterator();
         ArrayList<Pair<Type, Float>> specificTasksWithPercentage = new ArrayList<>();
         long totalTimeInMillis = 0;
+        //TODO should we only calculate the finished Tasks? How can we calculate the total time? i.e. Should we include the incompleted tasks' time?
         //Calculate the total time
         while (iterator1.hasNext()) {
             SpecificTask specificTask = iterator1.next();
@@ -74,7 +75,7 @@ class PieChartHelper {
         while (iterator2.hasNext()) {
             SpecificTask specificTask = iterator2.next();
             Type type = specificTask.getType();
-            if (specificTaskPercentageGroupByType.containsKey(type.getId())) {//if already start to count that type
+            if (specificTaskPercentageGroupByType.containsKey(type.getId())) {//if already selectedStartCal to count that type
                 Long newTotalTime = specificTaskPercentageGroupByType.get(type.getId()) + CalendarHelper.durationOfStartAndEndTimeInMillis(specificTask.getStartTime(), specificTask.getEndTime());
                 specificTaskPercentageGroupByType.remove(type.getId());
                 specificTaskPercentageGroupByType.put(type.getId(), newTotalTime);

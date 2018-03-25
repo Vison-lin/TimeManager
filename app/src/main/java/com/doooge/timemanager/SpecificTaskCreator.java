@@ -281,6 +281,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
                 specificTask.setTaskName(userName);
                 specificTask.setStartTime(calStart);
                 specificTask.setEndTime(calEnd);
+                specificTask.setType(type);
                 ldh.updateSpecificTaskTable(specificTask);
             }else {
                 specificTask_new = new SpecificTask(userName, calStart, calEnd);
