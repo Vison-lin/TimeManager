@@ -64,6 +64,8 @@ public class QuickAccessTaskAdapter extends BaseAdapter {
             taskTypeBlock.setBackground(viewGroup.getResources().getDrawable(R.drawable.btn_bkgd_red));
         }else if(color==viewGroup.getResources().getColor(R.color.yellow)){
             taskTypeBlock.setBackground(viewGroup.getResources().getDrawable(R.drawable.btn_bkgd_yellow));
+        } else {
+            throw new IllegalStateException();
         }
 
 

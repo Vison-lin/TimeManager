@@ -13,7 +13,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="4"
-            android:background="#3F51B5"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -23,7 +22,7 @@
                 android:layout_height="match_parent"
                 android:text="New Task"
                 android:textAlignment="center"
-                android:textColor="#FFFFFF"
+                android:textColor="#000000"
                 android:textSize="30sp" />
 
         </LinearLayout>
@@ -48,7 +47,6 @@
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
             android:layout_weight="4"
-            android:background="#3F51B5"
             android:orientation="horizontal"
             android:src="@drawable/settingbuttonicon">
 
@@ -58,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@drawable/addingbuttonicon" />
+                android:src="@drawable/add" />
 
         </LinearLayout>
 
