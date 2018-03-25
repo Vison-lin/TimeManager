@@ -302,7 +302,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
         int color = Integer.parseInt(type.getColor());
         if(color==getResources().getColor(R.color.violet)){
             typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkdg_purple));
-        }else if(color==-1){
+        }else if(color==-6710836){
             typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_default));
         }else if(color==getResources().getColor(R.color.green)){
             typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_green));

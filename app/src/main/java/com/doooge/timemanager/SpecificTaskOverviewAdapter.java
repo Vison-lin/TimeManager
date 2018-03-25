@@ -60,7 +60,7 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
         int color =Integer.parseInt(specificTask.getType().getColor());
         if(color==viewGroup.getResources().getColor(R.color.violet)){
             taskType.setBackground(viewGroup.getResources().getDrawable(R.drawable.btn_bkdg_purple));
-        }else if(color==-1){
+        }else if(color==-6710836){
             taskType.setBackground(viewGroup.getResources().getDrawable(R.drawable.btn_bkgd_default));
         }else if(color==viewGroup.getResources().getColor(R.color.green)){
             taskType.setBackground(viewGroup.getResources().getDrawable(R.drawable.btn_bkgd_green));

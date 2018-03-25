@@ -40,7 +40,7 @@ public class TypeManagementAdapter extends ArrayAdapter<Type> {
         int color = Integer.parseInt(type.getColor());
         if(color==parent.getResources().getColor(R.color.violet)){
             typeButton.setBackground(parent.getResources().getDrawable(R.drawable.btn_bkdg_purple));
-        }else if(color==-1){
+        }else if(color==-6710836){
             typeButton.setBackground(parent.getResources().getDrawable(R.drawable.btn_bkgd_default));
         }else if(color==parent.getResources().getColor(R.color.green)){
             typeButton.setBackground(parent.getResources().getDrawable(R.drawable.btn_bkgd_green));
