@@ -164,8 +164,6 @@ public class TimeBarView extends View {
 
     @Override
     public void onDraw(Canvas canvas) {
-        System.out.println("====!!!"+progressStart);
-        System.out.println("====@@@"+progressEnd);
 
         /**
          * draw the circle

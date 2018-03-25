@@ -65,11 +65,12 @@ public class SpecificTaskCreator extends AppCompatActivity {
         this.context = this;
 
 
+
         //Going from QuickAccessTask
         task = (Task) getIntent().getSerializableExtra("givenTask");
         //Going from SpecificTaskOverViewAdapter
-        specificTask = (SpecificTask) getIntent().getSerializableExtra("givenSpecificTask");
-        taskManagement = (String) getIntent().getSerializableExtra("taskManagement");
+       specificTask = (SpecificTask) getIntent().getSerializableExtra("givenSpecificTask");
+       taskManagement=(String)getIntent().getSerializableExtra("taskManagement");
 
         setContentView(R.layout.taskcreator);
 
@@ -200,7 +201,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addTask(v);
+                 addTask(v);
             }
         });
 
@@ -227,13 +228,12 @@ public class SpecificTaskCreator extends AppCompatActivity {
             mSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener(){
                 public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 /* 将所选mySpinner 的值带入myTextView 中*/
-                    if (specificTask == null) {
-                        type = typeList.get(arg2);
-                        initialType();
-                    }
+                if(specificTask==null) {
+                    type = typeList.get(arg2);
+                    initialType();
+                }
                     arg0.setVisibility(View.VISIBLE);
                 }
-
                 public void onNothingSelected(AdapterView<?> arg0) {
                     arg0.setVisibility(View.VISIBLE);
                 }
@@ -297,22 +297,23 @@ public class SpecificTaskCreator extends AppCompatActivity {
         setDay(calStart.get(Calendar.DATE));
     }
 
-    private void initialType() {
+    private void initialType(){
         TextView typeColor = findViewById(R.id.typeColor);
         int color = Integer.parseInt(type.getColor());
-        if (color == getResources().getColor(R.color.violet)) {
-            typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_purple));
-        } else if (color == -1) {
+        if(color==getResources().getColor(R.color.violet)){
+            typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkdg_purple));
+        }else if(color==-6710836){
             typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_default));
-        } else if (color == getResources().getColor(R.color.green)) {
+        }else if(color==getResources().getColor(R.color.green)){
             typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_green));
-        } else if (color == getResources().getColor(R.color.blue)) {
+        }else if(color==getResources().getColor(R.color.blue)){
             typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_blue));
-        } else if (color == getResources().getColor(R.color.red)) {
+        }else if(color==getResources().getColor(R.color.red)){
             typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_red));
-        } else if (color == getResources().getColor(R.color.yellow)) {
+        }else if(color==getResources().getColor(R.color.yellow)){
             typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_yellow));
-        } else {
+        }
+        else {
             typeColor.getBackground().setColorFilter(new LightingColorFilter(color, color));
         }
     }
