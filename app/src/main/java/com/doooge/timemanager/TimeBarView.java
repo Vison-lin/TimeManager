@@ -120,13 +120,13 @@ public class TimeBarView extends View {
         startPoint = new Point(0, 0);
         endPoint = new Point(0, 0);
         progressStart  =0;
-        progressEnd  = 0;
+        progressEnd  = 720;
 
 
         TypedArray mTypedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundProgressBar);
 
         //Gets the customer property and default values.
-        roundColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundColor, Color.BLACK);
+        roundColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundColor, getResources().getColor(R.color.violet));
         roundProgressColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundProgressColor, getResources().getColor(R.color.event_color_01));
         roundWidth = mTypedArray.getDimension(R.styleable.RoundProgressBar_roundWidth, 70);
         textColor = mTypedArray.getColor(R.styleable.RoundProgressBar_textColor, Color.BLUE);
@@ -164,6 +164,9 @@ public class TimeBarView extends View {
 
     @Override
     public void onDraw(Canvas canvas) {
+        System.out.println("====!!!"+progressStart);
+        System.out.println("====@@@"+progressEnd);
+
         /**
          * draw the circle
          */
@@ -210,11 +213,14 @@ public class TimeBarView extends View {
         paint.setColor(roundProgressColor);
         RectF oval = new RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
         paint.setStyle(Paint.Style.STROKE);
-        if (progressStart >= progressEnd) {
+        if (progressStart > progressEnd) {
 
-            canvas.drawArc(oval, 360 * progressEnd / max + 270, 360 * (progressStart - progressEnd) / max, false, paint);
+            canvas.drawArc(oval, -360 * (1440-progressStart) / max + 270, 360 * (1440-progressStart + progressEnd) / max, false, paint);
         } else if (progressStart < progressEnd) {
-            canvas.drawArc(oval, 360 * progressEnd / max + 270, 360 * (max - progressEnd + progressStart) / max, false, paint);
+            canvas.drawArc(oval, 360 * progressStart / max + 270, 360 * (progressEnd - progressStart) / max, false, paint);
+        }
+        if(getTime(progressStart).equals(getTime(progressEnd))){
+            canvas.drawArc(oval, 360 * progressStart / max + 270, 360 , false, paint);
         }
 
         PointF progressStartPoint = ChartUtil.calcArcEndPointXY(centerX, centerY, radius, 360 * progressStart / max, 270);
@@ -388,7 +394,13 @@ public class TimeBarView extends View {
     }
 
     private boolean isOverDay(int processStart, int processEnd) {
-        return processStart > processEnd;
+        if(getTime(processStart).equals(getTime(processEnd))){
+            return true;
+        }
+        if(processStart>processEnd){
+            return true;
+        }
+        return false;
     }
 
 
@@ -438,7 +450,8 @@ public class TimeBarView extends View {
             } else if (second < second1) {
                 result = "00:" + ((second1-second)<10 ?"0"+(second1-second):second1-second);
             } else {
-                result = "00:00";
+                result = "24:00";
+
             }
         }
 
