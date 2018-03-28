@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -18,7 +19,7 @@ import java.util.List;
 public class TimePickerDialog {
 
     private Context mContext;
-    private AlertDialog.Builder mAlertDialog;
+    private AlertDialog mAlertDialog;
     private int mHour, mMinute;
     private SpecificTaskCreator.TimePickerDialogInterface timePickerDialogInterface;
     private TimePicker mTimePicker;
@@ -55,28 +56,56 @@ public class TimePickerDialog {
      * @param view
      */
     private void initDialog(View view) {
-        mAlertDialog.setPositiveButton("OK",
-                new android.content.DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
+//        mAlertDialog.setPositiveButton("OK",
+//                new android.content.DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//
+//                        getDatePickerValue();
+//
+//                        timePickerDialogInterface.positiveListener(mYear, mMonth, mDay);
+//
+//                    }
+//                });
+//        mAlertDialog.setNegativeButton("CANCEL",
+//                new android.content.DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        timePickerDialogInterface.negativeListener();
+//                        dialog.dismiss();
+//                    }
+//                });
+
+        
+
+        Button add  = view.findViewById(R.id.add);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
 
                         getDatePickerValue();
 
                         timePickerDialogInterface.positiveListener(mYear, mMonth, mDay);
 
-                    }
-                });
-        mAlertDialog.setNegativeButton("CANCEL",
-                new android.content.DialogInterface.OnClickListener() {
+                        mAlertDialog.dismiss();
+            }
+        });
+        Button cancel  = view.findViewById(R.id.cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAlertDialog.dismiss();
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        timePickerDialogInterface.negativeListener();
-                        dialog.dismiss();
-                    }
-                });
+            }
+        });
+
+
+
         mAlertDialog.setView(view);
     }
 
@@ -87,8 +116,7 @@ public class TimePickerDialog {
     public void showDatePickerDialog() {
         mTag = 1;
         View view1 = initDatePicker();
-        mAlertDialog = new AlertDialog.Builder(mContext);
-        mAlertDialog.setTitle("TIME PICKER");
+        mAlertDialog = new AlertDialog.Builder(mContext).create();
         initDialog(view1);
         mAlertDialog.show();
     }

@@ -14,7 +14,18 @@
       <item name="android:maxHeight">10dp</item>
 
     </style>
-    
-    
+
+    <style name="MyEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/black</item>
+        <item name="colorControlActivated">@color/violet</item>
+    </style>
+
+  <style name="MyTimepicker" parent="android:Theme.Material.Light.Dialog">
+      <item name="android:colorAccent">@color/background_color</item>
+
+  </style>
+
+
+
 
 </resources>
