@@ -14,7 +14,12 @@
       <item name="android:maxHeight">10dp</item>
 
     </style>
-    
-    
+
+    <style name="date_picker_theme" parent="@android:style/Theme.Material.Dialog.Alert">
+        <item name="colorControlActivated">@color/green</item>
+        <item name="colorAccent">@color/blue</item>
+        <item name="android:background">@color/background_color</item>
+    </style>
+
 
 </resources>
