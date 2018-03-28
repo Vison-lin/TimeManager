@@ -7,11 +7,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
-import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
@@ -28,6 +26,14 @@ public class TimeBarView extends View {
      * instance of handler
      */
     private static Handler handler;
+    /**
+     * The current process of start thumb
+     */
+    private static int progressStart = 0;
+    /**
+     * The current process of end thumb
+     */
+    private static int progressEnd = 0;
     /**
      * The paint
      */
@@ -48,14 +54,6 @@ public class TimeBarView extends View {
      * The maximum process
      */
     private int max;
-    /**
-     * The current process of start thumb
-     */
-    private static int progressStart = 0;
-    /**
-     * The current process of end thumb
-     */
-    private static int progressEnd = 0;
     /**
      * The color of the string of intermediate progress percentage.
      */
@@ -103,8 +101,8 @@ public class TimeBarView extends View {
     }
     public TimeBarView(Context context,int progressStart,int progressEnd) {
         this(context, null);
-        this.progressStart =progressStart;
-        this.progressEnd = progressEnd;
+        TimeBarView.progressStart = progressStart;
+        TimeBarView.progressEnd = progressEnd;
         System.out.println(progressStart+"!!!!!!!!!!!");
         System.out.println(progressEnd+"!!!!!end!!!!!!");
     }
@@ -403,10 +401,7 @@ public class TimeBarView extends View {
         if(getTime(processStart).equals(getTime(processEnd))){
             return true;
         }
-        if(processStart>processEnd){
-            return true;
-        }
-        return false;
+        return processStart > processEnd;
     }
 
 

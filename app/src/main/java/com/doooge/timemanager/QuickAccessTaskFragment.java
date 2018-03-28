@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,8 @@ public class QuickAccessTaskFragment extends Fragment {
     private QuickAccessTaskAdapter adapter;
     private ArrayList<Task> tasks;
     private LocalDatabaseHelper ldh;
+    private TextView pageTitle;
+
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,6 +31,9 @@ public class QuickAccessTaskFragment extends Fragment {
                 R.layout.activity_quick_access_task, container, false);
 
         ldh = LocalDatabaseHelper.getInstance(getContext());
+        pageTitle = rootView.findViewById(R.id.activityTitleText);
+        pageTitle.setBackground(getResources().getDrawable(R.drawable.title3));
+
         tasks = ldh.getAllTask();
         adapter = new QuickAccessTaskAdapter(tasks, getContext());
         mListView = rootView.findViewById(R.id.taskList);

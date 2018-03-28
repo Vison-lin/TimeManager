@@ -147,7 +147,7 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
         blue.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_blue));
         green.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_green));
         yellow.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_yellow));
-        violet.setBackground(getResources().getDrawable(R.drawable.btn_bkdg_purple));
+        violet.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_purple));
         red.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_red));
 
     }
