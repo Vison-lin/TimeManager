@@ -87,7 +87,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
 
     public void getSelectedDate() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.date_picker_theme);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MyTimepicker);
         final DatePicker picker = new DatePicker(getContext());
         builder.setTitle("Select date");
         builder.setView(picker);
