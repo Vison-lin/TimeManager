@@ -133,7 +133,7 @@ public class TimeBarView extends View {
         mTypedArray.recycle();
 
         // Loading the picture of thumb
-        thumbStart = getResources().getDrawable(R.drawable.check1);
+        thumbStart = getResources().getDrawable(R.drawable.a1);
         //thumbS = BitmapFactory.decodeResource(getResources(), R.drawable.a1);
         int thumbHalfheight = thumbStart.getIntrinsicHeight() / 2;
         System.out.println("=="+thumbHalfheight);
