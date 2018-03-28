@@ -86,7 +86,8 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
 
 
     public void getSelectedDate() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.date_picker_theme);
         final DatePicker picker = new DatePicker(getContext());
         builder.setTitle("Select date");
         builder.setView(picker);
@@ -105,11 +106,12 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
             public void onClick(DialogInterface dialog, int which) {
                 Calendar selectedCalendar = Calendar.getInstance();
                 updateView(selectedCalendar);
-
             }
         });
 
-        builder.show();
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
     }
 
     @Override
