@@ -135,20 +135,28 @@ public class TimeBarView extends View {
         mTypedArray.recycle();
 
         // Loading the picture of thumb
-        thumbStart = getResources().getDrawable(R.drawable.a1);
-        thumbS = BitmapFactory.decodeResource(getResources(), R.drawable.a1);
+        thumbStart = getResources().getDrawable(R.drawable.check1);
+        //thumbS = BitmapFactory.decodeResource(getResources(), R.drawable.a1);
         int thumbHalfheight = thumbStart.getIntrinsicHeight() / 2;
+        System.out.println("=="+thumbHalfheight);
         int thumbHalfWidth = thumbStart.getIntrinsicWidth() / 2;
-        thumbStart.setBounds(-thumbHalfWidth, -thumbHalfheight, thumbHalfWidth, thumbHalfheight);
+        //thumbStart.setBounds(-thumbHalfWidth, -thumbHalfheight, thumbHalfWidth, thumbHalfheight);
+        int left = (int)(25-roundWidth);
+        int top = (int)(25-roundWidth);
+        int right = (int)(roundWidth-15);
+        int bottom = (int)(roundWidth-15);
+        thumbStart.setBounds(left, top, 55, 55);
+
 
         thumbStartPress = getResources().getDrawable(R.drawable.a2);
         thumbHalfheight = thumbStartPress.getIntrinsicHeight() / 2;
+        System.out.println("==="+thumbHalfheight);
         thumbHalfWidth = thumbStartPress.getIntrinsicWidth() / 2;
         thumbStartPress.setBounds(-thumbHalfWidth, -thumbHalfheight, thumbHalfWidth, thumbHalfheight);
         paddingOuterThumb = thumbHalfheight;
 
         thumbEnd = getResources().getDrawable(R.drawable.a1);
-        thumbE = BitmapFactory.decodeResource(getResources(), R.drawable.a1);
+        //thumbE = BitmapFactory.decodeResource(getResources(), R.drawable.a1);
         int thumbHalfheight1 = thumbEnd.getIntrinsicHeight() / 2;
         int thumbHalfWidth1 = thumbEnd.getIntrinsicWidth() / 2;
         thumbEnd.setBounds(-thumbHalfWidth1, -thumbHalfheight1, thumbHalfWidth1, thumbHalfheight1);
