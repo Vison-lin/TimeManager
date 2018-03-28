@@ -7,39 +7,41 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#3F51B5"
-        android:gravity="center"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/activityTitleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="All Tasks Overview"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textSize="30sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:orientation="horizontal">
 
-        <Spinner
-            android:id="@+id/taskManagement_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/activityTitleText"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="@drawable/title1"
+                android:textAlignment="center" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="70dp"
-        android:orientation="horizontal">
+            <Spinner
+                android:id="@+id/taskManagement_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
 
-        <ListView
-            android:id="@+id/taskList"
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:descendantFocusability="blocksDescendants" />
+            android:orientation="horizontal">
+
+            <ListView
+                android:id="@+id/taskList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:descendantFocusability="blocksDescendants" />
+        </LinearLayout>
 
     </LinearLayout>
 

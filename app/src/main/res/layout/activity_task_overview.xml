@@ -27,7 +27,7 @@
             android:layout_height="21dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="10dp"
             android:onClick="onClick"
             android:src="@drawable/settingbuttonicon"
             tools:ignore="ContentDescription" />

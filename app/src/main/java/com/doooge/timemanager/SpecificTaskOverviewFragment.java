@@ -49,6 +49,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         calBtn = rootView.findViewById(R.id.showCalender);
         calBtn.setOnClickListener(this);
 
+
         Calendar today = Calendar.getInstance();
         pageTitle = rootView.findViewById(R.id.activityTitleText);
         specificTasks = ldh.findSpecificTasksByTime(today);//search all specificTasks that start today
@@ -81,8 +82,6 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
 
                 break;
         }
-
-
     }
 
 
@@ -140,16 +139,20 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
     }
 
     private void updatePageTitle(Calendar calendar) {
-        String taskStatus;
         int numOfSpecificTask = specificTasks.size();
         if (numOfSpecificTask < 0) {
             throw new IllegalArgumentException();
         } else if (numOfSpecificTask < 2 && numOfSpecificTask >= 0) {
-            taskStatus = "Task";
+            pageTitle.setBackground(getResources().getDrawable(R.drawable.title1));
+
+            //taskStatus = "Task";
+
         } else {
-            taskStatus = "Tasks";
+            pageTitle.setBackground(getResources().getDrawable(R.drawable.title2));
+
+            //taskStatus = "Tasks";
         }
-        pageTitle.setText("Daily " + taskStatus);
+        //pageTitle.setText("Daily " + taskStatus);
         //pageTitle.setText(taskStatus + " in " + month + ". " + day + " " + year);
     }
 

@@ -20,7 +20,6 @@
                 android:id="@+id/activityTitleText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="New Task"
                 android:textAlignment="center"
                 android:textColor="#000000"
                 android:textSize="30sp" />

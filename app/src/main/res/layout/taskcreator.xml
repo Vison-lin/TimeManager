@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/taskcreator_backgound">
+    android:background="@drawable/taskcreator_backgound"
+    android:orientation="vertical">
 
 
     <LinearLayout
@@ -47,9 +46,10 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:text="2018.3.7"
-                android:textColor="@color/black"
+                android:textColor="#000000"
                 android:textSize="17sp"
-                android:textStyle="bold|italic" />
+                android:textStyle="bold"
+                android:typeface="normal" />
 
             <TextView
                 android:id="@+id/endDatePrint"
@@ -58,9 +58,9 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:text="2018.3.7"
-                android:textColor="@color/black"
+                android:textColor="#000000"
                 android:textSize="17sp"
-                android:textStyle="bold|italic" />
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 
@@ -83,7 +83,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:text="00:00"
-                android:textColor="@color/black"
+                android:textColor="#000000"
                 android:textStyle="bold" />
 
             <TextView
@@ -93,7 +93,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:text="00:00"
-                android:textColor="@color/blue"
+                android:textColor="#000000"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -117,7 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:text="Choose task type:"
+                android:text="Task Type:"
                 android:textColor="@color/gray"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -126,7 +126,7 @@
                 android:id="@+id/typeColor"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="4"
+                android:layout_weight="5"
                 android:background="@drawable/btn_bkgd_default" />
 
             <Spinner
@@ -179,24 +179,24 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:gravity="bottom"
+                    android:layout_height="60dp"
                     android:layout_gravity="bottom"
+                    android:gravity="bottom"
                     android:orientation="horizontal">
 
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1">
+
                         <ImageButton
                             android:id="@+id/checkBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="85dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center"
                             android:layout_margin="5dp"
-                            android:layout_gravity="bottom"
                             android:background="@drawable/checkboxclick"
                             android:scaleType="centerCrop" />
-
 
 
                     </FrameLayout>
@@ -205,19 +205,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1">
+
                         <Button
                             android:id="@+id/deleteButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="85dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center"
                             android:layout_margin="5dp"
-                            android:layout_gravity="bottom"
                             android:background="@drawable/delete"
 
-                             />
-
-
-
-
+                            />
 
                     </FrameLayout>
 
@@ -228,9 +225,9 @@
 
                         <Button
                             android:id="@+id/submitButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="85dp"
-                            android:layout_gravity="bottom"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center"
                             android:layout_margin="5dp"
                             android:background="@drawable/add"
                             android:scaleType="fitXY" />
