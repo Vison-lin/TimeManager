@@ -20,10 +20,15 @@
         <item name="colorControlActivated">@color/violet</item>
     </style>
 
-    <style name="MyTimepicker" parent="@android:style/Theme.Material.Dialog.Alert">
-      <item name="android:colorAccent">@color/background_color</item>
+    <style name="MyTimepicker" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:background">@color/background_color</item>
+        <item name="android:colorForeground">@color/black</item>
+        <item name="android:colorControlActivated">@color/violet</item>
+        <item name="android:colorFocusedHighlight">@color/green</item>
+        <item name="android:colorForegroundInverse">@color/green</item>
 
-  </style>
+
+    </style>
 
 
 

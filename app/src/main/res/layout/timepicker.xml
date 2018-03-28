@@ -2,19 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:background="@drawable/taskcreator_backgound"
+    android:gravity="center"
     android:orientation="vertical">
 
     <DatePicker
         android:id="@+id/datePicker"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:calendarViewShown="false"
         android:layout_weight="1"
         android:background="@drawable/taskcreator_backgound"
+        android:calendarViewShown="false"
         android:theme="@style/MyTimepicker"
-
         />
 
     <LinearLayout
@@ -28,19 +27,19 @@
             android:id="@+id/cancel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="cancel"
             android:layout_margin="5dp"
-            android:background="#00000000"/>
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:text="cancel" />
 
         <Button
             android:id="@+id/add"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="confirm"
             android:layout_margin="5dp"
-            android:background="#00000000"/>
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:text="confirm" />
     </LinearLayout>
 
 
