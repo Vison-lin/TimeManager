@@ -14,19 +14,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="5"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/activityTitleText"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:background="@drawable/title1"
                 android:textAlignment="center" />
 
             <Spinner
                 android:id="@+id/taskManagement_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="10dp" />
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                />
 
         </LinearLayout>
 
