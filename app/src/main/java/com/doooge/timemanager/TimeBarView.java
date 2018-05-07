@@ -3,7 +3,6 @@ package com.doooge.timemanager;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -143,26 +142,26 @@ public class TimeBarView extends View {
         int top = (int)(25-roundWidth);
         int right = (int)(roundWidth-15);
         int bottom = (int)(roundWidth-15);
-        thumbStart.setBounds(left, top, 55, 55);
+        thumbStart.setBounds(left, top, -left, -top);
 
 
         thumbStartPress = getResources().getDrawable(R.drawable.a2);
         thumbHalfheight = thumbStartPress.getIntrinsicHeight() / 2;
         System.out.println("==="+thumbHalfheight);
         thumbHalfWidth = thumbStartPress.getIntrinsicWidth() / 2;
-        thumbStartPress.setBounds(-thumbHalfWidth, -thumbHalfheight, thumbHalfWidth, thumbHalfheight);
+        thumbStartPress.setBounds(left, top, -left, -top);
         paddingOuterThumb = thumbHalfheight;
 
         thumbEnd = getResources().getDrawable(R.drawable.a1);
         //thumbE = BitmapFactory.decodeResource(getResources(), R.drawable.a1);
         int thumbHalfheight1 = thumbEnd.getIntrinsicHeight() / 2;
         int thumbHalfWidth1 = thumbEnd.getIntrinsicWidth() / 2;
-        thumbEnd.setBounds(-thumbHalfWidth1, -thumbHalfheight1, thumbHalfWidth1, thumbHalfheight1);
+        thumbEnd.setBounds(left, top, -left, -top);
 
         thumbEndPress = getResources().getDrawable(R.drawable.a2);
         thumbHalfheight1 = thumbEndPress.getIntrinsicHeight() / 2;
         thumbHalfWidth1 = thumbEndPress.getIntrinsicWidth() / 2;
-        thumbEndPress.setBounds(-thumbHalfWidth1, -thumbHalfheight1, thumbHalfWidth1, thumbHalfheight1);
+        thumbEndPress.setBounds(left, top, -left, -top);
 
 
 
