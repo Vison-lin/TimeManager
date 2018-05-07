@@ -21,7 +21,8 @@
             android:ems="10"
             android:hint="Enter the task name:"
             android:inputType="text"
-            android:lines="1" />
+            android:lines="1"
+            android:theme="@style/MyEditText" />
 
     </LinearLayout>
 
