@@ -55,9 +55,9 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
             if(type.getId()!=-999) {
                 delete.setVisibility(View.VISIBLE);
             }
-            createType.setText("Updated");
+            createType.setBackground(getDrawable(R.drawable.update));
             TextView title = findViewById(R.id.titleType);
-            title.setText("Updated the Type");
+            title.setText("Update the Type");
             color = Integer.parseInt(type.getColor());
             id = type.getId();
         }
@@ -71,12 +71,7 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
         violet.setOnClickListener(this);
         red = findViewById(R.id.red_type);
         red.setOnClickListener(this);
-
-
-
     }
-
-
 
     public void onClick(View view) {
 
