@@ -53,9 +53,9 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
     public View getView(int position, View view, final ViewGroup viewGroup) {
         //Get view for row item
         final View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_daily_task_list, viewGroup, false);
-        TextView taskName = rowView.findViewById(R.id.taskName);
-        TextView taskHour = rowView.findViewById(R.id.taskHour);
-        Button taskType = rowView.findViewById(R.id.typeBtn);
+        final TextView taskName = rowView.findViewById(R.id.taskName);
+        final TextView taskHour = rowView.findViewById(R.id.taskHour);
+        final Button taskType = rowView.findViewById(R.id.typeBtn);
         final SpecificTask specificTask = getItem(position);
         int color = Integer.parseInt(specificTask.getType().getColor());
         if (color == viewGroup.getResources().getColor(R.color.violet)) {
@@ -74,8 +74,14 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
 
         if (specificTask.isCompletedInBoolean() == true) {
             rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_comp));
+            taskName.setTextColor(viewGroup.getResources().getColor(R.color.gray));
+            taskHour.setTextColor(viewGroup.getResources().getColor(R.color.gray));
+            taskType.setTextColor(viewGroup.getResources().getColor(R.color.gray));
         } else {
-            rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_incomp));
+            //rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_incomp));
+            taskName.setTextColor(viewGroup.getResources().getColor(R.color.black));
+            taskHour.setTextColor(viewGroup.getResources().getColor(R.color.black));
+            taskType.setTextColor(viewGroup.getResources().getColor(R.color.black));
         }
 
         taskName.setText(specificTask.getTaskName());
@@ -118,12 +124,26 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
                 boolean success;
                 if (specificTask.isCompletedInBoolean()) {// If currently is completed and will be marked as incomplete
                     specificTask.setCompleted(0);
-                    rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_incomp));
+                    taskName.setTextColor(viewGroup.getResources().getColor(R.color.black));
+                    taskHour.setTextColor(viewGroup.getResources().getColor(R.color.black));
+                    taskType.setTextColor(viewGroup.getResources().getColor(R.color.black));
+                    //rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_incomp));
                     success = ldh.updateSpecificTaskTable(specificTask);
+                    specificTasks.remove(specificTask);
+                    specificTasks.add(0, specificTask);
+                    System.out.println(specificTask.getStartTime().getTimeInMillis());
+                    notifyDataSetChanged();
+
                 } else {// If currently is incomplete and will be marked as completed
                     specificTask.setCompleted(1);
-                    rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_comp));
+                    taskName.setTextColor(viewGroup.getResources().getColor(R.color.gray));
+                    taskHour.setTextColor(viewGroup.getResources().getColor(R.color.gray));
+                    taskType.setTextColor(viewGroup.getResources().getColor(R.color.gray));
+                    //rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_comp));
                     success = ldh.updateSpecificTaskTable(specificTask);
+                    specificTasks.remove(specificTask);
+                    specificTasks.add(specificTask);
+                    notifyDataSetChanged();
                 }
                 if (!success) {
                     try {
