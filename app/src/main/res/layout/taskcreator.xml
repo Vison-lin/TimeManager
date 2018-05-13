@@ -116,18 +116,21 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
+                android:layout_weight="4"
                 android:text="Select Type:"
                 android:textColor="@color/gray"
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
-            <TextView
+            <ImageView
                 android:id="@+id/typeColor"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
-                android:background="@drawable/btn_bkgd_default" />
+                android:scaleType="fitXY"
+                android:src="@drawable/btn_bkgd_default"
+
+                />
 
             <Spinner
                 android:id="@+id/mSpinner"

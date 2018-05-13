@@ -12,12 +12,14 @@ public class SpecificTask extends Task implements Serializable {
     private int isCompleted;
     private String startTime;
     private String endTime;
+    private long compareTime;
 
 
     public SpecificTask(String taskName, Calendar startTime, Calendar endTime) {
         super(taskName);
         setStartTime(startTime);
         setEndTime(endTime);
+        compareTime = startTime.getTimeInMillis();
     }
 
 
@@ -53,6 +55,11 @@ public class SpecificTask extends Task implements Serializable {
 
     public void setStartTime(Calendar startTime) {
         this.startTime = CalendarHelper.convertCal2UTC(startTime);
+
+    }
+
+    public long getCompareTime() {
+        return compareTime;
     }
 
 }
