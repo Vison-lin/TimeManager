@@ -58,12 +58,20 @@ class PieChartHelper {
         return pieDataSet;
     }
 
-    private ArrayList<Pair<Type, Float>> calPercentage(ArrayList<SpecificTask> specificTasks) {
+    private ArrayList<Pair<Type, Float>> calPercentage(ArrayList<SpecificTask> rawSpecificTasks) {
 
+        Iterator<SpecificTask> iterator = rawSpecificTasks.iterator();
+        ArrayList<SpecificTask> specificTasks = new ArrayList<>();
+        //Only calculate the completed tasks
+        while (iterator.hasNext()){
+            SpecificTask curr = iterator.next();
+            if (curr.isCompletedInBoolean()) {
+                specificTasks.add(curr);
+            }
+        }
         Iterator<SpecificTask> iterator1 = specificTasks.iterator();
         ArrayList<Pair<Type, Float>> specificTasksWithPercentage = new ArrayList<>();
         long totalTimeInMillis = 0;
-        //TODO should we only calculate the finished Tasks? How can we calculate the total time? i.e. Should we include the incompleted tasks' time?
         //Calculate the total time
         while (iterator1.hasNext()) {
             SpecificTask specificTask = iterator1.next();
