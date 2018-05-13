@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,8 +88,8 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
 
     public void getSelectedDate() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MyTimepicker);
-        final DatePicker picker = new DatePicker(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getContext(), R.style.MyTimepicker));
+        final DatePicker picker = new DatePicker(new ContextThemeWrapper(getContext(), R.style.MyTimepicker));
         builder.setTitle("Select date");
         builder.setView(picker);
         builder.setNegativeButton("Cancel", null);
