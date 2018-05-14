@@ -39,17 +39,17 @@ public class TypeManagementAdapter extends ArrayAdapter<Type> {
         typeButton.setText(type.getName());
         int color = Integer.parseInt(type.getColor());
         if(color==parent.getResources().getColor(R.color.violet)){
-            typeButton.setBackground(parent.getResources().getDrawable(R.drawable.btn_bkgd_purple));
+            typeButton.setBackgroundColor(parent.getResources().getColor(R.color.btn_bkgd_purple));
         } else if (color == -6710836) {
-            typeButton.setBackground(parent.getResources().getDrawable(R.drawable.btn_bkgd_default));
+            typeButton.setBackgroundColor(parent.getResources().getColor(R.color.btn_bkgd_def));
         }else if(color==parent.getResources().getColor(R.color.green)){
-            typeButton.setBackground(parent.getResources().getDrawable(R.drawable.btn_bkgd_green));
+            typeButton.setBackgroundColor(parent.getResources().getColor(R.color.btn_bkgd_green));
         }else if(color==parent.getResources().getColor(R.color.blue)){
-            typeButton.setBackground(parent.getResources().getDrawable(R.drawable.btn_bkgd_blue));
+            typeButton.setBackgroundColor(parent.getResources().getColor(R.color.btn_bkgd_blue));
         }else if(color==parent.getResources().getColor(R.color.red)){
-            typeButton.setBackground(parent.getResources().getDrawable(R.drawable.btn_bkgd_red));
+            typeButton.setBackgroundColor(parent.getResources().getColor(R.color.btn_bkgd_red));
         }else if(color==parent.getResources().getColor(R.color.yellow)){
-            typeButton.setBackground(parent.getResources().getDrawable(R.drawable.btn_bkgd_yellow));
+            typeButton.setBackgroundColor(parent.getResources().getColor(R.color.btn_bkgd_yellow));
         }
         else {
             typeButton.getBackground().setColorFilter(new LightingColorFilter(color, color));

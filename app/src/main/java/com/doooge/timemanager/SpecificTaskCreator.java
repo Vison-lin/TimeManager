@@ -245,10 +245,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
     }
 
-
-
-
-
     private void addTask(View view) {
         EditText taskName = findViewById(R.id.taskName);
         userName = String.valueOf(taskName.getText());
@@ -302,17 +298,17 @@ public class SpecificTaskCreator extends AppCompatActivity {
         ImageView typeColor = findViewById(R.id.typeColor);
         int color = Integer.parseInt(type.getColor());
         if (color == getResources().getColor(R.color.violet)) {
-            typeColor.setImageDrawable(getResources().getDrawable(R.drawable.btn_bkgd_purple));
+            typeColor.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_purple));
         } else if (color == -6710836) {
-            typeColor.setImageDrawable(getResources().getDrawable(R.drawable.btn_bkgd_default));
+            typeColor.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_def));
         } else if (color == getResources().getColor(R.color.green)) {
-            typeColor.setImageDrawable(getResources().getDrawable(R.drawable.btn_bkgd_green));
+            typeColor.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_green));
         } else if (color == getResources().getColor(R.color.blue)) {
-            typeColor.setImageDrawable(getResources().getDrawable(R.drawable.btn_bkgd_blue));
+            typeColor.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_blue));
         } else if (color == getResources().getColor(R.color.red)) {
-            typeColor.setImageDrawable(getResources().getDrawable(R.drawable.btn_bkgd_red));
+            typeColor.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_red));
         } else if (color == getResources().getColor(R.color.yellow)) {
-            typeColor.setImageDrawable(getResources().getDrawable(R.drawable.btn_bkgd_yellow));
+            typeColor.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_yellow));
         } else {
             typeColor.getBackground().setColorFilter(new LightingColorFilter(color, color));
         }

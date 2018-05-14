@@ -55,35 +55,35 @@
                 android:layout_width="0dp"
                 android:layout_height="70dp"
                 android:layout_weight="1"
-                android:background="@drawable/btn_bkgd_blue" />
+                android:background="@color/btn_bkgd_blue" />
 
             <Button
                 android:id="@+id/green_type"
                 android:layout_width="0dp"
                 android:layout_height="70dp"
                 android:layout_weight="1"
-                android:background="@drawable/btn_bkgd_green" />
+                android:background="@color/btn_bkgd_green" />
 
             <Button
                 android:id="@+id/yellow_type"
                 android:layout_width="0dp"
                 android:layout_height="70dp"
                 android:layout_weight="1"
-                android:background="@drawable/btn_bkgd_yellow" />
+                android:background="@color/btn_bkgd_yellow" />
 
             <Button
                 android:id="@+id/violet_type"
                 android:layout_width="0dp"
                 android:layout_height="70dp"
                 android:layout_weight="1"
-                android:background="@drawable/btn_bkgd_purple" />
+                android:background="@color/btn_bkgd_purple" />
 
             <Button
                 android:id="@+id/red_type"
                 android:layout_width="0dp"
                 android:layout_height="70dp"
                 android:layout_weight="1"
-                android:background="@drawable/btn_bkgd_red" />
+                android:background="@color/btn_bkgd_red" />
         </LinearLayout>
 
 
