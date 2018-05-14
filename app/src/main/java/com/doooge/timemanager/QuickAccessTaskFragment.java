@@ -32,7 +32,7 @@ public class QuickAccessTaskFragment extends Fragment {
 
         ldh = LocalDatabaseHelper.getInstance(getContext());
         pageTitle = rootView.findViewById(R.id.activityTitleText);
-        pageTitle.setBackground(getResources().getDrawable(R.drawable.title3));
+        //pageTitle.setBackground(getResources().getDrawable(R.drawable.title3));
 
         tasks = ldh.getAllTask();
         adapter = new QuickAccessTaskAdapter(tasks, getContext());

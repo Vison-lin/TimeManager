@@ -146,12 +146,12 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         if (numOfSpecificTask < 0) {
             throw new IllegalArgumentException();
         } else if (numOfSpecificTask < 2 && numOfSpecificTask >= 0) {
-            pageTitle.setBackground(getResources().getDrawable(R.drawable.title1));
+            //pageTitle.setBackground(getResources().getDrawable(R.drawable.title1));
 
             //taskStatus = "Task";
 
         } else {
-            pageTitle.setBackground(getResources().getDrawable(R.drawable.title2));
+            //pageTitle.setBackground(getResources().getDrawable(R.drawable.title2));
 
             //taskStatus = "Tasks";
         }
