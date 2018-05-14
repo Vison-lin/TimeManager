@@ -21,7 +21,6 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:scaleType="fitXY"
-            android:src="@drawable/btn_bkgd_default"
 
             />
 
