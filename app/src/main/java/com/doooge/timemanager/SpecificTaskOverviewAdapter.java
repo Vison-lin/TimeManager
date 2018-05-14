@@ -121,17 +121,17 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
         final Button taskType = rowView.findViewById(R.id.typeBtn);
         final SpecificTask specificTask = getItem(position);
         int color = Integer.parseInt(specificTask.getType().getColor());
-        if (color == viewGroup.getResources().getColor(R.color.violet)) {
+        if (color == viewGroup.getResources().getColor(R.color.btn_bkgd_purple)) {
             taskType.setBackgroundColor(viewGroup.getResources().getColor(R.color.btn_bkgd_purple));
         } else if (color == -6710836) {
             taskType.setBackgroundColor(viewGroup.getResources().getColor(R.color.btn_bkgd_def));
-        } else if (color == viewGroup.getResources().getColor(R.color.green)) {
+        } else if (color == viewGroup.getResources().getColor(R.color.btn_bkgd_green)) {
             taskType.setBackgroundColor(viewGroup.getResources().getColor(R.color.btn_bkgd_green));
-        } else if (color == viewGroup.getResources().getColor(R.color.blue)) {
+        } else if (color == viewGroup.getResources().getColor(R.color.btn_bkgd_blue)) {
             taskType.setBackgroundColor(viewGroup.getResources().getColor(R.color.btn_bkgd_blue));
-        } else if (color == viewGroup.getResources().getColor(R.color.red)) {
+        } else if (color == viewGroup.getResources().getColor(R.color.btn_bkgd_red)) {
             taskType.setBackgroundColor(viewGroup.getResources().getColor(R.color.btn_bkgd_red));
-        } else if (color == viewGroup.getResources().getColor(R.color.yellow)) {
+        } else if (color == viewGroup.getResources().getColor(R.color.btn_bkgd_yellow)) {
             taskType.setBackgroundColor(viewGroup.getResources().getColor(R.color.btn_bkgd_yellow));
         }
 
