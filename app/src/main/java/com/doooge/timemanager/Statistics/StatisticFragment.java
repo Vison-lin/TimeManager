@@ -16,6 +16,7 @@ import android.widget.CheckedTextView;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.doooge.timemanager.CalendarHelper;
@@ -56,6 +57,8 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
     private ArrayList<Type> selectedtypes;//init below
     private Button endDay;
     private Button startDay;
+    private TextView pieChartNoneData;
+    private boolean haveCompletedTasks = false;
 
     private ArrayList<SpecificTask> allSpecificTasks;
     private PieChartHelper pieChartHelper;
@@ -72,6 +75,8 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
         selectPirChartDisplayDuration = rootView.findViewById(R.id.selectPieChartDIsplayPeriod);
         selectPirChartDisplayDuration.setOnClickListener(this);
+
+        pieChartNoneData = rootView.findViewById(R.id.pieChartNoneData);
 
         /*
         All the charts' data will be refresh only if user add/remove SpecificTask.
@@ -116,6 +121,14 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         ArrayList<SpecificTask> specificTasks = ldb.findSpecificTasksByTypesDuringTime(selectedtypes, selectedStartCal[0], selectedEndCal[0]);
         allSpecificTasks.clear();
         allSpecificTasks = specificTasks;
+        Iterator<SpecificTask> iterator = allSpecificTasks.iterator();
+        while (iterator.hasNext()) {
+            SpecificTask curr = iterator.next();
+            if (curr.isCompletedInBoolean()) {
+                haveCompletedTasks = true;
+                break;
+            }
+        }
 
         updateCenterText();
 
@@ -423,10 +436,14 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
     }
 
     private void updateCenterText() {
-        if (allSpecificTasks.size() == 0) { // no data warming
-            pieChart.setCenterText("No task down");
-        } else {
+        if (haveCompletedTasks) {
             pieChart.setCenterText("Time distribution");
+            pieChart.setVisibility(View.VISIBLE);
+            pieChartNoneData.setVisibility(View.GONE);
+        } else {
+            pieChart.setVisibility(View.GONE);
+            pieChartNoneData.setVisibility(View.VISIBLE);
+            pieChartNoneData.setText("NO TASK HAS BEEN DONE BETWEEN SELECTED PERIOD");
         }
     }
 
@@ -452,4 +469,18 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         selectPirChartDisplayDuration.setText(selectedPieChartDisplayDurationBtnDisplay);
         selectedPieChartDisplayDurationBtnDisplay = "";
     }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        //once user switch to other page, user will ge given today's task(s) after then went back
+        if (isVisibleToUser) {
+            haveCompletedTasks = false;//refresh the boolean condition
+//            FragmentTransaction ftr = getFragmentManager().beginTransaction();
+//            ftr.detach(this).attach(this).commit();
+            updatePieChart();
+            updateCenterText();
+        }
+    }
+
 }

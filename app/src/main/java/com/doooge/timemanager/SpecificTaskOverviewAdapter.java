@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 
 
 /**
@@ -44,13 +43,13 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
             this.specificTasks.add(item);
         }
         this.specificTasks.addAll(completeList);
-        System.out.println("initial: " + specificTasks.size());
-        System.out.println("complete: " + completeList.size());
-        System.out.println("incomplete: " + incompleteList.size());
-        Iterator a = incompleteList.iterator();
-        while (a.hasNext()) {
-            System.out.println(((SpecificTask) a.next()).getTaskName());
-        }
+//        System.out.println("initial: " + specificTasks.size());
+//        System.out.println("complete: " + completeList.size());
+//        System.out.println("incomplete: " + incompleteList.size());
+//        Iterator a = incompleteList.iterator();
+//        while (a.hasNext()) {
+//            System.out.println(((SpecificTask) a.next()).getTaskName());
+//        }
         notifyDataSetChanged();
 
 
@@ -60,20 +59,20 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
         this.specificTasks = new ArrayList<>();
         completeList = new ArrayList<>();
         incompleteList = new ArrayList<>();
-        System.out.println("=!!!!!!!!!!!!!!!!!====" + specificTasks.size());
+//        System.out.println("=!!!!!!!!!!!!!!!!!====" + specificTasks.size());
         for (SpecificTask item : specificTasks) {
-            System.out.println(item.getTaskName() + "===item==");
+//            System.out.println(item.getTaskName() + "===item==");
             if (item.isCompletedInBoolean()) {
-                System.out.println(item.getTaskName() + "||||" + item.isCompletedInBoolean());
+//                System.out.println(item.getTaskName() + "||||" + item.isCompletedInBoolean());
                 completeList.add(item);
             } else {
-                System.out.println(item.getTaskName() + "||||" + item.isCompletedInBoolean());
+//                System.out.println(item.getTaskName() + "||||" + item.isCompletedInBoolean());
                 incompleteList.add(item);
             }
 
         }
 
-        System.out.println(incompleteList.size() + "!!!!!!!!!!!!!!!!!");
+//        System.out.println(incompleteList.size() + "!!!!!!!!!!!!!!!!!");
 
     }
 
@@ -198,16 +197,16 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
                     success = ldh.updateSpecificTaskTable(specificTask);
                     completeList.remove(specificTask);
                     incompleteList.add(specificTask);
-                    System.out.println("complete: " + completeList.size());
-                    System.out.println("incomplete: " + incompleteList.size());
+//                    System.out.println("complete: " + completeList.size());
+//                    System.out.println("incomplete: " + incompleteList.size());
                     sortList(completeList);
                     sortList(incompleteList);
                     specificTasks.clear();
                     boolean a = specificTasks.addAll(incompleteList);
                     boolean b = specificTasks.addAll(completeList);
-                    System.out.println("total: " + specificTasks.size());
-                    System.out.println("==a==" + a);
-                    System.out.println("==b==" + b);
+//                    System.out.println("total: " + specificTasks.size());
+//                    System.out.println("==a==" + a);
+//                    System.out.println("==b==" + b);
                     notifyDataSetChanged();
 
                 } else {// If currently is incomplete and will be marked as completed
@@ -218,19 +217,19 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
                     //rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_comp));
                     success = ldh.updateSpecificTaskTable(specificTask);
                     completeList.add(specificTask);
-                    System.out.println("incomplete??: " + incompleteList.size());
-                    System.out.println("index: " + incompleteList.indexOf(specificTask));
+//                    System.out.println("incomplete??: " + incompleteList.size());
+//                    System.out.println("index: " + incompleteList.indexOf(specificTask));
                     boolean test = incompleteList.remove(specificTask);
-                    System.out.println("test====" + test);
-                    System.out.println("incomplete??: " + incompleteList.size());
+//                    System.out.println("test====" + test);
+//                    System.out.println("incomplete??: " + incompleteList.size());
                     sortList(completeList);
                     sortList(incompleteList);
-                    System.out.println("complete: " + completeList.size());
-                    System.out.println("incomplete: " + incompleteList.size());
+//                    System.out.println("complete: " + completeList.size());
+//                    System.out.println("incomplete: " + incompleteList.size());
                     specificTasks.clear();
                     specificTasks.addAll(incompleteList);
                     specificTasks.addAll(completeList);
-                    System.out.println("total: " + specificTasks.size());
+//                    System.out.println("total: " + specificTasks.size());
                     notifyDataSetChanged();
                 }
                 if (!success) {

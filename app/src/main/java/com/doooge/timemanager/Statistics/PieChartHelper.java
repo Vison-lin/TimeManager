@@ -26,6 +26,7 @@ class PieChartHelper {
 
     private final Activity activity;
     private PieDataSet pieDataSet;
+    private ArrayList<SpecificTask> specificTasks;
 
     PieChartHelper(Activity activity) {
         this.activity = activity;
@@ -61,7 +62,7 @@ class PieChartHelper {
     private ArrayList<Pair<Type, Float>> calPercentage(ArrayList<SpecificTask> rawSpecificTasks) {
 
         Iterator<SpecificTask> iterator = rawSpecificTasks.iterator();
-        ArrayList<SpecificTask> specificTasks = new ArrayList<>();
+        specificTasks = new ArrayList<>();
         //Only calculate the completed tasks
         while (iterator.hasNext()){
             SpecificTask curr = iterator.next();

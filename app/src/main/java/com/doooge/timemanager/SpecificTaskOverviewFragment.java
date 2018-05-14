@@ -124,6 +124,15 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
                 updateView(Calendar.getInstance());//switch back to today
             }
         } else {
+//            try {
+//                FragmentTransaction ftr = getFragmentManager().beginTransaction();
+//                Fragment currentFragment = getFragmentManager().findFragmentByTag("StatisticFragment");
+//                ftr.detach(currentFragment).attach(currentFragment).commit();
+//            } catch (Exception e){
+//                System.out.println("!!!!!!!!!!!!!");
+//            }
+
+
         }
     }
 
