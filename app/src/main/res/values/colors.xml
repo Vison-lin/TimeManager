@@ -14,10 +14,19 @@
     <color name="event_color_02">#f3ffca9b</color>
     <color name="event_color_03">#f3bdf7</color>
     <color name="background_color">#fceacf</color>
+    <color name="task_incomp">#fceacf</color>
+    <color name="task_comp">#fceacf</color>
     <color name="toolbar">#efefef</color>
     <color name="toolbar_text">#8f000000</color>
     <color name="accent">#2789e4</color>
-    <color name="gray">#9999CC</color>
-    <color name="task_comp">#fceacf</color>
-    <color name="task_incomp">#fceacf</color>
+    <color name="gray">#9E9E9E</color>
+    <color name="btn_bkgd_def">#CFD8DC</color>color>
+    <color name="btn_bkgd_purple">#EDE7F6</color>color>
+    <color name="btn_bkgd_green">#C8E6C9</color>color>
+    <color name="btn_bkgd_blue">#E3F2FD</color>color>
+    <color name="btn_bkgd_yellow">#FFF9C4</color>color>
+    <color name="btn_bkgd_red">#FFCDD2</color>color>
+
+
+
 </resources>

@@ -21,7 +21,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="20dp"
-                android:background="@drawable/btn_bkgd_blue"
+                android:background="@color/btn_bkgd_blue"
                 android:text="Wo"
                 android:textSize="30sp" />
         </LinearLayout>
