@@ -16,6 +16,7 @@ import android.widget.CheckedTextView;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.doooge.timemanager.CalendarHelper;
@@ -56,6 +57,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
     private ArrayList<Type> selectedtypes;//init below
     private Button endDay;
     private Button startDay;
+    private TextView pieChartNoneData;
 
     private ArrayList<SpecificTask> allSpecificTasks;
     private PieChartHelper pieChartHelper;
@@ -72,6 +74,8 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
         selectPirChartDisplayDuration = rootView.findViewById(R.id.selectPieChartDIsplayPeriod);
         selectPirChartDisplayDuration.setOnClickListener(this);
+
+        pieChartNoneData = rootView.findViewById(R.id.pieChartNoneData);
 
         /*
         All the charts' data will be refresh only if user add/remove SpecificTask.
@@ -424,9 +428,13 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
     private void updateCenterText() {
         if (allSpecificTasks.size() == 0) { // no data warming
-            pieChart.setCenterText("No task down");
+            pieChart.setVisibility(View.GONE);
+            pieChartNoneData.setVisibility(View.VISIBLE);
+            pieChartNoneData.setText("NO TASK HAS BEEN DONE BETWEEN SELECTED PERIOD");
         } else {
             pieChart.setCenterText("Time distribution");
+            pieChart.setVisibility(View.VISIBLE);
+            pieChartNoneData.setVisibility(View.GONE);
         }
     }
 
