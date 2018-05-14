@@ -93,7 +93,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
             String name = specificTask.getTaskName();
             EditText taskName = findViewById(R.id.taskName);
             taskName.setText(name);
-            TextView typeColor = findViewById(R.id.typeColor);
             type = specificTask.getType();
             initialType();
         }
@@ -225,13 +224,29 @@ public class SpecificTaskCreator extends AppCompatActivity {
             mSpinner = findViewById(R.id.mSpinner);
             mAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,mList);
             mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
             mSpinner.setAdapter(mAdapter);
+            if (specificTask != null) {
+                for (int i = 0; i < typeList.size(); i++) {
+                    if (typeList.get(i).getId() == type.getId()) {
+                        mSpinner.setSelection(i);
+                    }
+                }
+            }
             mSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener(){
+                int count = 0;
                 public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 /* 将所选mySpinner 的值带入myTextView 中*/
                     if (specificTask == null) {
                         type = typeList.get(arg2);
                         initialType();
+                    } else {
+                        if (count == 0) {
+                            count++;
+                        } else {
+                            type = typeList.get(arg2);
+                            initialType();
+                        }
                     }
                     arg0.setVisibility(View.VISIBLE);
                 }
