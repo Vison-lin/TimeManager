@@ -173,7 +173,8 @@ public class SpecificTaskCreator extends AppCompatActivity {
             checkBox.setVisibility(View.INVISIBLE);
             EditText taskName = findViewById(R.id.taskName);
             taskName.setText(task.getTaskName());
-            typeList.add(task.getType());
+            type = task.getType();
+            initialType();
         } else if (specificTask != null && task == null) {//Users are from Main page or TaskManagement page
             update = true;
             submit.setBackground(getResources().getDrawable(R.drawable.update));
@@ -226,7 +227,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
             mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
             mSpinner.setAdapter(mAdapter);
-            if (specificTask != null) {
+            if (specificTask != null || task != null) {
                 for (int i = 0; i < typeList.size(); i++) {
                     if (typeList.get(i).getId() == type.getId()) {
                         mSpinner.setSelection(i);
