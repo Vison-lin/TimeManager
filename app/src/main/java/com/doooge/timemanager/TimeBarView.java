@@ -124,7 +124,7 @@ public class TimeBarView extends View {
 
         //Gets the customer property and default values.
         roundColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundColor, getResources().getColor(R.color.black));
-        roundProgressColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundProgressColor, getResources().getColor(R.color.violet));
+        roundProgressColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundProgressColor, getResources().getColor(R.color.blue));
         roundWidth = mTypedArray.getDimension(R.styleable.RoundProgressBar_roundWidth, 70);
         textColor = mTypedArray.getColor(R.styleable.RoundProgressBar_textColor, Color.BLUE);
         textSize = mTypedArray.getDimension(R.styleable.RoundProgressBar_textSize_round, 60);
@@ -184,9 +184,9 @@ public class TimeBarView extends View {
         paint.setAntiAlias(true);
         paint.setDither(true);
         canvas.drawCircle(centerX, centerY, radius, paint);
-        paint = new Paint();
-        paint.setColor(getResources().getColor(R.color.blue));
-        canvas.drawCircle(centerX, centerY, radius - roundWidth + 40, paint);
+//        paint = new Paint();
+//        paint.setColor(getResources().getColor(R.color.blue));
+//        canvas.drawCircle(centerX, centerY, radius - roundWidth + 40, paint);
 
         /**
          * draw the text of time
