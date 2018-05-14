@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -298,20 +299,20 @@ public class SpecificTaskCreator extends AppCompatActivity {
     }
 
     private void initialType() {
-        TextView typeColor = findViewById(R.id.typeColor);
+        ImageView typeColor = findViewById(R.id.typeColor);
         int color = Integer.parseInt(type.getColor());
         if (color == getResources().getColor(R.color.violet)) {
-            typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_purple));
+            typeColor.setImageDrawable(getResources().getDrawable(R.drawable.btn_bkgd_purple));
         } else if (color == -6710836) {
-            typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_default));
+            typeColor.setImageDrawable(getResources().getDrawable(R.drawable.btn_bkgd_default));
         } else if (color == getResources().getColor(R.color.green)) {
-            typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_green));
+            typeColor.setImageDrawable(getResources().getDrawable(R.drawable.btn_bkgd_green));
         } else if (color == getResources().getColor(R.color.blue)) {
-            typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_blue));
+            typeColor.setImageDrawable(getResources().getDrawable(R.drawable.btn_bkgd_blue));
         } else if (color == getResources().getColor(R.color.red)) {
-            typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_red));
+            typeColor.setImageDrawable(getResources().getDrawable(R.drawable.btn_bkgd_red));
         } else if (color == getResources().getColor(R.color.yellow)) {
-            typeColor.setBackground(getResources().getDrawable(R.drawable.btn_bkgd_yellow));
+            typeColor.setImageDrawable(getResources().getDrawable(R.drawable.btn_bkgd_yellow));
         } else {
             typeColor.getBackground().setColorFilter(new LightingColorFilter(color, color));
         }

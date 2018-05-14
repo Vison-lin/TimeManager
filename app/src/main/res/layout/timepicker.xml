@@ -5,7 +5,6 @@
     android:background="@drawable/taskcreator_backgound"
     android:gravity="center"
     android:orientation="vertical">
-
     <DatePicker
         android:id="@+id/datePicker"
         android:layout_width="wrap_content"

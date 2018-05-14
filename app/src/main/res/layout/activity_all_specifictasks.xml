@@ -19,10 +19,14 @@
             <TextView
                 android:id="@+id/activityTitleText"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/title1"
-                android:textAlignment="center" />
+
+                android:text="All Task"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="36sp"
+                android:textStyle="bold" />
 
             <Spinner
                 android:id="@+id/taskManagement_spinner"
