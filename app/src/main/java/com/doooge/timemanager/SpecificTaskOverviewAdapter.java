@@ -252,6 +252,7 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
     public void updateSpecificTaskOverviewAdapter(ArrayList<SpecificTask> newSpecificTasks) {
         specificTasks.clear();
         specificTasks = new ArrayList<>(newSpecificTasks);
+        inititalList(specificTasks);
         this.notifyDataSetChanged();
     }
 
@@ -263,6 +264,7 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
         selectedSpecificTask.setEndTime(endCalendar);
         ldh.updateSpecificTaskTable(selectedSpecificTask);
         specificTasks.add(selectedSpecificTask);
+        inititalList(specificTasks);
         notifyDataSetChanged();
     }
 
