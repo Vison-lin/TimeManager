@@ -93,7 +93,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
             String name = specificTask.getTaskName();
             EditText taskName = findViewById(R.id.taskName);
             taskName.setText(name);
-            TextView typeColor = findViewById(R.id.typeColor);
+            ImageView typeColor = findViewById(R.id.typeColor);
             type = specificTask.getType();
             initialType();
         }
