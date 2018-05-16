@@ -26,6 +26,10 @@ public class TimeBarView extends View {
      */
     private static Handler handler;
     /**
+     * instance of colorType
+     */
+    private static Type colorType;
+    /**
      * The current process of start thumb
      */
     private static int progressStart = 0;
@@ -106,6 +110,13 @@ public class TimeBarView extends View {
         System.out.println(progressEnd+"!!!!!end!!!!!!");
     }
 
+    public TimeBarView(Context context, int progressStart, int progressEnd, Type type) {
+        this(context, null);
+        TimeBarView.progressStart = progressStart;
+        TimeBarView.progressEnd = progressEnd;
+        TimeBarView.colorType = type;
+    }
+
 
     public TimeBarView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
@@ -118,13 +129,14 @@ public class TimeBarView extends View {
         endPoint = new Point(0, 0);
         progressStart  =0;
         progressEnd  = 720;
+        colorType = null;
 
 
         TypedArray mTypedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundProgressBar);
 
         //Gets the customer property and default values.
         roundColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundColor, getResources().getColor(R.color.black));
-        roundProgressColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundProgressColor, getResources().getColor(R.color.blue));
+        roundProgressColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundProgressColor, getResources().getColor(R.color.btn_bkgd_def));
         roundWidth = mTypedArray.getDimension(R.styleable.RoundProgressBar_roundWidth, 70);
         textColor = mTypedArray.getColor(R.styleable.RoundProgressBar_textColor, Color.BLUE);
         textSize = mTypedArray.getDimension(R.styleable.RoundProgressBar_textSize_round, 60);
@@ -203,11 +215,14 @@ public class TimeBarView extends View {
          */
         if (handler != null) {
 
-            String result = getTime(progressStart) + "@" + getTime(progressEnd) + "@" + isOverDay(progressStart, progressEnd);
+            String result = getTime(progressStart) + "@" + getTime(progressEnd) + "@" + isOverDay(progressStart, progressEnd) + "@" + progressStart + "@" + progressEnd;
             Message message = handler.obtainMessage();
             message.what = 0;
             message.obj = result;
             handler.sendMessage(message);
+        }
+        if (colorType != null) {
+            roundProgressColor = Integer.parseInt(colorType.getColor());
         }
 
         /**
@@ -475,6 +490,7 @@ public class TimeBarView extends View {
 
     public void Test(Callback callback) {
         handler = callback.execute();
+
     }
 
     /**
