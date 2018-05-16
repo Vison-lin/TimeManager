@@ -4,17 +4,14 @@ package com.doooge.timemanager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.LightingColorFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -37,6 +34,8 @@ public class SpecificTaskCreator extends AppCompatActivity {
     private static int day;
     private static Calendar calStart;
     private static Calendar calEnd;
+    private static int progressStart;
+    private static int progressEnd;
     public TimeBarView mView;
     private MyHandler handler;
     private String userName;
@@ -53,9 +52,10 @@ public class SpecificTaskCreator extends AppCompatActivity {
     private SpecificTask specificTask_new;
     private String taskManagement;
     private List<Type> typeList;
-    private List<String> mList;
+    private ArrayList<Type> mList;
     private Spinner mSpinner;
-    private ArrayAdapter<String> mAdapter;
+    //    private ArrayAdapter<String> mAdapter;
+    private SpecificTaskSpinnerAdapter mAdapter;
     private Type type;
     private boolean update;
 
@@ -94,7 +94,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
             EditText taskName = findViewById(R.id.taskName);
             taskName.setText(name);
             type = specificTask.getType();
-            initialType();
+            //initialType();
         }
         initialDate();
 
@@ -174,7 +174,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
             EditText taskName = findViewById(R.id.taskName);
             taskName.setText(task.getTaskName());
             type = task.getType();
-            initialType();
+            //initialType();
         } else if (specificTask != null && task == null) {//Users are from Main page or TaskManagement page
             update = true;
             submit.setBackground(getResources().getDrawable(R.drawable.update));
@@ -216,15 +216,16 @@ public class SpecificTaskCreator extends AppCompatActivity {
         });
 
 
-        mList = new ArrayList<String>();
+        mList = new ArrayList<Type>();
         for(Type i: typeList){
-            mList.add(i.getName());
+            mList.add(i);
 
         }
         if(typeList!=null){
             mSpinner = findViewById(R.id.mSpinner);
-            mAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,mList);
-            mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//            mAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,mList);
+            mAdapter = new SpecificTaskSpinnerAdapter(mList, this);
+//            mAdapter.setDropDownViewResource(android.R.simple_spinner_dropdown_item);
 
             mSpinner.setAdapter(mAdapter);
             if (specificTask != null || task != null) {
@@ -240,13 +241,18 @@ public class SpecificTaskCreator extends AppCompatActivity {
                 /* 将所选mySpinner 的值带入myTextView 中*/
                     if (specificTask == null) {
                         type = typeList.get(arg2);
-                        initialType();
+                        if (count != 0) {
+                            mView = new TimeBarView(context, progressStart, progressEnd, type);
+                        }
+                        count++;
+                        //initialType();
                     } else {
                         if (count == 0) {
                             count++;
                         } else {
                             type = typeList.get(arg2);
-                            initialType();
+                            mView = new TimeBarView(context, progressStart, progressEnd, type);
+                            //initialType();
                         }
                     }
                     arg0.setVisibility(View.VISIBLE);
@@ -310,25 +316,25 @@ public class SpecificTaskCreator extends AppCompatActivity {
         setDay(calStart.get(Calendar.DATE));
     }
 
-    private void initialType() {
-        ImageView typeColor = findViewById(R.id.typeColor);
-        int color = Integer.parseInt(type.getColor());
-        if (color == getResources().getColor(R.color.btn_bkgd_purple)) {
-            typeColor.setBackground(getDrawable((R.color.btn_bkgd_purple)));
-        } else if (color == -6710836) {
-            typeColor.setBackground(getDrawable((R.color.btn_bkgd_def)));
-        } else if (color == getResources().getColor(R.color.btn_bkgd_green)) {
-            typeColor.setBackground(getDrawable((R.color.btn_bkgd_green)));
-        } else if (color == getResources().getColor(R.color.btn_bkgd_blue)) {
-            typeColor.setBackground(getDrawable((R.color.btn_bkgd_blue)));
-        } else if (color == getResources().getColor(R.color.btn_bkgd_red)) {
-            typeColor.setBackground(getDrawable((R.color.btn_bkgd_red)));
-        } else if (color == getResources().getColor(R.color.btn_bkgd_yellow)) {
-            typeColor.setBackground(getDrawable((R.color.btn_bkgd_yellow)));
-        } else {
-            typeColor.getBackground().setColorFilter(new LightingColorFilter(color, color));
-        }
-    }
+//    private void initialType() {
+//        ImageView typeColor = findViewById(R.id.typeColor);
+//        int color = Integer.parseInt(type.getColor());
+//        if (color == getResources().getColor(R.color.btn_bkgd_purple)) {
+//            typeColor.setBackground(getDrawable((R.color.btn_bkgd_purple)));
+//        } else if (color == -6710836) {
+//            typeColor.setBackground(getDrawable((R.color.btn_bkgd_def)));
+//        } else if (color == getResources().getColor(R.color.btn_bkgd_green)) {
+//            typeColor.setBackground(getDrawable((R.color.btn_bkgd_green)));
+//        } else if (color == getResources().getColor(R.color.btn_bkgd_blue)) {
+//            typeColor.setBackground(getDrawable((R.color.btn_bkgd_blue)));
+//        } else if (color == getResources().getColor(R.color.btn_bkgd_red)) {
+//            typeColor.setBackground(getDrawable((R.color.btn_bkgd_red)));
+//        } else if (color == getResources().getColor(R.color.btn_bkgd_yellow)) {
+//            typeColor.setBackground(getDrawable((R.color.btn_bkgd_yellow)));
+//        } else {
+//            typeColor.getBackground().setColorFilter(new LightingColorFilter(color, color));
+//        }
+//    }
 
 
 
@@ -377,6 +383,8 @@ public class SpecificTaskCreator extends AppCompatActivity {
                 startTime = token.nextToken();
                 endTime = token.nextToken();
                 isOverDay = token.nextToken().equals("true");
+                progressStart = Integer.parseInt(token.nextToken());
+                progressEnd = Integer.parseInt(token.nextToken());
                 start.setText(startTime);
                 end.setText(endTime);
                 String[] startlist = startTime.split(":");

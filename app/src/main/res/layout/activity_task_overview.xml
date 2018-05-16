@@ -15,9 +15,9 @@
         <TextView
             android:id="@+id/activityTitleText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:text="Daily Task"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/daily_task"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="36sp"
@@ -27,8 +27,9 @@
             android:id="@+id/settingBtn"
             android:layout_width="21dp"
             android:layout_height="21dp"
+            android:layout_centerInParent="true"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
+            android:layout_marginEnd="27dp"
             android:onClick="onClick"
             android:src="@drawable/settingbuttonicon"
             tools:ignore="ContentDescription" />
