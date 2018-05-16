@@ -38,17 +38,17 @@ public class TypeManagementAdapter extends ArrayAdapter<Type> {
         Button typeButton = view.findViewById(R.id.typeItem);
         typeButton.setText(type.getName());
         int color = Integer.parseInt(type.getColor());
-        if(color==parent.getResources().getColor(R.color.violet)){
+        if (color == parent.getResources().getColor(R.color.btn_bkgd_purple)) {
             typeButton.setBackgroundColor(parent.getResources().getColor(R.color.btn_bkgd_purple));
         } else if (color == -6710836) {
             typeButton.setBackgroundColor(parent.getResources().getColor(R.color.btn_bkgd_def));
-        }else if(color==parent.getResources().getColor(R.color.green)){
+        } else if (color == parent.getResources().getColor(R.color.btn_bkgd_green)) {
             typeButton.setBackgroundColor(parent.getResources().getColor(R.color.btn_bkgd_green));
-        }else if(color==parent.getResources().getColor(R.color.blue)){
+        } else if (color == parent.getResources().getColor(R.color.btn_bkgd_blue)) {
             typeButton.setBackgroundColor(parent.getResources().getColor(R.color.btn_bkgd_blue));
-        }else if(color==parent.getResources().getColor(R.color.red)){
+        } else if (color == parent.getResources().getColor(R.color.btn_bkgd_red)) {
             typeButton.setBackgroundColor(parent.getResources().getColor(R.color.btn_bkgd_red));
-        }else if(color==parent.getResources().getColor(R.color.yellow)){
+        } else if (color == parent.getResources().getColor(R.color.btn_bkgd_yellow)) {
             typeButton.setBackgroundColor(parent.getResources().getColor(R.color.btn_bkgd_yellow));
         }
         else {

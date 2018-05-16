@@ -173,7 +173,8 @@ public class SpecificTaskCreator extends AppCompatActivity {
             checkBox.setVisibility(View.INVISIBLE);
             EditText taskName = findViewById(R.id.taskName);
             taskName.setText(task.getTaskName());
-            typeList.add(task.getType());
+            type = task.getType();
+            initialType();
         } else if (specificTask != null && task == null) {//Users are from Main page or TaskManagement page
             update = true;
             submit.setBackground(getResources().getDrawable(R.drawable.update));
@@ -226,7 +227,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
             mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
             mSpinner.setAdapter(mAdapter);
-            if (specificTask != null) {
+            if (specificTask != null || task != null) {
                 for (int i = 0; i < typeList.size(); i++) {
                     if (typeList.get(i).getId() == type.getId()) {
                         mSpinner.setSelection(i);
@@ -312,18 +313,18 @@ public class SpecificTaskCreator extends AppCompatActivity {
     private void initialType() {
         ImageView typeColor = findViewById(R.id.typeColor);
         int color = Integer.parseInt(type.getColor());
-        if (color == getResources().getColor(R.color.violet)) {
-            typeColor.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_purple));
+        if (color == getResources().getColor(R.color.btn_bkgd_purple)) {
+            typeColor.setBackground(getDrawable((R.color.btn_bkgd_purple)));
         } else if (color == -6710836) {
-            typeColor.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_def));
-        } else if (color == getResources().getColor(R.color.green)) {
-            typeColor.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_green));
-        } else if (color == getResources().getColor(R.color.blue)) {
-            typeColor.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_blue));
-        } else if (color == getResources().getColor(R.color.red)) {
-            typeColor.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_red));
-        } else if (color == getResources().getColor(R.color.yellow)) {
-            typeColor.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_yellow));
+            typeColor.setBackground(getDrawable((R.color.btn_bkgd_def)));
+        } else if (color == getResources().getColor(R.color.btn_bkgd_green)) {
+            typeColor.setBackground(getDrawable((R.color.btn_bkgd_green)));
+        } else if (color == getResources().getColor(R.color.btn_bkgd_blue)) {
+            typeColor.setBackground(getDrawable((R.color.btn_bkgd_blue)));
+        } else if (color == getResources().getColor(R.color.btn_bkgd_red)) {
+            typeColor.setBackground(getDrawable((R.color.btn_bkgd_red)));
+        } else if (color == getResources().getColor(R.color.btn_bkgd_yellow)) {
+            typeColor.setBackground(getDrawable((R.color.btn_bkgd_yellow)));
         } else {
             typeColor.getBackground().setColorFilter(new LightingColorFilter(color, color));
         }

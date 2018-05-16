@@ -474,7 +474,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         //once user switch to other page, user will ge given today's task(s) after then went back
-        if (isVisibleToUser) {
+        if (isVisibleToUser && ldb != null) {
             haveCompletedTasks = false;//refresh the boolean condition
 //            FragmentTransaction ftr = getFragmentManager().beginTransaction();
 //            ftr.detach(this).attach(this).commit();

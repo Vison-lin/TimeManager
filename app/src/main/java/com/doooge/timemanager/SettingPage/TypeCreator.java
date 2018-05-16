@@ -43,7 +43,7 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
 
         type = (Type)getIntent().getSerializableExtra("TypeInfo");
         typeName = findViewById(R.id.typeName);
-        color= getResources().getColor(R.color.gray);
+        color = getResources().getColor(R.color.btn_bkgd_def);
         createType = findViewById(R.id.createType);
         createType.setOnClickListener(this);
         Button delete = findViewById(R.id.deleteType);
@@ -90,7 +90,13 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         this.startActivity(intent);
                     }else{
+                        type.setName(name);
+                        type.setColor(color + "");
                         ldh.updateTypeTable(type);
+
+                        Intent intent = new Intent(TypeCreator.this, TypeManagementActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        this.startActivity(intent);
                     }
 
                 }
@@ -98,33 +104,33 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
 
             case R.id.blue_type:
                 reSetchoose();
-                color = getResources().getColor(R.color.blue);
+                color = getResources().getColor(R.color.btn_bkgd_blue);
                 blue.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_blue));
                 Toast.makeText(getApplicationContext(), "choose blue success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.green_type:
                 reSetchoose();
 
-                color = getResources().getColor(R.color.green);
+                color = getResources().getColor(R.color.btn_bkgd_green);
                 green.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_green));
                 Toast.makeText(getApplicationContext(), "choose green success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.yellow_type:
                 reSetchoose();
-                color = getResources().getColor(R.color.yellow);
+                color = getResources().getColor(R.color.btn_bkgd_yellow);
                 yellow.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_yellow));
                 Toast.makeText(getApplicationContext(), "choose yellow success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.violet_type:
                 reSetchoose();
-                color = getResources().getColor(R.color.violet);
+                color = getResources().getColor(R.color.btn_bkgd_purple);
                 violet.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_purple));
                 //violet.setBackground(getResources().getDrawable(R.drawable.violet_button_roundedge_choosed));
                 //Toast.makeText(getApplicationContext(), "choose violet success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.red_type:
                 reSetchoose();
-                color = getResources().getColor(R.color.red);
+                color = getResources().getColor(R.color.btn_bkgd_red);
                 red.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_red));
                 Toast.makeText(getApplicationContext(), "choose red success !", Toast.LENGTH_SHORT).show();
                 break;
