@@ -12,35 +12,34 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="5"
+            android:layout_height="wrap_content"
+
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/activityTitleText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-
-                android:text="All Task"
+                android:text="@string/all_task"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="36sp"
                 android:textStyle="bold" />
 
+
             <Spinner
                 android:id="@+id/taskManagement_spinner"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textAlignment="center"
                 />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <ListView
