@@ -50,7 +50,6 @@ public class TaskManagementAdapter extends BaseAdapter {
 
         //TODO
         //==========================================================================
-        TextView taskDate = rowView.findViewById(R.id.taskDate);
         TextView taskHour = rowView.findViewById(R.id.taskHour);
         Button taskType = rowView.findViewById(R.id.typeBtn);
         final SpecificTask specificTask = (SpecificTask) getItem(position);
