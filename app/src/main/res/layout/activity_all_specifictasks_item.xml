@@ -38,7 +38,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="taskName"
-                android:textSize="22sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -47,7 +47,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="taskHour"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
 

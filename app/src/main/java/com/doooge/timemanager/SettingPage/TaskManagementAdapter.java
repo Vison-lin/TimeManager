@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.doooge.timemanager.R;
@@ -12,6 +13,7 @@ import com.doooge.timemanager.SpecificTask;
 import com.doooge.timemanager.SpecificTaskCreator;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 /**
@@ -45,8 +47,47 @@ public class TaskManagementAdapter extends BaseAdapter {
     public View getView(int position, View view, final ViewGroup viewGroup) {
         View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_all_specifictasks_item, viewGroup, false);
         TextView taskName = rowView.findViewById(R.id.taskName);
+
+        //TODO
+        //==========================================================================
+        TextView taskDate = rowView.findViewById(R.id.taskDate);
+        TextView taskHour = rowView.findViewById(R.id.taskHour);
+        Button taskType = rowView.findViewById(R.id.typeBtn);
         final SpecificTask specificTask = (SpecificTask) getItem(position);
+        int color = Integer.parseInt(specificTask.getType().getColor());
+
+        if (color == viewGroup.getResources().getColor(R.color.btn_bkgd_purple)) {
+            taskType.setBackgroundColor(viewGroup.getResources().getColor(R.color.btn_bkgd_purple));
+        } else if (color == -6710836) {
+            taskType.setBackgroundColor(viewGroup.getResources().getColor(R.color.btn_bkgd_def));
+        } else if (color == viewGroup.getResources().getColor(R.color.btn_bkgd_green)) {
+            taskType.setBackgroundColor(viewGroup.getResources().getColor(R.color.btn_bkgd_green));
+        } else if (color == viewGroup.getResources().getColor(R.color.btn_bkgd_blue)) {
+            taskType.setBackgroundColor(viewGroup.getResources().getColor(R.color.btn_bkgd_blue));
+        } else if (color == viewGroup.getResources().getColor(R.color.btn_bkgd_red)) {
+            taskType.setBackgroundColor(viewGroup.getResources().getColor(R.color.btn_bkgd_red));
+        } else if (color == viewGroup.getResources().getColor(R.color.btn_bkgd_yellow)) {
+            taskType.setBackgroundColor(viewGroup.getResources().getColor(R.color.btn_bkgd_yellow));
+        }
+
         taskName.setText(specificTask.getTaskName());
+
+        if (specificTask.getType().getName().length() <= 1) {
+            taskType.setText(String.format("%s", specificTask.getType().getName().substring(0, 1)));
+        } else {
+            taskType.setText(String.format("%s", specificTask.getType().getName().substring(0, 2)));
+        }
+        if (specificTask.getTaskName().length() >= 20) {
+            taskName.setText(String.format("%s", specificTask.getTaskName().substring(0, 10) + "..."));
+        }
+        Calendar start = specificTask.getStartTime();
+        Calendar end = specificTask.getEndTime();
+        String display = (start.get(Calendar.MONTH) + 1) + "." + start.get(Calendar.DAY_OF_MONTH) + " " + start.get(Calendar.HOUR_OF_DAY) + ":" + start.get(Calendar.MINUTE) +
+                " - " + (end.get(Calendar.MONTH) + 1) + "." + end.get(Calendar.DAY_OF_MONTH) + " " + end.get(Calendar.HOUR_OF_DAY) + ":" + end.get(Calendar.MINUTE);
+        taskHour.setText(display);
+
+        //========================================================================================
+
 
         taskName.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,9 +97,9 @@ public class TaskManagementAdapter extends BaseAdapter {
                 intent.putExtra("givenSpecificTask", specificTask);
                 intent.putExtra("taskManagement","taskManagement");
                 viewGroup.getContext().startActivity(intent);
-
             }
         });
+
         return rowView;
     }
 
