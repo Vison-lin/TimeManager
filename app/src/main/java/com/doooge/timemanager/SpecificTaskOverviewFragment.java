@@ -51,7 +51,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         calBtn.setOnClickListener(this);
 
         //todo update DB TOBE DELETED
-        ldh.getWritableDatabase().execSQL("UPDATE Types_Table SET Type_color = -3155748 WHERE Type_color = -6381922");
+        ldh.getWritableDatabase().execSQL("UPDATE Types_Table SET Type_color = -3155748 WHERE Type_color = -6710836");
 
         Calendar today = Calendar.getInstance();
         pageTitle = rootView.findViewById(R.id.activityTitleText);
