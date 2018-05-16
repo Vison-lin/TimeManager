@@ -52,21 +52,8 @@ public class QuickAccessTaskAdapter extends BaseAdapter {
 
         Button taskTypeBlock = rowView.findViewById(R.id.taskTypeBtn);
         int color =Integer.parseInt(task.getType().getColor());
-        if (color == viewGroup.getResources().getColor(R.color.btn_bkgd_purple)) {
-            taskTypeBlock.setBackgroundColor(viewGroup.getResources().getColor(R.color.btn_bkgd_purple));
-        } else if (color == -6710836) {
-            taskTypeBlock.setBackgroundColor(viewGroup.getResources().getColor(R.color.btn_bkgd_def));
-        } else if (color == viewGroup.getResources().getColor(R.color.btn_bkgd_green)) {
-            taskTypeBlock.setBackgroundColor(viewGroup.getResources().getColor(R.color.btn_bkgd_green));
-        } else if (color == viewGroup.getResources().getColor(R.color.btn_bkgd_blue)) {
-            taskTypeBlock.setBackgroundColor(viewGroup.getResources().getColor(R.color.btn_bkgd_blue));
-        } else if (color == viewGroup.getResources().getColor(R.color.btn_bkgd_red)) {
-            taskTypeBlock.setBackgroundColor(viewGroup.getResources().getColor(R.color.btn_bkgd_red));
-        } else if (color == viewGroup.getResources().getColor(R.color.btn_bkgd_yellow)) {
-            taskTypeBlock.setBackgroundColor(viewGroup.getResources().getColor(R.color.btn_bkgd_yellow));
-        } else {
-            throw new IllegalStateException();
-        }
+        taskTypeBlock.setBackgroundColor(color);
+
 
 
         taskTypeBlock.setText(task.getTaskName());
