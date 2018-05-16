@@ -35,4 +35,6 @@
     <string name="select_shown_data_range_message">Please select the range of data you want to see:</string>
     <string name="durationStartPickerTitle">Please choose the start day:</string>
     <string name="durationEndPickerTitle">Please choose the end day:</string>
+    <string name="daily_task">Daily Task</string>
+    <string name="all_task">All Task</string>
 </resources>
