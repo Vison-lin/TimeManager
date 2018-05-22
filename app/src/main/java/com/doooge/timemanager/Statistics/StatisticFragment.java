@@ -438,6 +438,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
     private void updateCenterText() {
         if (haveCompletedTasks) {
             pieChart.setCenterText("Time distribution");
+            pieChart.setCenterTextSize(pieChart.getHoleRadius() / 2);
             pieChart.setVisibility(View.VISIBLE);
             pieChartNoneData.setVisibility(View.GONE);
         } else {
