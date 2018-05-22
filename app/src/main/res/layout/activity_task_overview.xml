@@ -27,8 +27,8 @@
             android:id="@+id/settingBtn"
             android:layout_width="21dp"
             android:layout_height="21dp"
-            android:layout_centerInParent="true"
             android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
             android:layout_marginEnd="27dp"
             android:onClick="onClick"
             android:src="@drawable/settingbuttonicon"
@@ -44,7 +44,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
             android:baselineAligned="false"
             android:orientation="horizontal">
 
@@ -56,11 +56,9 @@
                 android:descendantFocusability="blocksDescendants" />
 
         </LinearLayout>
-
-
         <FrameLayout
             android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_height="7dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="21dp"

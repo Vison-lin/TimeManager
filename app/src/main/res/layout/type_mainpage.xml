@@ -14,8 +14,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Type Control"
-            android:textSize="27dp"
             android:textColor="@color/black"
+            android:textSize="27dp"
             android:textStyle="bold" />
 
         <ListView
