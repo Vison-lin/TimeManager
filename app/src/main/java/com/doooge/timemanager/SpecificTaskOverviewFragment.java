@@ -50,9 +50,6 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         calBtn = rootView.findViewById(R.id.showCalender);
         calBtn.setOnClickListener(this);
 
-        //todo update DB TOBE DELETED
-        ldh.getWritableDatabase().execSQL("UPDATE Types_Table SET Type_color = -3155748 WHERE Type_color = -6710836");
-
         Calendar today = Calendar.getInstance();
         pageTitle = rootView.findViewById(R.id.activityTitleText);
         specificTasks = ldh.findSpecificTasksByTime(today);//search all specificTasks that start today
@@ -101,10 +98,9 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
                 Calendar selectedCalendar = Calendar.getInstance();
                 selectedCalendar.set(picker.getYear(), picker.getMonth(), picker.getDayOfMonth());
                 updateView(selectedCalendar);
-                //todo upadte statistic page
             }
         });
-        builder.setNeutralButton("Go back to today", new DialogInterface.OnClickListener() {
+        builder.setNeutralButton("Today", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Calendar selectedCalendar = Calendar.getInstance();
