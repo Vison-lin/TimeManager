@@ -70,7 +70,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
                 TYPES_NAME + " TEXT NOT NULL," +
                 TYPES_COLOR + " TEXT NOT NULL)");
         //Default type
-        Type defaultType = new Type("default Type", "-3155748");//-1 stand for light gray: default color
+        Type defaultType = new Type("default", "-3155748");//-1 stand for light gray: default color
         defaultType.setId(-999);
         //insertToTypeTable(defaultType);
         ContentValues contentValues = new ContentValues();
