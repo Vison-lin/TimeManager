@@ -375,10 +375,18 @@ public class TimeBarView extends View {
      * @return whether touch success.
      */
     private boolean isTouchPot(int x, int y) {
+        System.out.println("startX: " + startPoint.getX());
+        System.out.println("startY: " + startPoint.getY());
+        System.out.println("x :" + x);
+        System.out.println("y: " + y);
         int X = (int) startPoint.getX() - x;
+        System.out.println("X: " + X);
         int Y = (int) startPoint.getY() - y;
-        double d = Math.sqrt(X ^ 2 + Y ^ 2);
-        return d <= 10;
+        System.out.println("Y: " + Y);
+        System.out.println("XY: " + (X * X + Y * Y));
+        Double d = Math.sqrt(X * X + Y * Y);
+        System.out.println("d: " + d);
+        return d <= 60;
 
     }
 
@@ -392,8 +400,8 @@ public class TimeBarView extends View {
     private boolean isTouchPot1(int x, int y) {
         int X = (int) endPoint.getX() - x;
         int Y = (int) endPoint.getY() - y;
-        double d = Math.sqrt(X ^ 2 + Y ^ 2);
-        return d <= 10;
+        double d = Math.sqrt(X * X + Y * Y);
+        return d <= 60;
 
     }
 
