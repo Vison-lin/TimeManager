@@ -39,6 +39,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         Intent intent = new Intent(this, intentClass);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
 
     }

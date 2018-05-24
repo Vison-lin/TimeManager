@@ -1,19 +1,23 @@
 package com.doooge.timemanager.SettingPage;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.doooge.timemanager.LocalDatabaseHelper;
 import com.doooge.timemanager.R;
 import com.doooge.timemanager.SpecificTask;
 import com.doooge.timemanager.SpecificTaskCreator;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 
 /**
@@ -21,11 +25,61 @@ import java.util.Calendar;
  */
 
 public class TaskManagementAdapter extends BaseAdapter {
+    private final Button bt_cancel_task;
     private ArrayList<SpecificTask> specificTasks;
+    private final Button bt_delete_task;
+    LocalDatabaseHelper ldh;
+    private ArrayList<SpecificTask> list_delete = new ArrayList<SpecificTask>();
+    private boolean isMultiSelect = false;
+    private TextView tv_sum_task;
 
 
-    public TaskManagementAdapter(ArrayList<SpecificTask> specificTasks) {
-        this.specificTasks = specificTasks;
+    public TaskManagementAdapter(ArrayList<SpecificTask> specificTask, Context context, HashMap delete) {
+        this.ldh = LocalDatabaseHelper.getInstance(context);
+        this.specificTasks = specificTask;
+//        LayoutInflater factory = LayoutInflater.from(deleteView);
+//        View delete = factory.inflate(R.layout.activity_all_specifictasks,null);
+        bt_cancel_task = (Button) delete.get("cancel");
+        bt_delete_task = (Button) delete.get("delete");
+        tv_sum_task = (TextView) delete.get("text");
+
+
+        bt_cancel_task.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                isMultiSelect = false;
+                bt_cancel_task.setVisibility(view.INVISIBLE);
+                bt_delete_task.setVisibility(view.INVISIBLE);
+                tv_sum_task.setVisibility(view.INVISIBLE);
+                list_delete.clear();
+                notifyDataSetChanged();
+
+            }
+        });
+
+
+        bt_delete_task.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (list_delete.size() != 0 && isMultiSelect) {
+                    for (SpecificTask task : list_delete) {
+                        ldh.deleteSpecificTaskTable(task.getId());
+                        specificTasks.remove(task);
+                        tv_sum_task.setText("You have chooseed: 0 item.");
+
+                    }
+                    list_delete.clear();
+                    if (specificTasks.size() == 0) {
+                        isMultiSelect = false;
+                        bt_cancel_task.setVisibility(view.INVISIBLE);
+                        bt_delete_task.setVisibility(view.INVISIBLE);
+                        tv_sum_task.setVisibility(view.INVISIBLE);
+                    }
+                    notifyDataSetChanged();
+                }
+            }
+        });
     }
 
     @Override
@@ -45,7 +99,7 @@ public class TaskManagementAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, final ViewGroup viewGroup) {
-        View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_all_specifictasks_item, viewGroup, false);
+        View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_daily_task_list, viewGroup, false);
         TextView taskName = rowView.findViewById(R.id.taskName);
         TextView taskHour = rowView.findViewById(R.id.taskHour);
         Button taskType = rowView.findViewById(R.id.typeBtn);
@@ -70,17 +124,84 @@ public class TaskManagementAdapter extends BaseAdapter {
                 " - " + (end.get(Calendar.MONTH) + 1) + "." + end.get(Calendar.DAY_OF_MONTH) + " " + end.get(Calendar.HOUR_OF_DAY) + ":" + end.get(Calendar.MINUTE);
         taskHour.setText(display);
 
-
-        taskName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(viewGroup.getContext(), SpecificTaskCreator.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("givenSpecificTask", specificTask);
-                intent.putExtra("taskManagement","taskManagement");
-                viewGroup.getContext().startActivity(intent);
+        if (isMultiSelect) {
+            final CheckBox cb = rowView.findViewById(R.id.cb_select);
+            if (list_delete.size() == 0) {
+                tv_sum_task.setText("You have chooseed: 0 item.");
+            } else {
+                tv_sum_task.setText("You have chooseed: " + list_delete.size() + " item.");
             }
-        });
+            bt_cancel_task.setVisibility(view.VISIBLE);
+            bt_delete_task.setVisibility(view.VISIBLE);
+            tv_sum_task.setVisibility(view.VISIBLE);
+
+
+            cb.setVisibility(view.VISIBLE);
+            cb.setChecked(false);
+            cb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    System.out.println("!!!!" + cb.isChecked());
+                    if (!cb.isChecked()) {
+                        cb.setChecked(false);
+                        list_delete.remove(specificTask);
+                    } else {
+                        cb.setChecked(true);
+                        list_delete.add(specificTask);
+
+                    }
+                    tv_sum_task.setText("You have chooseed: " + list_delete.size() + " item.");
+
+                }
+            });
+
+            rowView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if (cb.isChecked()) {
+                        cb.setChecked(false);
+                        list_delete.remove(specificTask);
+                    } else {
+                        cb.setChecked(true);
+                        list_delete.add(specificTask);
+
+                    }
+                    tv_sum_task.setText("You have chooseed: " + list_delete.size() + " item.");
+
+
+                }
+            });
+
+
+        } else {
+
+
+            rowView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(viewGroup.getContext(), SpecificTaskCreator.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("givenSpecificTask", specificTask);
+                    intent.putExtra("taskManagement", "taskManagement");
+                    viewGroup.getContext().startActivity(intent);
+
+
+                }
+            });
+
+            rowView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+
+                    isMultiSelect = true;
+                    notifyDataSetChanged();
+                    return false;
+                }
+            });
+
+
+        }
 
         return rowView;
     }

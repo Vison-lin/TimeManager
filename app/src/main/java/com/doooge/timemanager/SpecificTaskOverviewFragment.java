@@ -36,19 +36,18 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
     private TextView calMonth;
     private TextView calDay;
     private TextView pageTitle;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.activity_task_overview, container, false);
-
         ldh = LocalDatabaseHelper.getInstance(getContext());
         //Assign button listeners to here
         ImageView settingBtn = rootView.findViewById(R.id.settingBtn);
         settingBtn.setOnClickListener(this);
         calBtn = rootView.findViewById(R.id.showCalender);
         calBtn.setOnClickListener(this);
+
 
         Calendar today = Calendar.getInstance();
         pageTitle = rootView.findViewById(R.id.activityTitleText);
@@ -60,7 +59,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
 
         updateCalBtnText(today);
         updatePageTitle(today);
-        adapter = new SpecificTaskOverviewAdapter(specificTasks, getActivity());
+        adapter = new SpecificTaskOverviewAdapter(specificTasks, getActivity(), -1, rootView);
         mListView = rootView.findViewById(R.id.taskList);
         mListView.setAdapter(adapter);
 
@@ -74,13 +73,14 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
 
             case R.id.settingBtn:
                 Intent intent = new Intent(getActivity(), SettingActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;
 
             case R.id.showCalender:
                 getSelectedDate();
-
                 break;
+
         }
     }
 
@@ -114,14 +114,21 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (calBtn != null) {
+            updateView(Calendar.getInstance());//switch back to today
+        }
+    }
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         //once user switch to other page, user will ge given today's task(s) after then went back
-        if (isVisibleToUser) {
+        // if (isVisibleToUser) {
             if (calBtn != null) {
                 updateView(Calendar.getInstance());//switch back to today
             }
-        } else {
+        // } else {
 //            try {
 //                FragmentTransaction ftr = getFragmentManager().beginTransaction();
 //                Fragment currentFragment = getFragmentManager().findFragmentByTag("StatisticFragment");
@@ -131,7 +138,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
 //            }
 
 
-        }
+        //  }
     }
 
     private void updateCalBtnText(Calendar calendar) {
