@@ -1,8 +1,6 @@
 package com.doooge.timemanager.GuidePage;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -16,12 +14,10 @@ import com.doooge.timemanager.R;
 
 public class OverviewPage extends AppCompatActivity {
     private Button nextBtn;
-    private SharedPreferences pref;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.guide_overview_page);
-        //isfirststart();
 
 
         nextBtn = findViewById(R.id.nextBtn);
@@ -34,20 +30,4 @@ public class OverviewPage extends AppCompatActivity {
         });
     }
 
-    private void isfirststart() {
-        pref = getSharedPreferences("first", Context.MODE_PRIVATE);
-
-        boolean first = pref.getBoolean("first", true);
-
-        if (first) {
-            startActivity(new Intent(OverviewPage.this, TaskMag.class));
-        }
-
-        // finish();
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putBoolean("first", false);
-        editor.commit();
-
-
-    }
 }
