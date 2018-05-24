@@ -59,6 +59,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
     private Type type;
     private boolean update;
 
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,9 +184,18 @@ public class SpecificTaskCreator extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     boolean success = ldh.deleteSpecificTaskTable(specificTask.getId());
-                    Intent intent = new Intent(context, MainPageSlidesAdapter.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
+                    if (taskManagement != null) {
+                        Intent intent = new Intent(context, TaskManagementActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        context.startActivity(intent);
+
+                    } else {
+
+                        Intent intent = new Intent(context, MainPageSlidesAdapter.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        context.startActivity(intent);
+
+                    }
                     if (!success) {
                         throw new NoSuchElementException();
                     }

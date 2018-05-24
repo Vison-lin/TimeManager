@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -29,12 +30,59 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
     private SpecificTask selectedSpecificTask;
     private ArrayList<SpecificTask> completeList;
     private ArrayList<SpecificTask> incompleteList;
+    private final Button bt_cancel;
+    private final Button bt_delete;
+    private ArrayList<SpecificTask> list_delete = new ArrayList<SpecificTask>();
+    private boolean isMultiSelect = false;
+    private TextView tv_sum;
 
-    public SpecificTaskOverviewAdapter(ArrayList<SpecificTask> specificTasks, Context context) {
-
+    public SpecificTaskOverviewAdapter(final ArrayList<SpecificTask> specificTask, final Context context, int position, ViewGroup deletView) {
         this.ldh = LocalDatabaseHelper.getInstance(context);
         this.context = context;
-        inititalList(specificTasks);
+        inititalList(specificTask);
+        bt_cancel = deletView.findViewById(R.id.bt_cancel);
+        bt_delete = deletView.findViewById(R.id.bt_delete);
+        tv_sum = deletView.findViewById(R.id.tv_sum);
+
+
+        bt_cancel.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                isMultiSelect = false;
+                bt_cancel.setVisibility(view.INVISIBLE);
+                bt_delete.setVisibility(view.INVISIBLE);
+                tv_sum.setVisibility(view.INVISIBLE);
+                list_delete.clear();
+                notifyDataSetChanged();
+
+            }
+        });
+
+
+        bt_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (list_delete.size() != 0 && isMultiSelect) {
+                    for (SpecificTask task : list_delete) {
+                        ldh.deleteSpecificTaskTable(task.getId());
+                        specificTasks.remove(task);
+                        tv_sum.setText("You have chooseed: 0 item.");
+
+                    }
+                    list_delete.clear();
+                    if (specificTasks.size() == 0) {
+                        isMultiSelect = false;
+                        bt_cancel.setVisibility(view.INVISIBLE);
+                        bt_delete.setVisibility(view.INVISIBLE);
+                        tv_sum.setVisibility(view.INVISIBLE);
+                    }
+                    notifyDataSetChanged();
+                }
+            }
+        });
+
+
     }
 
     public void inititalList(ArrayList<SpecificTask> specificTasks) {
@@ -115,13 +163,151 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
     @Override
     public View getView(int position, View view, final ViewGroup viewGroup) {
         //Get view for row item
+
         final View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_daily_task_list, viewGroup, false);
         final TextView taskName = rowView.findViewById(R.id.taskName);
         final TextView taskHour = rowView.findViewById(R.id.taskHour);
         final Button taskType = rowView.findViewById(R.id.typeBtn);
+
         final SpecificTask specificTask = getItem(position);
         int color = Integer.parseInt(specificTask.getType().getColor());
         taskType.setBackgroundColor(color);
+
+        taskType.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                isMultiSelect = true;
+                //deletLayout.setVisibility(view.VISIBLE);
+                notifyDataSetChanged();
+
+
+                return false;
+            }
+        });
+
+
+        if (isMultiSelect) {
+            final CheckBox cb = rowView.findViewById(R.id.cb_select);
+            tv_sum.setText("You have chooseed: 0 item.");
+            bt_cancel.setVisibility(view.VISIBLE);
+            bt_delete.setVisibility(view.VISIBLE);
+            tv_sum.setVisibility(view.VISIBLE);
+
+
+            cb.setVisibility(view.VISIBLE);
+            cb.setChecked(false);
+            cb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    System.out.println("!!!!" + cb.isChecked());
+                    if (!cb.isChecked()) {
+                        cb.setChecked(false);
+                        list_delete.remove(specificTask);
+                    } else {
+                        cb.setChecked(true);
+                        list_delete.add(specificTask);
+
+                    }
+                    tv_sum.setText("You have chooseed: " + list_delete.size() + " item.");
+
+                }
+            });
+
+            rowView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if (cb.isChecked()) {
+                        cb.setChecked(false);
+                        list_delete.remove(specificTask);
+                    } else {
+                        cb.setChecked(true);
+                        list_delete.add(specificTask);
+
+                    }
+                    tv_sum.setText("You have chooseed: " + list_delete.size() + " item.");
+
+
+                }
+            });
+
+
+        } else {
+
+            rowView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    selectedSpecificTask = null;
+                    selectedSpecificTask = specificTask;
+                    specificTasks.remove(specificTask);
+
+                    NumberPickerDialog newFragment = new NumberPickerDialog();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("givenSpecificTask", specificTask);
+                    newFragment.setArguments(bundle);
+                    newFragment.setValueChangeListener(SpecificTaskOverviewAdapter.this);
+                    newFragment.show(((FragmentActivity) context).getSupportFragmentManager(), "time picker");
+
+                    return false;
+
+                }
+            });
+
+            rowView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    System.out.println(viewGroup.getResources().getColor(R.color.btn_bkgd_def));
+
+
+                    boolean success;
+                    inititalList(specificTasks);
+                    if (specificTask.isCompletedInBoolean()) {// If currently is completed and will be marked as incomplete
+
+                        specificTask.setCompleted(0);
+
+                        taskName.setTextColor(viewGroup.getResources().getColor(R.color.black));
+                        taskHour.setTextColor(viewGroup.getResources().getColor(R.color.black));
+                        taskType.setTextColor(viewGroup.getResources().getColor(R.color.black));
+                        success = ldh.updateSpecificTaskTable(specificTask);
+                        completeList.remove(specificTask);
+                        incompleteList.add(specificTask);
+                        sortList(completeList);
+                        sortList(incompleteList);
+                        specificTasks.clear();
+                        specificTasks.addAll(incompleteList);
+                        specificTasks.addAll(completeList);
+
+                        notifyDataSetChanged();
+
+                    } else {// If currently is incomplete and will be marked as completed
+                        specificTask.setCompleted(1);
+                        taskName.setTextColor(viewGroup.getResources().getColor(R.color.gray));
+                        taskHour.setTextColor(viewGroup.getResources().getColor(R.color.gray));
+                        taskType.setTextColor(viewGroup.getResources().getColor(R.color.gray));
+                        success = ldh.updateSpecificTaskTable(specificTask);
+                        completeList.add(specificTask);
+                        incompleteList.remove(specificTask);
+                        sortList(completeList);
+                        sortList(incompleteList);
+                        specificTasks.clear();
+                        specificTasks.addAll(incompleteList);
+                        specificTasks.addAll(completeList);
+                        notifyDataSetChanged();
+                    }
+                    if (!success) {
+                        try {
+                            throw new Exception();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+
+
+        }
+
 
         if (specificTask.isCompletedInBoolean() == true) {
             rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_comp));
@@ -146,81 +332,13 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
         }
         Calendar start = specificTask.getStartTime();
         Calendar end = specificTask.getEndTime();
-        String display = (start.get(Calendar.MONTH)+1) + "." + start.get(Calendar.DAY_OF_MONTH) + " " + start.get(Calendar.HOUR_OF_DAY) + ":" + start.get(Calendar.MINUTE) +
-                " - " + (end.get(Calendar.MONTH)+1) + "." + end.get(Calendar.DAY_OF_MONTH) + " " + end.get(Calendar.HOUR_OF_DAY) + ":" + end.get(Calendar.MINUTE);
+        String display = (start.get(Calendar.MONTH) + 1) + "." + start.get(Calendar.DAY_OF_MONTH) + " " + start.get(Calendar.HOUR_OF_DAY) + ":" + start.get(Calendar.MINUTE) +
+                " - " + (end.get(Calendar.MONTH) + 1) + "." + end.get(Calendar.DAY_OF_MONTH) + " " + end.get(Calendar.HOUR_OF_DAY) + ":" + end.get(Calendar.MINUTE);
         taskHour.setText(display);
 
-        rowView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                selectedSpecificTask = null;
-                selectedSpecificTask = specificTask;
-                specificTasks.remove(specificTask);
-
-                NumberPickerDialog newFragment = new NumberPickerDialog();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("givenSpecificTask", specificTask);
-                newFragment.setArguments(bundle);
-                newFragment.setValueChangeListener(SpecificTaskOverviewAdapter.this);
-                newFragment.show(((FragmentActivity) context).getSupportFragmentManager(), "time picker");
-
-                return false;
-
-            }
-        });
-
-        rowView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                System.out.println(viewGroup.getResources().getColor(R.color.btn_bkgd_def));
 
 
 
-                boolean success;
-                inititalList(specificTasks);
-                if (specificTask.isCompletedInBoolean()) {// If currently is completed and will be marked as incomplete
-
-                    specificTask.setCompleted(0);
-
-                    taskName.setTextColor(viewGroup.getResources().getColor(R.color.black));
-                    taskHour.setTextColor(viewGroup.getResources().getColor(R.color.black));
-                    taskType.setTextColor(viewGroup.getResources().getColor(R.color.black));
-                    success = ldh.updateSpecificTaskTable(specificTask);
-                    completeList.remove(specificTask);
-                    incompleteList.add(specificTask);
-                    sortList(completeList);
-                    sortList(incompleteList);
-                    specificTasks.clear();
-                    specificTasks.addAll(incompleteList);
-                    specificTasks.addAll(completeList);
-
-                    notifyDataSetChanged();
-
-                } else {// If currently is incomplete and will be marked as completed
-                    specificTask.setCompleted(1);
-                    taskName.setTextColor(viewGroup.getResources().getColor(R.color.gray));
-                    taskHour.setTextColor(viewGroup.getResources().getColor(R.color.gray));
-                    taskType.setTextColor(viewGroup.getResources().getColor(R.color.gray));
-                    success = ldh.updateSpecificTaskTable(specificTask);
-                    completeList.add(specificTask);
-                    incompleteList.remove(specificTask);
-                    sortList(completeList);
-                    sortList(incompleteList);
-                    specificTasks.clear();
-                    specificTasks.addAll(incompleteList);
-                    specificTasks.addAll(completeList);
-                    notifyDataSetChanged();
-                }
-                if (!success) {
-                    try {
-                        throw new Exception();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
         return rowView;
     }
 

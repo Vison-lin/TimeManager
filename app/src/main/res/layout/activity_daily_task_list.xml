@@ -48,7 +48,14 @@
                 android:layout_weight="1"
                 android:text="taskHour"
                 android:textSize="20sp" />
+
         </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/cb_select"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:visibility="invisible" />
 
 
     </LinearLayout>

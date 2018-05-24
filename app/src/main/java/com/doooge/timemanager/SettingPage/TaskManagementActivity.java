@@ -5,8 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.doooge.timemanager.LocalDatabaseHelper;
 import com.doooge.timemanager.R;
@@ -14,6 +16,7 @@ import com.doooge.timemanager.SpecificTask;
 import com.doooge.timemanager.Type;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by diana on 2018-02-16.
@@ -26,11 +29,13 @@ public class TaskManagementActivity extends AppCompatActivity {
     private LocalDatabaseHelper ldh;
     private Spinner mSpinner;
     private Type type;
+    private HashMap<String, View> viewGroup;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_specifictasks);
+
 
         ldh = LocalDatabaseHelper.getInstance(this);
         type = (Type)getIntent().getSerializableExtra("TypeInfo");
@@ -39,7 +44,16 @@ public class TaskManagementActivity extends AppCompatActivity {
         }else {
             specificTasks = ldh.getAllSpecificTask();
         }
-        adapter = new TaskManagementAdapter(specificTasks);
+        Button cancel = findViewById(R.id.bt_all_cancel);
+        Button delete = findViewById(R.id.bt_all_delete);
+        TextView tv = findViewById(R.id.tv_all_sum);
+        viewGroup = new HashMap<String, View>();
+        viewGroup.put("cancel", cancel);
+        viewGroup.put("delete", delete);
+        viewGroup.put("text", tv);
+
+
+        adapter = new TaskManagementAdapter(specificTasks, TaskManagementActivity.this, viewGroup);
         mListView = findViewById(R.id.taskList);
         mListView.setAdapter(adapter);
 
