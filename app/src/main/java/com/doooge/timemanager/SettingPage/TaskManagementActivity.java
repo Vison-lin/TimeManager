@@ -2,6 +2,8 @@ package com.doooge.timemanager.SettingPage;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.SparseBooleanArray;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,6 +28,10 @@ public class TaskManagementActivity extends AppCompatActivity {
     private LocalDatabaseHelper ldh;
     private Spinner mSpinner;
     private Type type;
+
+    private LayoutInflater inflater;
+    private SparseBooleanArray mSelectedItemsIds;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

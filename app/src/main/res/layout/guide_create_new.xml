@@ -4,24 +4,25 @@
     android:layout_height="match_parent"
     android:background="@drawable/taskcreator_backgound">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/help"
+            android:id="@+id/guide_createnew"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:scaleType="fitCenter"
-            android:src="@mipmap/intro_page" />
+            android:src="@mipmap/guide_create_type" />
 
         <Button
             android:id="@+id/nextBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Next" />
+            android:text="Let's Start" />
 
     </LinearLayout>
 
