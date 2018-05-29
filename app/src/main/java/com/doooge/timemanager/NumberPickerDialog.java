@@ -68,13 +68,14 @@ public class NumberPickerDialog extends DialogFragment {
         numberPicker.setValue(12);//set to middle
         numberPicker.setWrapSelectorWheel(false);//disable wrap selection
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Choose Value");
-        builder.setMessage("Choose a number :");
+
 
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 valueChangeListener.onValueChange(numberPicker,
                         numberPicker.getValue(), numberPicker.getValue());
             }
@@ -83,8 +84,8 @@ public class NumberPickerDialog extends DialogFragment {
         builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                valueChangeListener.onValueChange(numberPicker,
-                        numberPicker.getValue(), numberPicker.getValue());
+//                valueChangeListener.onValueChange(numberPicker,
+//                        numberPicker.getValue(), numberPicker.getValue());
             }
         });
 
@@ -97,6 +98,7 @@ public class NumberPickerDialog extends DialogFragment {
                 startActivity(intent);
             }
         });
+
         builder.setView(numberPicker);
         return builder.create();
     }

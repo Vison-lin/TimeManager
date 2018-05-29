@@ -94,6 +94,16 @@ public class TimeBarView extends View {
      */
     private int radius;
     private int paddingOuterThumb;
+
+    /**
+     * for improving
+     */
+    private Message message;
+    private RectF oval;
+    private PointF progressStartPoint;
+    private PointF progressEndPoint;
+    private String textTime;
+
     /**
      * create the constructor of this context
      *
@@ -104,17 +114,19 @@ public class TimeBarView extends View {
     }
     public TimeBarView(Context context,int progressStart,int progressEnd) {
         this(context, null);
+        textTime = getTimeText(progressStart, progressEnd);
         TimeBarView.progressStart = progressStart;
         TimeBarView.progressEnd = progressEnd;
-        System.out.println(progressStart+"!!!!!!!!!!!");
-        System.out.println(progressEnd+"!!!!!end!!!!!!");
+        runHandler();
     }
 
     public TimeBarView(Context context, int progressStart, int progressEnd, Type type) {
         this(context, null);
+        textTime = getTimeText(progressStart, progressEnd);
         TimeBarView.progressStart = progressStart;
         TimeBarView.progressEnd = progressEnd;
         TimeBarView.colorType = type;
+        runHandler();
     }
 
 
@@ -130,6 +142,7 @@ public class TimeBarView extends View {
         progressStart  =0;
         progressEnd  = 720;
         colorType = null;
+        textTime = getTimeText(progressStart, progressEnd);
 
 
         TypedArray mTypedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundProgressBar);
@@ -175,20 +188,23 @@ public class TimeBarView extends View {
         thumbHalfWidth1 = thumbEndPress.getIntrinsicWidth() / 2;
         thumbEndPress.setBounds(left, top, -left, -top);
 
+        runHandler();
 
 
     }
 
     @Override
     public void onDraw(Canvas canvas) {
-
+        if (colorType != null) {
+            roundProgressColor = Integer.parseInt(colorType.getColor());
+        }
         /**
          * draw the circle
          */
         setLayerType(LAYER_TYPE_SOFTWARE, null);
         //LinearGradient shader = new LinearGradient(0, 0, 800, 800, Color.BLACK, Color.BLACK, Shader.TileMode.REPEAT);
         //paint.setShader(shader);
-        paint.setMaskFilter(new BlurMaskFilter(10, BlurMaskFilter.Blur.OUTER));
+        // paint.setMaskFilter(new BlurMaskFilter(10, BlurMaskFilter.Blur.OUTER));
         paint.setColor(roundColor);
         paint.setStyle(Paint.Style.STROKE);
 
@@ -207,23 +223,9 @@ public class TimeBarView extends View {
         paint.setStrokeWidth(0);
         paint.setColor(textColor);
         paint.setTextSize(textSize);
-        String textTime = getTimeText(progressStart, progressEnd);
         float textWidth = paint.measureText(textTime);
         canvas.drawText(textTime, centerX - textWidth / 2, centerY + textSize / 2, paint);
-        /**
-         *  send message to UI activity
-         */
-        if (handler != null) {
 
-            String result = getTime(progressStart) + "@" + getTime(progressEnd) + "@" + isOverDay(progressStart, progressEnd) + "@" + progressStart + "@" + progressEnd;
-            Message message = handler.obtainMessage();
-            message.what = 0;
-            message.obj = result;
-            handler.sendMessage(message);
-        }
-        if (colorType != null) {
-            roundProgressColor = Integer.parseInt(colorType.getColor());
-        }
 
         /**
          * draw arc and the process bar
@@ -232,7 +234,7 @@ public class TimeBarView extends View {
         paint.setMaskFilter(new BlurMaskFilter(60, BlurMaskFilter.Blur.INNER));
         paint.setStrokeWidth(roundWidth);
         paint.setColor(roundProgressColor);
-        RectF oval = new RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
+        oval = new RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius);
         paint.setStyle(Paint.Style.STROKE);
         if (progressStart > progressEnd) {
 
@@ -243,9 +245,8 @@ public class TimeBarView extends View {
         if(getTime(progressStart).equals(getTime(progressEnd))){
             canvas.drawArc(oval, 360 * progressStart / max + 270, 360 , false, paint);
         }
-
-        PointF progressStartPoint = ChartUtil.calcArcEndPointXY(centerX, centerY, radius, 360 * progressStart / max, 270);
-        PointF progressEndPoint = ChartUtil.calcArcEndPointXY(centerX, centerY, radius, 360 * progressEnd / max, 270);
+        progressStartPoint = ChartUtil.calcArcEndPointXY(centerX, centerY, radius, 360 * progressStart / max, 270);
+        progressEndPoint = ChartUtil.calcArcEndPointXY(centerX, centerY, radius, 360 * progressEnd / max, 270);
 
 
         // draw thumb
@@ -290,8 +291,11 @@ public class TimeBarView extends View {
         int action = event.getAction();
         int x = (int) event.getX();
         int y = (int) event.getY();
+
         switch (action) {
             case MotionEvent.ACTION_DOWN:
+                textTime = getTimeText(progressStart, progressEnd);
+                runHandler();
                 if (isTouchPot(x, y)) {
                     downOnStart = true;
                     updateArc(x, y, true);
@@ -303,8 +307,9 @@ public class TimeBarView extends View {
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
+                textTime = getTimeText(progressStart, progressEnd);
+                runHandler();
                 if (downOnStart) {
-
                     updateArc(x, y, true);
                     return true;
                 } else if (downOnEnd) {
@@ -313,9 +318,13 @@ public class TimeBarView extends View {
                 }
                 break;
             case MotionEvent.ACTION_UP:
+                textTime = getTimeText(progressStart, progressEnd);
+                if (handler != null) {
+                    handler.removeCallbacksAndMessages(null);
+                }
                 downOnStart = false;
                 downOnEnd = false;
-                invalidate();
+                //invalidate();
                 break;
         }
         return super.onTouchEvent(event);
@@ -363,7 +372,7 @@ public class TimeBarView extends View {
 
 
         }
-        invalidate();
+        // invalidate();
     }
 
 
@@ -495,6 +504,18 @@ public class TimeBarView extends View {
 //    }
 
 //    public Callback timeListener;
+
+    public void runHandler() {
+        if (handler != null) {
+            String result = getTime(progressStart) + "@" + getTime(progressEnd) + "@" + isOverDay(progressStart, progressEnd) + "@" + progressStart + "@" + progressEnd;
+            message = handler.obtainMessage();
+            message.what = 0;
+            message.obj = result;
+            handler.sendMessage(message);
+        }
+
+    }
+
 
     public void Test(Callback callback) {
         handler = callback.execute();

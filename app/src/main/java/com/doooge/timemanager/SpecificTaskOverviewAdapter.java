@@ -11,11 +11,16 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 
 
 /**
@@ -356,14 +361,36 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
 
     @Override
     public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+        Calendar endTime = selectedSpecificTask.getEndTime();
+        Calendar startTime = selectedSpecificTask.getStartTime();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         int differInMinutes = CalendarHelper.correctMinutes(numberPicker.getValue());
-        Calendar endCalendar = selectedSpecificTask.getEndTime();
-        endCalendar.add(Calendar.MINUTE, differInMinutes);
-        selectedSpecificTask.setEndTime(endCalendar);
-        ldh.updateSpecificTaskTable(selectedSpecificTask);
-        specificTasks.add(selectedSpecificTask);
-        inititalList(specificTasks);
-        notifyDataSetChanged();
+        long minute = 0;
+        try {
+            Date d1 = df.parse(startTime.get(Calendar.YEAR) + "-" + (startTime.get(Calendar.MONTH) + 1) + "-" + startTime.get(Calendar.DAY_OF_MONTH) + " " + startTime.get(Calendar.HOUR_OF_DAY) + ":" + startTime.get(Calendar.MINUTE));
+            Date d2 = df.parse(endTime.get(Calendar.YEAR) + "-" + (endTime.get(Calendar.MONTH) + 1) + "-" + endTime.get(Calendar.DAY_OF_MONTH) + " " + endTime.get(Calendar.HOUR_OF_DAY) + ":" + endTime.get(Calendar.MINUTE));
+            long diff = d2.getTime() - d1.getTime();
+            minute = diff / (1000 * 60);
+            System.out.println(d1);
+            System.out.println(d2);
+            System.out.println(minute);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (minute + differInMinutes > 0 && minute + differInMinutes <= 24 * 60) {
+
+            Calendar endCalendar = selectedSpecificTask.getEndTime();
+            endCalendar.add(Calendar.MINUTE, differInMinutes);
+            selectedSpecificTask.setEndTime(endCalendar);
+            ldh.updateSpecificTaskTable(selectedSpecificTask);
+            specificTasks.add(selectedSpecificTask);
+            inititalList(specificTasks);
+            notifyDataSetChanged();
+            Toast.makeText(context, "Success !", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Failed, impossible time !", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

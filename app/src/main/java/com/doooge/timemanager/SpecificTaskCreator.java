@@ -144,7 +144,10 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
             int progressEnd = (specificTask.getEndTime().get(Calendar.HOUR_OF_DAY)*60)+(specificTask.getEndTime().get(Calendar.MINUTE));
             mView = new TimeBarView(this,progressStart,progressEnd);
-        }else {
+        } else if (task != null) {
+            type = task.getType();
+            mView = new TimeBarView(context, 0, 720, type);
+        } else {
             mView = new TimeBarView(this);
         }
         mView.Test(new TimeBarView.Callback() {
@@ -249,7 +252,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
                 int count = 0;
                 public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 /* 将所选mySpinner 的值带入myTextView 中*/
-                    if (specificTask == null) {
+                    if (specificTask == null || task == null) {
                         type = typeList.get(arg2);
                         if (count != 0) {
                             mView = new TimeBarView(context, progressStart, progressEnd, type);
@@ -403,8 +406,11 @@ public class SpecificTaskCreator extends AppCompatActivity {
                 c.updateEnd();
 
 
+
             }
+
         }
+
 
     }
 
