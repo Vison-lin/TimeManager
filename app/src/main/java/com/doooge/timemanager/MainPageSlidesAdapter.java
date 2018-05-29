@@ -4,6 +4,9 @@ package com.doooge.timemanager;
  * Created by fredpan on 2018/1/26.
  */
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -13,6 +16,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.doooge.timemanager.GuidePage.IntroPage;
 import com.doooge.timemanager.Statistics.StatisticFragment;
 
 import java.util.ArrayList;
@@ -38,6 +42,8 @@ public class MainPageSlidesAdapter extends FragmentActivity {
     private PagerAdapter mPagerAdapter;
 
 
+    private SharedPreferences pref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +54,7 @@ public class MainPageSlidesAdapter extends FragmentActivity {
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
+
         //Force make second page (SpecificTaskOverviewFragment) as the default displayed main page
         new Handler().post(new Runnable() {
             @Override
@@ -55,6 +62,20 @@ public class MainPageSlidesAdapter extends FragmentActivity {
                 mPager.setCurrentItem(1);
             }
         });
+
+
+        pref = getSharedPreferences("first", Context.MODE_PRIVATE);
+
+        boolean first = pref.getBoolean("first", true);
+        if (first) {
+            startActivity(new Intent(MainPageSlidesAdapter.this, IntroPage.class));
+
+
+            //finish();
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putBoolean("first", false);
+            editor.commit();
+        }
     }
 
     @Override

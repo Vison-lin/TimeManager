@@ -1,4 +1,4 @@
-package com.doooge.timemanager.SettingPage;
+package com.doooge.timemanager.GuidePage;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,25 +9,26 @@ import android.widget.Button;
 import com.doooge.timemanager.R;
 
 /**
- * Created by fredpan on 2018/1/26.
+ * Created by diana on 2018-05-23.
  */
 
-public class HelpActivity extends AppCompatActivity {
-
+public class IntroPage extends AppCompatActivity {
     private Button nextBtn;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_help);
+        setContentView(R.layout.guide_intro_page);
 
         nextBtn = findViewById(R.id.nextBtn);
+
         nextBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent intent = new Intent(HelpActivity.this, HelpActivityTwo.class);
+                Intent intent = new Intent(IntroPage.this, OverviewPage.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                HelpActivity.this.startActivity(intent);
+                IntroPage.this.startActivity(intent);
             }
         });
     }
+
 
 }
