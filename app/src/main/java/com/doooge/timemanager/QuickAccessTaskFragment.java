@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class QuickAccessTaskFragment extends Fragment {
         adapter = new QuickAccessTaskAdapter(tasks, getContext());
         mListView = rootView.findViewById(R.id.taskList);
         mListView.setAdapter(adapter);
-        ImageView viewAddTasksBtn = rootView.findViewById(R.id.addingTaskBtn);
+        Button viewAddTasksBtn = rootView.findViewById(R.id.addingTaskBtn);
         viewAddTasksBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

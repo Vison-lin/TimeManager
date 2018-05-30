@@ -11,15 +11,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/activityTitleText"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Quick Add"
                 android:textAlignment="center"
                 android:textColor="#000000"
@@ -30,34 +29,29 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <ListView
                 android:id="@+id/taskList"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            android:layout_weight="4"
-            android:orientation="horizontal"
-            android:src="@drawable/settingbuttonicon">
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal">
 
-
-            <ImageView
+            <Button
                 android:id="@+id/addingTaskBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/add" />
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/add" />
 
         </LinearLayout>
 
