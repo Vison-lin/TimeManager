@@ -103,7 +103,7 @@ public class TimeBarView extends View {
     private PointF progressStartPoint;
     private PointF progressEndPoint;
     private String textTime;
-
+    private LocalDatabaseHelper ldh;
     /**
      * create the constructor of this context
      *
@@ -112,21 +112,21 @@ public class TimeBarView extends View {
     public TimeBarView(Context context) {
         this(context, null);
     }
-    public TimeBarView(Context context,int progressStart,int progressEnd) {
-        this(context, null);
-        textTime = getTimeText(progressStart, progressEnd);
-        TimeBarView.progressStart = progressStart;
-        TimeBarView.progressEnd = progressEnd;
-        runHandler();
-    }
+//    public TimeBarView(Context context,int progressStart,int progressEnd) {
+//        this(context, null);
+//        paint = new Paint();
+//        textTime = getTimeText(progressStart, progressEnd);
+//        TimeBarView.progressStart = progressStart;
+//        TimeBarView.progressEnd = progressEnd;
+//        runHandler();
+//    }
 
     public TimeBarView(Context context, int progressStart, int progressEnd, Type type) {
-        this(context, null);
+        super(context, null, 0);
         textTime = getTimeText(progressStart, progressEnd);
         TimeBarView.progressStart = progressStart;
         TimeBarView.progressEnd = progressEnd;
         TimeBarView.colorType = type;
-        runHandler();
     }
 
 
@@ -143,13 +143,14 @@ public class TimeBarView extends View {
         progressEnd  = 720;
         colorType = null;
         textTime = getTimeText(progressStart, progressEnd);
-
-
+        ldh = LocalDatabaseHelper.getInstance(context);
+        Type def = ldh.findTypeByPrimaryKey(-999);
         TypedArray mTypedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundProgressBar);
 
         //Gets the customer property and default values.
         roundColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundColor, getResources().getColor(R.color.black));
-        roundProgressColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundProgressColor, getResources().getColor(R.color.btn_bkgd_def));
+        roundProgressColor = Integer.parseInt(def.getColor());
+        // roundProgressColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundProgressColor, getResources().getColor(R.color.btn_bkgd_def));
         roundWidth = mTypedArray.getDimension(R.styleable.RoundProgressBar_roundWidth, 70);
         textColor = mTypedArray.getColor(R.styleable.RoundProgressBar_textColor, Color.BLUE);
         textSize = mTypedArray.getDimension(R.styleable.RoundProgressBar_textSize_round, 60);
@@ -160,7 +161,6 @@ public class TimeBarView extends View {
         thumbStart = getResources().getDrawable(R.drawable.a1);
         //thumbS = BitmapFactory.decodeResource(getResources(), R.drawable.a1);
         int thumbHalfheight = thumbStart.getIntrinsicHeight() / 2;
-        System.out.println("=="+thumbHalfheight);
         int thumbHalfWidth = thumbStart.getIntrinsicWidth() / 2;
         //thumbStart.setBounds(-thumbHalfWidth, -thumbHalfheight, thumbHalfWidth, thumbHalfheight);
         int left = (int)(25-roundWidth);
@@ -172,7 +172,6 @@ public class TimeBarView extends View {
 
         thumbStartPress = getResources().getDrawable(R.drawable.a2);
         thumbHalfheight = thumbStartPress.getIntrinsicHeight() / 2;
-        System.out.println("==="+thumbHalfheight);
         thumbHalfWidth = thumbStartPress.getIntrinsicWidth() / 2;
         thumbStartPress.setBounds(left, top, -left, -top);
         paddingOuterThumb = thumbHalfheight;
@@ -188,20 +187,20 @@ public class TimeBarView extends View {
         thumbHalfWidth1 = thumbEndPress.getIntrinsicWidth() / 2;
         thumbEndPress.setBounds(left, top, -left, -top);
 
-        runHandler();
 
 
     }
 
     @Override
     public void onDraw(Canvas canvas) {
+        System.out.println("paingting");
         if (colorType != null) {
             roundProgressColor = Integer.parseInt(colorType.getColor());
         }
         /**
          * draw the circle
          */
-        setLayerType(LAYER_TYPE_SOFTWARE, null);
+        //setLayerType(LAYER_TYPE_SOFTWARE, null);
         //LinearGradient shader = new LinearGradient(0, 0, 800, 800, Color.BLACK, Color.BLACK, Shader.TileMode.REPEAT);
         //paint.setShader(shader);
         // paint.setMaskFilter(new BlurMaskFilter(10, BlurMaskFilter.Blur.OUTER));
@@ -282,7 +281,7 @@ public class TimeBarView extends View {
             canvas.translate(startPoint.getX(), startPoint.getY());
             thumbStart.draw(canvas);
         }
-
+        runHandler();
         canvas.restore();
     }
 
@@ -295,7 +294,7 @@ public class TimeBarView extends View {
         switch (action) {
             case MotionEvent.ACTION_DOWN:
                 textTime = getTimeText(progressStart, progressEnd);
-                runHandler();
+
                 if (isTouchPot(x, y)) {
                     downOnStart = true;
                     updateArc(x, y, true);
@@ -308,7 +307,7 @@ public class TimeBarView extends View {
                 break;
             case MotionEvent.ACTION_MOVE:
                 textTime = getTimeText(progressStart, progressEnd);
-                runHandler();
+
                 if (downOnStart) {
                     updateArc(x, y, true);
                     return true;
@@ -324,7 +323,7 @@ public class TimeBarView extends View {
                 }
                 downOnStart = false;
                 downOnEnd = false;
-                //invalidate();
+                invalidate();
                 break;
         }
         return super.onTouchEvent(event);
@@ -372,7 +371,15 @@ public class TimeBarView extends View {
 
 
         }
-        // invalidate();
+        invalidate();
+    }
+
+
+    public void update() {
+
+        roundProgressColor = getResources().getColor(R.color.btn_bkgd_purple);
+        invalidate();
+
     }
 
 
@@ -461,7 +468,6 @@ public class TimeBarView extends View {
         if (minute > minute1) {
             if(second<second1) {
                 result = (24 - minute + minute1 < 10 ? "0" : "") + (24 - minute + minute1) + ":";
-                result += (second1-second)<10 ?"0"+(second1-second):second1-second;
             }else if(second>second1){
                 result = (23 - minute + minute1 < 10 ? "0" : "") + (23 - minute + minute1) + ":";
                 result += (60+second1-second)<10 ?"0"+(60+second1-second):60+second1-second;
@@ -513,6 +519,7 @@ public class TimeBarView extends View {
             message.obj = result;
             handler.sendMessage(message);
         }
+
 
     }
 

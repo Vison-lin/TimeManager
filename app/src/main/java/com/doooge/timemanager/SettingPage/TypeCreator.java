@@ -105,33 +105,32 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
             case R.id.blue_type:
                 reSetchoose();
                 color = getResources().getColor(R.color.btn_bkgd_blue);
-                blue.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_blue));
+                blue.setBackground(getResources().getDrawable(R.drawable.typecolor_blue));
                 Toast.makeText(getApplicationContext(), "choose blue success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.green_type:
                 reSetchoose();
 
                 color = getResources().getColor(R.color.btn_bkgd_green);
-                green.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_green));
+                green.setBackground(getResources().getDrawable(R.drawable.typecolor_green));
                 Toast.makeText(getApplicationContext(), "choose green success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.yellow_type:
                 reSetchoose();
                 color = getResources().getColor(R.color.btn_bkgd_yellow);
-                yellow.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_yellow));
+                yellow.setBackground(getResources().getDrawable(R.drawable.typecolor_yellow));
                 Toast.makeText(getApplicationContext(), "choose yellow success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.violet_type:
                 reSetchoose();
                 color = getResources().getColor(R.color.btn_bkgd_purple);
-                violet.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_purple));
-                //violet.setBackground(getResources().getDrawable(R.drawable.violet_button_roundedge_choosed));
-                //Toast.makeText(getApplicationContext(), "choose violet success !", Toast.LENGTH_SHORT).show();
+                violet.setBackground(getResources().getDrawable(R.drawable.typecolor_violet));
+                Toast.makeText(getApplicationContext(), "choose violet success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.red_type:
                 reSetchoose();
                 color = getResources().getColor(R.color.btn_bkgd_red);
-                red.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_red));
+                red.setBackground(getResources().getDrawable(R.drawable.typecolor_red));
                 Toast.makeText(getApplicationContext(), "choose red success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.deleteType:

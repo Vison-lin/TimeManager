@@ -52,5 +52,10 @@ public class QuickAccessTaskFragment extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
 }
 
