@@ -36,9 +36,10 @@ public class SpecificTaskCreator extends AppCompatActivity {
     private static Calendar calEnd;
     private static int progressStart;
     private static int progressEnd;
-    public TimeBarView mView;
-    private MyHandler handler;
+    private TimeBarView mView;
+    private TimeBarView timeBar;
     private String userName;
+    private MyHandler handler;
     private LocalDatabaseHelper ldh;
     private TimePickerDialog timePicker;
     private TimePickerDialogInterface timePickerDialogInterface;
@@ -54,7 +55,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
     private List<Type> typeList;
     private ArrayList<Type> mList;
     private Spinner mSpinner;
-    //    private ArrayAdapter<String> mAdapter;
     private SpecificTaskSpinnerAdapter mAdapter;
     private Type type;
     private boolean update;
@@ -65,7 +65,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.context = this;
-
 
 
         //Going from QuickAccessTask
@@ -143,19 +142,18 @@ public class SpecificTaskCreator extends AppCompatActivity {
             int progressStart = (specificTask.getStartTime().get(Calendar.HOUR_OF_DAY)*60)+(specificTask.getStartTime().get(Calendar.MINUTE));
 
             int progressEnd = (specificTask.getEndTime().get(Calendar.HOUR_OF_DAY)*60)+(specificTask.getEndTime().get(Calendar.MINUTE));
-            mView = new TimeBarView(this,progressStart,progressEnd);
+            mView = new TimeBarView(this, progressStart, progressEnd, type);
         } else if (task != null) {
             type = task.getType();
             mView = new TimeBarView(context, 0, 720, type);
+
         } else {
             mView = new TimeBarView(this);
+
         }
-        mView.Test(new TimeBarView.Callback() {
-            @Override
-            public Handler execute() {
-                return handler;
-            }
-        });
+        creatHandler();
+        timeBar = findViewById(R.id.timeBar);
+        timeBar.invalidate();
 
         checkBox = findViewById(R.id.checkBox);
         checkBox.setVisibility(View.INVISIBLE);
@@ -252,10 +250,14 @@ public class SpecificTaskCreator extends AppCompatActivity {
                 int count = 0;
                 public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 /* 将所选mySpinner 的值带入myTextView 中*/
-                    if (specificTask == null || task == null) {
+
+                    if (specificTask == null && task == null) {
                         type = typeList.get(arg2);
                         if (count != 0) {
                             mView = new TimeBarView(context, progressStart, progressEnd, type);
+                            timeBar = findViewById(R.id.timeBar);
+                            timeBar.invalidate();
+                            System.out.println("1111");
                         }
                         count++;
                         //initialType();
@@ -265,6 +267,8 @@ public class SpecificTaskCreator extends AppCompatActivity {
                         } else {
                             type = typeList.get(arg2);
                             mView = new TimeBarView(context, progressStart, progressEnd, type);
+                            timeBar = findViewById(R.id.timeBar);
+                            timeBar.invalidate();
                             //initialType();
                         }
                     }
@@ -372,9 +376,20 @@ public class SpecificTaskCreator extends AppCompatActivity {
         void updateEnd();
     }
 
+    public void creatHandler() {
+        mView.Test(new TimeBarView.Callback() {
+            @Override
+            public Handler execute() {
+                return handler;
+            }
+        });
+    }
+
+
     /**
      * To create Handler class for receiveing data from TimeBarView class.
      */
+
 
     private static class MyHandler extends Handler {
         private Activity activity;
@@ -387,6 +402,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
         @Override
         public void handleMessage(android.os.Message msg) {
+
             if (msg.what == 0) {
                 String message = (String) msg.obj;
                 TextView start = activity.findViewById(R.id.startTimePrint);
