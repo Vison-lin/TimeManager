@@ -4,9 +4,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainPageSlidesAdapter">
@@ -28,7 +28,6 @@
         <activity android:name=".GuidePage.TaskMag" />
         <activity android:name=".GuidePage.TypeControl" />
         <activity android:name=".SettingPage.HelpActivityTwo" />
-        <!--activity android:name=".SecondMainPageLauncher" />-->
         <activity android:name=".SettingPage.TaskManagementActivity" />
     </application>
 
