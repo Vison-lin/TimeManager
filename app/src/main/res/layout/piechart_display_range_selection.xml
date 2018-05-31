@@ -11,8 +11,7 @@
         android:layout_marginTop="33dp"
         android:background="@null"
         android:gravity="center"
-        android:text="All Finished Tasks "
-        android:textColor="@color/black"
+        android:text="All Finished Tasks:"
         android:textSize="21dp" />
 
     <LinearLayout
@@ -64,32 +63,34 @@
         android:background="@color/black" />
 
     <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:orientation="horizontal">-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal">-->
 
-    <Button
-        android:id="@+id/showByWeek"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:background="@null" />
+        <Button
+            android:id="@+id/showByWeek"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:layout_gravity="center"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="1dp"
-        android:layout_marginTop="1dp"
-        android:background="@color/black" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/black" />
 
-    <Button
-        android:id="@+id/showByMonth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:background="@null" />
+        <Button
+            android:id="@+id/showByMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:layout_gravity="center"/>
+
+    <!--</LinearLayout>-->
 
     <View
         android:layout_width="match_parent"
@@ -101,16 +102,20 @@
         android:id="@+id/showTodayOnlyPieChartTimeRangeChange"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@null" />
+        android:background="@null"
+        android:layout_gravity="center"/>
+        <!--android:layout_weight="4"-->
 
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="1dp"
-        android:layout_marginTop="1dp"
-        android:background="@color/black" />
+
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="1dp"
+            android:background="@color/black" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

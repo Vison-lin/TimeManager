@@ -193,7 +193,7 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
 
         if (isMultiSelect) {
             final CheckBox cb = rowView.findViewById(R.id.cb_select);
-            tv_sum.setText("You have chooseed: 0 item.");
+            tv_sum.setText("You have chosen: 0 item.");
             bt_cancel.setVisibility(view.VISIBLE);
             bt_delete.setVisibility(view.VISIBLE);
             tv_sum.setVisibility(view.VISIBLE);
@@ -213,7 +213,7 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
                         list_delete.add(specificTask);
 
                     }
-                    tv_sum.setText("You have chooseed: " + list_delete.size() + " item.");
+                    tv_sum.setText("You have chosen: " + list_delete.size() + " item.");
 
                 }
             });
@@ -230,7 +230,7 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
                         list_delete.add(specificTask);
 
                     }
-                    tv_sum.setText("You have chooseed: " + list_delete.size() + " item.");
+                    tv_sum.setText("You have chosen: " + list_delete.size() + " item.");
 
 
                 }

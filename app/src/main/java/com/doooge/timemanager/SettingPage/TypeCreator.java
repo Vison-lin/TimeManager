@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.doooge.timemanager.LocalDatabaseHelper;
 import com.doooge.timemanager.R;
@@ -82,6 +81,12 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
                 if (name.equals("")) {
                     typeName.setError("Enter a name.");
                     typeName.setBackground(getResources().getDrawable(R.drawable.back_red));
+                } else if (color == (getResources().getColor(R.color.btn_bkgd_def))) {
+                    TextView warn = findViewById(R.id.warn_type);
+
+                    warn.setError("Choose a color.");
+
+
                 } else {
                     if(type==null) {
                         Type type = new Type(name, color + "");
@@ -106,32 +111,27 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
                 reSetchoose();
                 color = getResources().getColor(R.color.btn_bkgd_blue);
                 blue.setBackground(getResources().getDrawable(R.drawable.typecolor_blue));
-                Toast.makeText(getApplicationContext(), "choose blue success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.green_type:
                 reSetchoose();
 
                 color = getResources().getColor(R.color.btn_bkgd_green);
                 green.setBackground(getResources().getDrawable(R.drawable.typecolor_green));
-                Toast.makeText(getApplicationContext(), "choose green success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.yellow_type:
                 reSetchoose();
                 color = getResources().getColor(R.color.btn_bkgd_yellow);
                 yellow.setBackground(getResources().getDrawable(R.drawable.typecolor_yellow));
-                Toast.makeText(getApplicationContext(), "choose yellow success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.violet_type:
                 reSetchoose();
                 color = getResources().getColor(R.color.btn_bkgd_purple);
                 violet.setBackground(getResources().getDrawable(R.drawable.typecolor_violet));
-                Toast.makeText(getApplicationContext(), "choose violet success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.red_type:
                 reSetchoose();
                 color = getResources().getColor(R.color.btn_bkgd_red);
                 red.setBackground(getResources().getDrawable(R.drawable.typecolor_red));
-                Toast.makeText(getApplicationContext(), "choose red success !", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.deleteType:
                 ldh.deleteTypeTable(type.getId());
@@ -144,7 +144,6 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
     }
 
     public void reSetchoose(){
-        // blue.setBackground(getResources().getColor(android.R.color.btn));
         blue.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_blue));
         green.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_green));
         yellow.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_yellow));
