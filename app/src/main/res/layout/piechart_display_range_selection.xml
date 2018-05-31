@@ -10,7 +10,7 @@
         android:layout_marginTop="33dp"
         android:background="@null"
         android:gravity="center"
-        android:text="I want to see all tasks done"
+        android:text="All Finished Tasks:"
         android:textSize="21dp" />
 
     <LinearLayout
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal">
-
+        v
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"

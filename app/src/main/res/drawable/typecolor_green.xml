@@ -3,5 +3,5 @@
     <solid android:color="@color/btn_bkgd_green" />
     <stroke
         android:width="3dip"
-        android:color="@color/violet" />
+        android:color="@color/black" />
 </shape>
