@@ -437,14 +437,14 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
     private void updateCenterText() {
         if (haveCompletedTasks) {
-            pieChart.setCenterText("Time distribution");
+            pieChart.setCenterText("Time Distribution");
             pieChart.setCenterTextSize(pieChart.getHoleRadius() / 2);
             pieChart.setVisibility(View.VISIBLE);
             pieChartNoneData.setVisibility(View.GONE);
         } else {
             pieChart.setVisibility(View.GONE);
             pieChartNoneData.setVisibility(View.VISIBLE);
-            pieChartNoneData.setText("NO TASK HAS BEEN DONE BETWEEN SELECTED PERIOD");
+            pieChartNoneData.setText("NO TASK FINISHED BETWEEN SELECTED PERIOD");
         }
     }
 
