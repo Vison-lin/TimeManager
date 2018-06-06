@@ -29,14 +29,14 @@ import java.util.Date;
 
 public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPicker.OnValueChangeListener {
 
+    private final Button bt_cancel;
+    private final Button bt_delete;
     LocalDatabaseHelper ldh;
     private ArrayList<SpecificTask> specificTasks;
     private Context context;
     private SpecificTask selectedSpecificTask;
     private ArrayList<SpecificTask> completeList;
     private ArrayList<SpecificTask> incompleteList;
-    private final Button bt_cancel;
-    private final Button bt_delete;
     private ArrayList<SpecificTask> list_delete = new ArrayList<SpecificTask>();
     private boolean isMultiSelect = false;
     private TextView tv_sum;
@@ -55,9 +55,9 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
             @Override
             public void onClick(View view) {
                 isMultiSelect = false;
-                bt_cancel.setVisibility(view.INVISIBLE);
-                bt_delete.setVisibility(view.INVISIBLE);
-                tv_sum.setVisibility(view.INVISIBLE);
+                bt_cancel.setVisibility(View.INVISIBLE);
+                bt_delete.setVisibility(View.INVISIBLE);
+                tv_sum.setVisibility(View.INVISIBLE);
                 list_delete.clear();
                 notifyDataSetChanged();
 
@@ -78,9 +78,9 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
                     list_delete.clear();
                     if (specificTasks.size() == 0) {
                         isMultiSelect = false;
-                        bt_cancel.setVisibility(view.INVISIBLE);
-                        bt_delete.setVisibility(view.INVISIBLE);
-                        tv_sum.setVisibility(view.INVISIBLE);
+                        bt_cancel.setVisibility(View.INVISIBLE);
+                        bt_delete.setVisibility(View.INVISIBLE);
+                        tv_sum.setVisibility(View.INVISIBLE);
                     }
                     notifyDataSetChanged();
                 }
@@ -194,12 +194,12 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
         if (isMultiSelect) {
             final CheckBox cb = rowView.findViewById(R.id.cb_select);
             tv_sum.setText("You have chosen: 0 item.");
-            bt_cancel.setVisibility(view.VISIBLE);
-            bt_delete.setVisibility(view.VISIBLE);
-            tv_sum.setVisibility(view.VISIBLE);
+            bt_cancel.setVisibility(View.VISIBLE);
+            bt_delete.setVisibility(View.VISIBLE);
+            tv_sum.setVisibility(View.VISIBLE);
 
 
-            cb.setVisibility(view.VISIBLE);
+            cb.setVisibility(View.VISIBLE);
             cb.setChecked(false);
             cb.setOnClickListener(new View.OnClickListener() {
                 @Override
