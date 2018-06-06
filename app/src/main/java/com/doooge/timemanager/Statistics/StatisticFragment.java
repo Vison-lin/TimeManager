@@ -67,7 +67,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
         ldb = LocalDatabaseHelper.getInstance(getActivity());
         selectedtypes = ldb.getAllType();//init
-        selectedtypes_Previous = new ArrayList();
+        selectedtypes_Previous = new ArrayList<>();
 
         pieChartHelper = new PieChartHelper(getActivity());
 
@@ -182,20 +182,13 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         final ArrayList<Type> types = ldb.getAllType();
 
         Iterator<Type> iterator = types.iterator();
-        if (selectedtypes_Previous.size() == 0) {
+
             while (iterator.hasNext()) {
                 Type type = iterator.next();
                 selectedtypes.add(type);
 
             }
-        } else {
-            selectedtypes.clear();
-            for (Type i : selectedtypes_Previous) {
-                selectedtypes.add(i);
-            }
 
-
-        }
 
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
         alertBuilder.setTitle("Please select the types you want to see:");
@@ -207,11 +200,15 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         alertBuilder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                selectedtypes.clear();
+                for (Type i : selectedtypes_Previous) {
+                    selectedtypes.add(i);
+                }
                 dialog.dismiss();
             }
         });
         final AlertDialog alertDialog = alertBuilder.create();
-
+        alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
 
             @Override
@@ -225,9 +222,11 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                         if (selectedtypes.size() == 0) {//user selected nothing
                             Toast.makeText(getContext(), "Please choose at least one type!", Toast.LENGTH_SHORT).show();
                         } else {
+                            selectedtypes_Previous.clear();
                             for (Type i : selectedtypes) {
                                 selectedtypes_Previous.add(i);
                             }
+                            System.out.println("!!!!" + selectedtypes_Previous.size());
                             updatePieChart();
                             dialog.dismiss();
                         }
