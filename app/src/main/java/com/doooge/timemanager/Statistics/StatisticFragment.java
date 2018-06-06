@@ -241,7 +241,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 //        alertDialog.getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 //
 //
-//       
+//
 //        alertDialog.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
