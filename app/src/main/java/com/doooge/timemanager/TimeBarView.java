@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
@@ -159,6 +160,9 @@ public class TimeBarView extends View {
 
         // Loading the picture of thumb
         thumbStart = getResources().getDrawable(R.drawable.a1);
+        Bitmap bitmap = ((BitmapDrawable) thumbStart).getBitmap();
+        // Scale it to 50 x 50
+        thumbStart = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 100, 100, true));
         //thumbS = BitmapFactory.decodeResource(getResources(), R.drawable.a1);
         int thumbHalfheight = thumbStart.getIntrinsicHeight() / 2;
         int thumbHalfWidth = thumbStart.getIntrinsicWidth() / 2;
@@ -171,18 +175,27 @@ public class TimeBarView extends View {
 
 
         thumbStartPress = getResources().getDrawable(R.drawable.a2);
+        bitmap = ((BitmapDrawable) thumbStartPress).getBitmap();
+        // Scale it to 50 x 50
+        thumbStartPress = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 100, 100, true));
         thumbHalfheight = thumbStartPress.getIntrinsicHeight() / 2;
         thumbHalfWidth = thumbStartPress.getIntrinsicWidth() / 2;
         thumbStartPress.setBounds(left, top, -left, -top);
         paddingOuterThumb = thumbHalfheight;
 
         thumbEnd = getResources().getDrawable(R.drawable.a1);
+        bitmap = ((BitmapDrawable) thumbEnd).getBitmap();
+        // Scale it to 50 x 50
+        thumbEnd = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 100, 100, true));
         //thumbE = BitmapFactory.decodeResource(getResources(), R.drawable.a1);
         int thumbHalfheight1 = thumbEnd.getIntrinsicHeight() / 2;
         int thumbHalfWidth1 = thumbEnd.getIntrinsicWidth() / 2;
         thumbEnd.setBounds(left, top, -left, -top);
 
         thumbEndPress = getResources().getDrawable(R.drawable.a2);
+        bitmap = ((BitmapDrawable) thumbEndPress).getBitmap();
+        // Scale it to 50 x 50
+        thumbEndPress = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 100, 100, true));
         thumbHalfheight1 = thumbEndPress.getIntrinsicHeight() / 2;
         thumbHalfWidth1 = thumbEndPress.getIntrinsicWidth() / 2;
         thumbEndPress.setBounds(left, top, -left, -top);
