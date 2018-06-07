@@ -461,13 +461,10 @@ public class TimeBarView extends View {
     private String getTimeText(int processStart, int processEnd) {
         int minute = processStart / 60;
         int second = Integer.parseInt((processStart % 60)/10+""+((processStart%60)%10<5?"0":"5"));
-        System.out.println("minute :" + minute);
-        System.out.println("second: " + second);
+
         int minute1 = processEnd / 60;
         int second1 = Integer.parseInt((processEnd% 60)/10+""+((processEnd%60)%10<5?"0":"5"));
-        System.out.println("minute1 :" + minute1);
-        System.out.println("second1: " + second1);
-        System.out.println("================");
+
         String result;
 
         if (minute > minute1) {

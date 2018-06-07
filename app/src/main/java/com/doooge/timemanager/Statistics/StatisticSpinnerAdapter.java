@@ -76,7 +76,13 @@ public class StatisticSpinnerAdapter extends BaseAdapter {
 
                 if (!cb.isChecked()) {
                     cb.setChecked(false);
-                    selectList.remove(task);
+                    Type delete = new Type(null, null);
+                    for (Type i : selectList) {
+                        if (i.getName().equals(task.getName())) {
+                            delete = i;
+                        }
+                    }
+                    selectList.remove(delete);
 
 
                 } else {
@@ -94,12 +100,21 @@ public class StatisticSpinnerAdapter extends BaseAdapter {
             public void onClick(View view) {
                 if (cb.isChecked()) {
                     cb.setChecked(false);
-                    selectList.remove(task);
+                    Type delete = new Type(null, null);
+                    for (Type i : selectList) {
+                        if (i.getName().equals(task.getName())) {
+                            delete = i;
+                        }
+                    }
+                    selectList.remove(delete);
+
+                    System.out.println("remove size: " + selectList.size());
 
 
                 } else {
                     cb.setChecked(true);
                     selectList.add(task);
+                    System.out.println("add size: " + selectList.size());
 
 
                 }

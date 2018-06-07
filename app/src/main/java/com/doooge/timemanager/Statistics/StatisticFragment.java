@@ -188,7 +188,16 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                 selectedtypes.add(type);
 
             }
+        if (selectedtypes_Previous.size() != 0) {
+            selectedtypes.clear();
+            for (Type i : selectedtypes_Previous) {
+                selectedtypes.add(i);
+            }
+        }
+        for (Type x : selectedtypes) {
+            System.out.println("===" + x.getName());
 
+        }
 
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
         alertBuilder.setTitle("Please select the types you want to see:");
