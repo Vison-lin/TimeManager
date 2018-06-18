@@ -9,7 +9,10 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainPageSlidesAdapter">
+        <activity
+            android:name=".MainPageSlidesAdapter"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,20 +20,55 @@
 
             </intent-filter>
         </activity>
-        <activity android:name=".GuidePage.IntroPage" />
-        <activity android:name=".SettingPage.SettingActivity" />
-        <activity android:name=".SettingPage.HelpActivity" />
-        <activity android:name=".SettingPage.TypeCreator" />
-        <activity android:name=".SettingPage.TypeManagementActivity" />
+        <activity
+            android:name=".GuidePage.IntroPage"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SettingPage.SettingActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SettingPage.HelpActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SettingPage.TypeCreator"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SettingPage.TypeManagementActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SpecificTaskCreator"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".GuidePage.CreateNew" />
-        <activity android:name=".GuidePage.OverviewPage" />
-        <activity android:name=".GuidePage.TaskMag" />
-        <activity android:name=".GuidePage.TypeControl" />
-        <activity android:name=".SettingPage.HelpActivityTwo" />
-        <activity android:name=".SettingPage.TaskManagementActivity" />
+        <activity
+            android:name=".GuidePage.CreateNew"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".GuidePage.OverviewPage"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".GuidePage.TaskMag"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".GuidePage.TypeControl"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SettingPage.HelpActivityTwo"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SettingPage.TaskManagementActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
     </application>
 
 

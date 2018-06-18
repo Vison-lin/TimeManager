@@ -99,15 +99,15 @@ public class SpecificTaskCreator extends AppCompatActivity {
         initialDate();
 
 
-        startDate.setText(year + ":" + month + ":" + day);
-        endDate.setText(year + ":" + month + ":" + day);
+        startDate.setText(year + "." + month + "." + day);
+        endDate.setText(year + "." + month + "." + day);
         timePickerDialogInterface = new TimePickerDialogInterface() {
             @Override
             public void positiveListener(int year, int month, int day) {
                 setYear(year);
                 setMonth(month + 1);
                 setDay(day);
-                startDate.setText(year + ":" + (month + 1) + ":" + day);
+                startDate.setText(year + "." + (month + 1) + "." + day);
                 updateEnd();
 
             }
@@ -126,10 +126,10 @@ public class SpecificTaskCreator extends AppCompatActivity {
                 if (isOverDay) {
                     calEnd.add(Calendar.DATE, 1);
 
-                    endDate.setText(calEnd.get(Calendar.YEAR) + ":" + (calEnd.get(Calendar.MONTH) + 1) + ":" + calEnd.get(Calendar.DATE));
+                    endDate.setText(calEnd.get(Calendar.YEAR) + "." + (calEnd.get(Calendar.MONTH) + 1) + "." + calEnd.get(Calendar.DATE));
                 }
                 if (!isOverDay) {
-                    endDate.setText(calEnd.get(Calendar.YEAR) + ":" + (calEnd.get(Calendar.MONTH) + 1) + ":" + calEnd.get(Calendar.DATE));
+                    endDate.setText(calEnd.get(Calendar.YEAR) + "." + (calEnd.get(Calendar.MONTH) + 1) + "." + calEnd.get(Calendar.DATE));
                 }
 
 

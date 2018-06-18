@@ -262,7 +262,12 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
                 public boolean onLongClick(View v) {
                     selectedSpecificTask = null;
                     selectedSpecificTask = specificTask;
-                    specificTasks.remove(specificTask);
+                    for (SpecificTask item : specificTasks) {
+                        if (item.getTaskName().equals(specificTask.getTaskName())) {
+                            specificTasks.remove(item);
+                        }
+                    }
+
 
                     NumberPickerDialog newFragment = new NumberPickerDialog();
                     Bundle bundle = new Bundle();
@@ -293,7 +298,12 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
                         taskHour.setTextColor(viewGroup.getResources().getColor(R.color.black));
                         taskType.setTextColor(viewGroup.getResources().getColor(R.color.black));
                         success = ldh.updateSpecificTaskTable(specificTask);
-                        completeList.remove(specificTask);
+                        for (SpecificTask item : completeList) {
+                            if (item.getTaskName().equals(specificTask.getTaskName())) {
+                                completeList.remove(item);
+                            }
+                        }
+
                         incompleteList.add(specificTask);
                         sortList(completeList);
                         sortList(incompleteList);
@@ -310,7 +320,11 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
                         taskType.setTextColor(viewGroup.getResources().getColor(R.color.gray));
                         success = ldh.updateSpecificTaskTable(specificTask);
                         completeList.add(specificTask);
-                        incompleteList.remove(specificTask);
+                        for (SpecificTask item : incompleteList) {
+                            if (item.getTaskName().equals(specificTask.getTaskName())) {
+                                incompleteList.remove(item);
+                            }
+                        }
                         sortList(completeList);
                         sortList(incompleteList);
                         specificTasks.clear();
@@ -333,7 +347,7 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
 
 
         if (specificTask.isCompletedInBoolean() == true) {
-            rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_comp));
+            //rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_comp));
             taskName.setTextColor(viewGroup.getResources().getColor(R.color.gray));
             taskHour.setTextColor(viewGroup.getResources().getColor(R.color.gray));
             taskType.setTextColor(viewGroup.getResources().getColor(R.color.gray));
