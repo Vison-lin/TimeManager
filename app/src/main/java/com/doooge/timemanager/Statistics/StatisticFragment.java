@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -327,6 +328,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         shapeDrawableAfterHightlight.getPaint().setColor(0);
 
         final Button submitButton = dialog.findViewById(R.id.submitPieChartTimeRangeChange);
+        btnDisplayModification(submitButton, ViewGroup.LayoutParams.WRAP_CONTENT);
         submitButton.setText("OK");
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -344,6 +346,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         });
 
         startDay = dialog.findViewById(R.id.startDayChoosed);
+        btnDisplayModification(startDate, ViewGroup.LayoutParams.WRAP_CONTENT);
         startDay.setText(CalendarHelper.convertCal2UTC(Calendar.getInstance()).substring(0, 10));//by default display today's data only
         startDay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -353,6 +356,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         });
 
         endDay = dialog.findViewById(R.id.endDayChoosed);
+        btnDisplayModification(endDay, ViewGroup.LayoutParams.WRAP_CONTENT);
         endDay.setText(CalendarHelper.convertCal2UTC(Calendar.getInstance()).substring(0, 10));//by default display today's data only
         endDay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -362,9 +366,10 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         });
 
         //Show by today
-        final Button neutralButton = dialog.findViewById(R.id.showTodayOnlyPieChartTimeRangeChange);//Shown Today Only (DEFAULT)
-        neutralButton.setText(R.string.shownDataInToday);
-        neutralButton.setOnClickListener(new View.OnClickListener() {
+        final Button showByToday = dialog.findViewById(R.id.showTodayOnlyPieChartTimeRangeChange);//Shown Today Only (DEFAULT)
+        btnDisplayModification(showByToday, 500);
+        showByToday.setText(R.string.shownDataInToday);
+        showByToday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectedStartCal[0] = Calendar.getInstance();
@@ -397,6 +402,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
         // Show by past week
         final Button showByWeek = dialog.findViewById(R.id.showByWeek);
+        btnDisplayModification(showByWeek, 500);
         showByWeek.setText(R.string.shownDataInPastWeek);
         showByWeek.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -428,6 +434,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
         //Show by past month
         final Button showByMonth = dialog.findViewById(R.id.showByMonth);
+        btnDisplayModification(showByMonth, 500);
         showByMonth.setText(R.string.shownDataInPastMonth);
         showByMonth.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -462,6 +469,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
         //Cancel
         final Button cancel = dialog.findViewById(R.id.cancelPieChartTimeRangeChange);
+        btnDisplayModification(cancel, ViewGroup.LayoutParams.WRAP_CONTENT);
         cancel.setText("Cancel");
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -574,6 +582,18 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
             updateCenterText();
 
         }
+    }
+
+    private void btnDisplayModification(Button button, int layoutParamsWidth) {
+        GradientDrawable btnDrawable = new GradientDrawable(
+                GradientDrawable.Orientation.TL_BR,
+                new int[]{getResources().getColor(R.color.statpage_blue), getResources().getColor(R.color.background_color)});
+        btnDrawable.setGradientType(GradientDrawable.RADIAL_GRADIENT);
+        btnDrawable.setGradientRadius(210.0f);
+        btnDrawable.setCornerRadius(50.f);
+        button.setBackground(btnDrawable);
+        button.setWidth(layoutParamsWidth);
+        button.setHeight(button.getHeight() - 10);
     }
 
 }
