@@ -3,7 +3,10 @@ package com.doooge.timemanager.Statistics;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -292,6 +295,14 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         dialog.show();
         dialog.getWindow().setContentView(R.layout.piechart_display_range_selection);
 
+        final Button startDate = dialog.findViewById(R.id.startDayChoosed);
+        final ShapeDrawable shapeDrawable = new ShapeDrawable();
+        shapeDrawable.getPaint().setStyle(Paint.Style.STROKE);
+        shapeDrawable.getPaint().setStrokeWidth(30);
+        final ShapeDrawable shapeDrawableAfterHightlight = new ShapeDrawable();
+        shapeDrawableAfterHightlight.getPaint().setStyle(startDate.getPaint().getStyle());
+        shapeDrawableAfterHightlight.getPaint().setColor(0);
+
         final Button submitButton = dialog.findViewById(R.id.submitPieChartTimeRangeChange);
         submitButton.setText("OK");
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -338,8 +349,18 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                 //update the UI
                 startDay.setText(CalendarHelper.convertCal2UTC(selectedStartCal[0]).substring(0, 10));
                 endDay.setText(CalendarHelper.convertCal2UTC(selectedEndCal[0]).substring(0, 10));
+                startDate.setBackground(shapeDrawable);
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startDate.setBackground(shapeDrawableAfterHightlight);
+                    }
+                }, 100);
+
             }
         });
+
 
         // Show by past week
         final Button showByWeek = dialog.findViewById(R.id.showByWeek);
@@ -353,6 +374,15 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                 //update the UI
                 startDay.setText(CalendarHelper.convertCal2UTC(selectedStartCal[0]).substring(0, 10));
                 endDay.setText(CalendarHelper.convertCal2UTC(selectedEndCal[0]).substring(0, 10));
+
+                startDate.setBackground(shapeDrawable);
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startDate.setBackground(shapeDrawableAfterHightlight);
+                    }
+                }, 100);
             }
         });
 
@@ -369,6 +399,14 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                 //update the UI
                 startDay.setText(CalendarHelper.convertCal2UTC(selectedStartCal[0]).substring(0, 10));
                 endDay.setText(CalendarHelper.convertCal2UTC(selectedEndCal[0]).substring(0, 10));
+                startDate.setBackground(shapeDrawable);
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startDate.setBackground(shapeDrawableAfterHightlight);
+                    }
+                }, 100);
             }
         });
 
