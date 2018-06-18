@@ -8,6 +8,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -450,7 +451,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
     private Calendar displayAndGetSelectedDate(final int title) {
         final Calendar[] selectedCalendar = {Calendar.getInstance()};
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        final DatePicker picker = new DatePicker(getContext());
+        final DatePicker picker = new DatePicker(new ContextThemeWrapper(getContext(), R.style.MyTimepicker));
         picker.setMaxDate(Calendar.getInstance().getTimeInMillis());
         if (title == 0) {//start
             builder.setTitle(R.string.durationStartPickerTitle);
