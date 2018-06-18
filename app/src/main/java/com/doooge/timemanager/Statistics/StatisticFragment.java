@@ -480,7 +480,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                 }
             }
         });
-        builder.setNeutralButton("Go back to today", null);
+        builder.setNeutralButton("Today", null);
 
         AlertDialog dialog = builder.create();
         dialog.show();
