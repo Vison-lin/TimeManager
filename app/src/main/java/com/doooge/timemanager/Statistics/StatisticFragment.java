@@ -173,7 +173,6 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
     @Override
     public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
     }
-
     /*
     OnClikcListener for long press: Choose different types
     */
@@ -200,15 +199,11 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
             }
         }
         for (Type x : selectedtypes) {
-            System.out.println("===" + x.getName());
-
         }
 
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
-        alertBuilder.setTitle("Select Finished Tasks to Illustrate:");
-        System.out.println("!!!!!" + selectedtypes.size());
+        alertBuilder.setTitle("Select Finished Tasks:");
         StatisticSpinnerAdapter mAdapter = new StatisticSpinnerAdapter(types, selectedtypes, getActivity());
-        //alertBuilder.setAdapter(arrayAdapter, null);
         alertBuilder.setAdapter(mAdapter, null);
         alertBuilder.setPositiveButton("Ok", null);
         alertBuilder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
