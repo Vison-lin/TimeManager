@@ -20,24 +20,23 @@
                 android:id="@+id/typeBtn"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="10dp"
                 android:background="@color/btn_bkgd_blue"
                 android:text="Wo"
-                android:textSize="30sp" />
+                android:textSize="30dp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="5"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/taskName"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:maxLength="18"
                 android:text="taskName"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -45,7 +44,7 @@
             <TextView
                 android:id="@+id/taskHour"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="taskHour"
                 android:textSize="16sp" />
