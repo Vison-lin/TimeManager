@@ -1,6 +1,7 @@
 package com.doooge.timemanager;
 
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.method.ScrollingMovementMethod;
@@ -48,6 +49,17 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
         inititalList(specificTask);
         bt_cancel = deletView.findViewById(R.id.bt_cancel);
         bt_delete = deletView.findViewById(R.id.bt_delete);
+        btnDisplayModification(bt_cancel,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                deletView.getResources().getColor(R.color.statpage_blue),
+                deletView.getResources().getColor(R.color.background_color)
+        );
+        btnDisplayModification(
+                bt_delete,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                deletView.getResources().getColor(R.color.statpage_blue),
+                deletView.getResources().getColor(R.color.background_color)
+        );
         tv_sum = deletView.findViewById(R.id.tv_sum);
 
 
@@ -422,6 +434,18 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
         } else {
             Toast.makeText(context, "Failed, impossible time !", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void btnDisplayModification(Button button, int layoutParamsWidth, int startColor, int endColor) {
+        GradientDrawable btnDrawable = new GradientDrawable(
+                GradientDrawable.Orientation.TL_BR,
+                new int[]{startColor, endColor});
+        btnDrawable.setGradientType(GradientDrawable.RADIAL_GRADIENT);
+        btnDrawable.setGradientRadius(210.0f);
+        btnDrawable.setCornerRadius(50.f);
+        button.setBackground(btnDrawable);
+        button.setWidth(layoutParamsWidth);
+        button.setHeight(button.getHeight() - 10);
     }
 
 }
