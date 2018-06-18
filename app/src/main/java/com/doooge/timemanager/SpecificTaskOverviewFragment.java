@@ -21,6 +21,7 @@ import com.doooge.timemanager.SettingPage.SettingActivity;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by diana on 2018-01-26.
@@ -142,7 +143,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
     }
 
     private void updateCalBtnText(Calendar calendar) {
-        SimpleDateFormat getMonth = new SimpleDateFormat("MMMM");
+        SimpleDateFormat getMonth = new SimpleDateFormat("MMMM", Locale.ENGLISH);
         String month = getMonth.format(calendar.getTime());
         if (month.equals("September")) {
             month = month.substring(0, 4);
