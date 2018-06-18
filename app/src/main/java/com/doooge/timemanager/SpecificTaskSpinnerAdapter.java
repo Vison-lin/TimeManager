@@ -50,6 +50,7 @@ public class SpecificTaskSpinnerAdapter extends BaseAdapter {
         final Type task = getItem(position);
 
         TextView taskName = rowView.findViewById(R.id.itemName);
+        taskName.setSingleLine(true);
         taskName.setText(task.getName());
         ImageView taskTypeBlock = rowView.findViewById(R.id.itemColor);
         int color = Integer.parseInt(task.getColor());
