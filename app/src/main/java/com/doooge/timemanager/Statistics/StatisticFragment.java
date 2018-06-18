@@ -573,6 +573,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 //            FragmentTran3saction ftr = getFragmentManager().beginTransaction();
 //            ftr.detach(this).attach(this).commit();
 //            selectedtypes =
+            haveCompletedTasks = false;
             updatePieChart();
             updateCenterText();
 
