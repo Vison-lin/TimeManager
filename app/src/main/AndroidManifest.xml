@@ -22,7 +22,9 @@
         <activity android:name=".SettingPage.HelpActivity" />
         <activity android:name=".SettingPage.TypeCreator" />
         <activity android:name=".SettingPage.TypeManagementActivity" />
-        <activity android:name=".SpecificTaskCreator" />
+        <activity
+            android:name=".SpecificTaskCreator"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".GuidePage.CreateNew" />
         <activity android:name=".GuidePage.OverviewPage" />
         <activity android:name=".GuidePage.TaskMag" />

@@ -12,13 +12,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckedTextView;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,6 +54,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
     private Button selectPirChartDisplayDuration;
     private String selectedPieChartDisplayDurationBtnDisplay;
     private ArrayList<Type> selectedtypes;//init below
+    private ArrayList<Type> selectedtypes_Previous;//init below
     private Button endDay;
     private Button startDay;
     private TextView pieChartNoneData;
@@ -73,6 +70,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
         ldb = LocalDatabaseHelper.getInstance(getActivity());
         selectedtypes = ldb.getAllType();//init
+        selectedtypes_Previous = new ArrayList<>();
 
         pieChartHelper = new PieChartHelper(getActivity());
 
@@ -182,28 +180,47 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
         selectedtypes = new ArrayList<>();
         // Instantiate an AlertDialog.Builder with its constructor
-        final ArrayAdapter<Type> arrayAdapter = new ArrayAdapter<Type>(this.getContext(), android.R.layout.select_dialog_multichoice);
+        // final ArrayAdapter<Type> arrayAdapter = new ArrayAdapter<Type>(this.getContext(), android.R.layout.select_dialog_multichoice);
 
         final ArrayList<Type> types = ldb.getAllType();
 
         Iterator<Type> iterator = types.iterator();
-        while (iterator.hasNext()) {
-            Type type = iterator.next();
-            arrayAdapter.add(type);
+
+            while (iterator.hasNext()) {
+                Type type = iterator.next();
+                selectedtypes.add(type);
+
+            }
+        if (selectedtypes_Previous.size() != 0) {
+            selectedtypes.clear();
+            for (Type i : selectedtypes_Previous) {
+                selectedtypes.add(i);
+            }
+        }
+        for (Type x : selectedtypes) {
+            System.out.println("===" + x.getName());
+
         }
 
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
         alertBuilder.setTitle("Please select the types you want to see:");
-        alertBuilder.setAdapter(arrayAdapter, null);
+        System.out.println("!!!!!" + selectedtypes.size());
+        StatisticSpinnerAdapter mAdapter = new StatisticSpinnerAdapter(types, selectedtypes, getActivity());
+        //alertBuilder.setAdapter(arrayAdapter, null);
+        alertBuilder.setAdapter(mAdapter, null);
         alertBuilder.setPositiveButton("Ok", null);
         alertBuilder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                selectedtypes.clear();
+                for (Type i : selectedtypes_Previous) {
+                    selectedtypes.add(i);
+                }
                 dialog.dismiss();
             }
         });
         final AlertDialog alertDialog = alertBuilder.create();
-
+        alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
 
             @Override
@@ -217,6 +234,11 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                         if (selectedtypes.size() == 0) {//user selected nothing
                             Toast.makeText(getContext(), "Please choose at least one type!", Toast.LENGTH_SHORT).show();
                         } else {
+                            selectedtypes_Previous.clear();
+                            for (Type i : selectedtypes) {
+                                selectedtypes_Previous.add(i);
+                            }
+                            System.out.println("!!!!" + selectedtypes_Previous.size());
                             updatePieChart();
                             dialog.dismiss();
                         }
@@ -227,32 +249,32 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
             }
         });
 
-        alertDialog.getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-
-
-        //todo pre-select all the shown type
-        alertDialog.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // check the checkbox state
-                CheckedTextView checkedTextView = ((CheckedTextView) view);
-                boolean checked = checkedTextView.isChecked();
-                Type type = (Type) parent.getItemAtPosition(position);
-                if (checked) {
-                    selectedtypes.add(type);
-                }
-                if (!checked) {
-                    boolean foundAndRemoved = selectedtypes.remove(type);
-                    if (!foundAndRemoved) {
-                        throw new IllegalStateException();
-                    }
-
-
-                }
-
-
-            }
-        });
+//        alertDialog.getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+//
+//
+//
+//        alertDialog.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                // check the checkbox state
+//                CheckedTextView checkedTextView = ((CheckedTextView) view);
+//                boolean checked = checkedTextView.isChecked();
+//                Type type = (Type) parent.getItemAtPosition(position);
+//                if (checked) {
+//                    selectedtypes.add(type);
+//                }
+//                if (!checked) {
+//                    boolean foundAndRemoved = selectedtypes.remove(type);
+//                    if (!foundAndRemoved) {
+//                        throw new IllegalStateException();
+//                    }
+//
+//
+//                }
+//
+//
+//            }
+//        });
 
 
         alertDialog.show();
