@@ -47,6 +47,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:text="Cancel"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="2dp"
             android:visibility="gone" />
 
         <TextView
@@ -71,6 +73,8 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:text="Delete"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="2dp"
             android:visibility="gone" />
 
 

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -188,9 +187,9 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
         final Button taskType = rowView.findViewById(R.id.typeBtn);
 
         taskName.setSingleLine(true);
-        taskName.setMovementMethod(new ScrollingMovementMethod());
+
         taskHour.setSingleLine(true);
-        taskHour.setMovementMethod(new ScrollingMovementMethod());
+
 
         final SpecificTask specificTask = getItem(position);
         int color = Integer.parseInt(specificTask.getType().getColor());

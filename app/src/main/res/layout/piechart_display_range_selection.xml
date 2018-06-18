@@ -36,6 +36,7 @@
             android:id="@+id/startDayChoosed"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1" />
 
         <TextView
@@ -51,7 +52,7 @@
             android:id="@+id/endDayChoosed"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="3dp"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1" />
     </LinearLayout>
 
@@ -67,8 +68,7 @@
         android:id="@+id/showByWeek"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1" />
+        android:layout_gravity="center" />
 
     <View
         android:layout_width="match_parent"
@@ -80,8 +80,7 @@
         android:id="@+id/showByMonth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1" />
+        android:layout_gravity="center" />
 
     <!--</LinearLayout>-->
 
@@ -109,21 +108,30 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/cancelPieChartTimeRangeChange"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1" />
 
+        <Button
+            android:id="@+id/btn_null"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:background="@null" />
 
         <Button
             android:id="@+id/submitPieChartTimeRangeChange"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
             android:layout_weight="1" />
     </LinearLayout>
 
