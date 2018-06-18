@@ -588,7 +588,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         btnDrawable.setCornerRadius(50.f);
         button.setBackground(btnDrawable);
         button.setWidth(layoutParamsWidth);
-        button.setHeight(button.getHeight() - 10);
+//        button.setHeight(button.getHeight() - 10);
     }
 
 }
