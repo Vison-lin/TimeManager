@@ -3,6 +3,7 @@ package com.doooge.timemanager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -173,6 +174,11 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
         final TextView taskName = rowView.findViewById(R.id.taskName);
         final TextView taskHour = rowView.findViewById(R.id.taskHour);
         final Button taskType = rowView.findViewById(R.id.typeBtn);
+
+        taskName.setSingleLine(true);
+        taskName.setMovementMethod(new ScrollingMovementMethod());
+        taskHour.setSingleLine(true);
+        taskHour.setMovementMethod(new ScrollingMovementMethod());
 
         final SpecificTask specificTask = getItem(position);
         int color = Integer.parseInt(specificTask.getType().getColor());
@@ -351,8 +357,33 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
         }
         Calendar start = specificTask.getStartTime();
         Calendar end = specificTask.getEndTime();
-        String display = (start.get(Calendar.MONTH) + 1) + "." + start.get(Calendar.DAY_OF_MONTH) + " " + start.get(Calendar.HOUR_OF_DAY) + ":" + start.get(Calendar.MINUTE) +
-                " - " + (end.get(Calendar.MONTH) + 1) + "." + end.get(Calendar.DAY_OF_MONTH) + " " + end.get(Calendar.HOUR_OF_DAY) + ":" + end.get(Calendar.MINUTE);
+        String display = (start.get(Calendar.MONTH) + 1) + "." + start.get(Calendar.DAY_OF_MONTH) + " ";
+        if (start.get(Calendar.HOUR_OF_DAY) == 0) {
+            display += "00";
+        } else {
+            display += start.get(Calendar.HOUR_OF_DAY) + "";
+        }
+        display += ":";
+        if (start.get(Calendar.MINUTE) == 0) {
+            display += "00";
+        } else {
+            display += start.get(Calendar.MINUTE);
+        }
+
+        display += " - " + (end.get(Calendar.MONTH) + 1) + "." + end.get(Calendar.DAY_OF_MONTH) + " ";
+
+        if (end.get(Calendar.HOUR_OF_DAY) == 0) {
+            display += "00";
+        } else {
+            display += end.get(Calendar.HOUR_OF_DAY) + "";
+        }
+        display += ":";
+        if (end.get(Calendar.MINUTE) == 0) {
+            display += "00";
+        } else {
+            display += end.get(Calendar.MINUTE);
+        }
+
         taskHour.setText(display);
 
 
