@@ -149,7 +149,7 @@ public class TimeBarView extends View {
         TypedArray mTypedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundProgressBar);
 
         //Gets the customer property and default values.
-        roundColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundColor, getResources().getColor(R.color.black));
+        roundColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundColor, getResources().getColor(R.color.gray));
         roundProgressColor = Integer.parseInt(def.getColor());
         // roundProgressColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundProgressColor, getResources().getColor(R.color.btn_bkgd_def));
         roundWidth = mTypedArray.getDimension(R.styleable.RoundProgressBar_roundWidth, 70);

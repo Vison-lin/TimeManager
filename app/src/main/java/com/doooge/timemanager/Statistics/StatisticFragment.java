@@ -6,13 +6,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
@@ -372,14 +372,24 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                 //update the UI
                 startDay.setText(CalendarHelper.convertCal2UTC(selectedStartCal[0]).substring(0, 10));
                 endDay.setText(CalendarHelper.convertCal2UTC(selectedEndCal[0]).substring(0, 10));
-                startDate.setBackground(shapeDrawable);
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        startDate.setBackground(shapeDrawableAfterHightlight);
-                    }
-                }, 100);
+
+
+                //------------------animation------
+
+                AlphaAnimation anim_alpha = new AlphaAnimation(0, 1);
+                anim_alpha.setDuration(800);//动画时间
+                v.startAnimation(anim_alpha);//启动动画
+                startDate.setAnimation(anim_alpha);
+
+
+//                startDate.setBackground(shapeDrawable);
+//                final Handler handler = new Handler();
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        startDate.setBackground(shapeDrawableAfterHightlight);
+//                    }
+//                }, 100);
 
             }
         });
@@ -398,14 +408,21 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                 startDay.setText(CalendarHelper.convertCal2UTC(selectedStartCal[0]).substring(0, 10));
                 endDay.setText(CalendarHelper.convertCal2UTC(selectedEndCal[0]).substring(0, 10));
 
-                startDate.setBackground(shapeDrawable);
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        startDate.setBackground(shapeDrawableAfterHightlight);
-                    }
-                }, 100);
+                //------------------animation------
+
+                AlphaAnimation anim_alpha = new AlphaAnimation(0, 1);
+                anim_alpha.setDuration(800);//动画时间
+                v.startAnimation(anim_alpha);//启动动画
+                startDate.setAnimation(anim_alpha);
+
+//                startDate.setBackground(shapeDrawable);
+//                final Handler handler = new Handler();
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        startDate.setBackground(shapeDrawableAfterHightlight);
+//                    }
+//                }, 100);
             }
         });
 
@@ -422,14 +439,24 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                 //update the UI
                 startDay.setText(CalendarHelper.convertCal2UTC(selectedStartCal[0]).substring(0, 10));
                 endDay.setText(CalendarHelper.convertCal2UTC(selectedEndCal[0]).substring(0, 10));
-                startDate.setBackground(shapeDrawable);
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        startDate.setBackground(shapeDrawableAfterHightlight);
-                    }
-                }, 100);
+
+
+                //------------------animation------
+
+                AlphaAnimation anim_alpha = new AlphaAnimation(0, 1);
+                anim_alpha.setDuration(800);//动画时间
+                v.startAnimation(anim_alpha);//启动动画
+                startDate.setAnimation(anim_alpha);
+
+
+//                startDate.setBackground(shapeDrawable);
+//                final Handler handler = new Handler();
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        startDate.setBackground(shapeDrawableAfterHightlight);
+//                    }
+//                }, 100);
             }
         });
 
