@@ -31,7 +31,7 @@ public class TaskManagementActivity extends AppCompatActivity {
     private LocalDatabaseHelper ldh;
     private Spinner mSpinner;
     private Type type;
-    private HashMap<String, View> viewGroup;
+    private HashMap<String, Object> viewGroup;
 
     private LayoutInflater inflater;
     private SparseBooleanArray mSelectedItemsIds;
@@ -53,10 +53,12 @@ public class TaskManagementActivity extends AppCompatActivity {
         Button cancel = findViewById(R.id.bt_all_cancel);
         Button delete = findViewById(R.id.bt_all_delete);
         TextView tv = findViewById(R.id.tv_all_sum);
-        viewGroup = new HashMap<String, View>();
+        viewGroup = new HashMap<String, Object>();
         viewGroup.put("cancel", cancel);
         viewGroup.put("delete", delete);
         viewGroup.put("text", tv);
+        viewGroup.put("startColor", getResources().getColor(R.color.statpage_blue));
+        viewGroup.put("endColor", getResources().getColor(R.color.background_color));
 
 
         adapter = new TaskManagementAdapter(specificTasks, TaskManagementActivity.this, viewGroup);

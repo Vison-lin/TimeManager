@@ -2,6 +2,7 @@ package com.doooge.timemanager.SettingPage;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,19 @@ public class TaskManagementAdapter extends BaseAdapter {
 //        View delete = factory.inflate(R.layout.activity_all_specifictasks,null);
         bt_cancel_task = (Button) delete.get("cancel");
         bt_delete_task = (Button) delete.get("delete");
+        btnDisplayModification(
+                bt_cancel_task,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                (int) delete.get("startColor"),
+                (int) delete.get("endColor")
+
+        );
+        btnDisplayModification(
+                bt_delete_task,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                (int) delete.get("startColor"),
+                (int) delete.get("endColor")
+        );
         tv_sum_task = (TextView) delete.get("text");
 
 
@@ -49,9 +63,9 @@ public class TaskManagementAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 isMultiSelect = false;
-                bt_cancel_task.setVisibility(view.INVISIBLE);
-                bt_delete_task.setVisibility(view.INVISIBLE);
-                tv_sum_task.setVisibility(view.INVISIBLE);
+                bt_cancel_task.setVisibility(View.INVISIBLE);
+                bt_delete_task.setVisibility(View.INVISIBLE);
+                tv_sum_task.setVisibility(View.INVISIBLE);
                 list_delete.clear();
                 notifyDataSetChanged();
 
@@ -72,9 +86,9 @@ public class TaskManagementAdapter extends BaseAdapter {
                     list_delete.clear();
                     if (specificTasks.size() == 0) {
                         isMultiSelect = false;
-                        bt_cancel_task.setVisibility(view.INVISIBLE);
-                        bt_delete_task.setVisibility(view.INVISIBLE);
-                        tv_sum_task.setVisibility(view.INVISIBLE);
+                        bt_cancel_task.setVisibility(View.INVISIBLE);
+                        bt_delete_task.setVisibility(View.INVISIBLE);
+                        tv_sum_task.setVisibility(View.INVISIBLE);
                     }
                     notifyDataSetChanged();
                 }
@@ -131,12 +145,12 @@ public class TaskManagementAdapter extends BaseAdapter {
             } else {
                 tv_sum_task.setText("You have chooseed: " + list_delete.size() + " item.");
             }
-            bt_cancel_task.setVisibility(view.VISIBLE);
-            bt_delete_task.setVisibility(view.VISIBLE);
-            tv_sum_task.setVisibility(view.VISIBLE);
+            bt_cancel_task.setVisibility(View.VISIBLE);
+            bt_delete_task.setVisibility(View.VISIBLE);
+            tv_sum_task.setVisibility(View.VISIBLE);
 
 
-            cb.setVisibility(view.VISIBLE);
+            cb.setVisibility(View.VISIBLE);
             cb.setChecked(false);
             cb.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -214,5 +228,17 @@ public class TaskManagementAdapter extends BaseAdapter {
     public void updateSpecificTaskOverviewAdapter(ArrayList<SpecificTask> newSpecificTasks) {
         specificTasks = new ArrayList<>(newSpecificTasks);
         this.notifyDataSetChanged();
+    }
+
+    private void btnDisplayModification(Button button, int layoutParamsWidth, int startColor, int endColor) {
+        GradientDrawable btnDrawable = new GradientDrawable(
+                GradientDrawable.Orientation.TL_BR,
+                new int[]{startColor, endColor});
+        btnDrawable.setGradientType(GradientDrawable.RADIAL_GRADIENT);
+        btnDrawable.setGradientRadius(210.0f);
+        btnDrawable.setCornerRadius(50.f);
+        button.setBackground(btnDrawable);
+        button.setWidth(layoutParamsWidth);
+        button.setHeight(button.getHeight() - 10);
     }
 }
