@@ -204,7 +204,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         }
 
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
-        alertBuilder.setTitle("Please select the types you want to see:");
+        alertBuilder.setTitle("Select Finished Tasks to Illustrate:");
         System.out.println("!!!!!" + selectedtypes.size());
         StatisticSpinnerAdapter mAdapter = new StatisticSpinnerAdapter(types, selectedtypes, getActivity());
         //alertBuilder.setAdapter(arrayAdapter, null);
