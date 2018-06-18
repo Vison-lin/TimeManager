@@ -11,7 +11,7 @@
         android:layout_marginTop="10dp"
         android:background="@null"
         android:gravity="center"
-        android:text="Piechart of finished Tasks"
+        android:text="Finished Tasks"
         android:textColor="@color/black"
         android:textSize="25dp"
         android:textStyle="bold" />
