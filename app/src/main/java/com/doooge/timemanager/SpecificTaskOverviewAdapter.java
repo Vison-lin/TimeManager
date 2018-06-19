@@ -345,7 +345,6 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
 
         }
 
-
         if (specificTask.isCompletedInBoolean() == true) {
             //rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_comp));
             taskName.setTextColor(viewGroup.getResources().getColor(R.color.gray));

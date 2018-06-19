@@ -26,9 +26,9 @@ import java.util.HashMap;
 
 public class TaskManagementAdapter extends BaseAdapter {
     private final Button bt_cancel_task;
-    private ArrayList<SpecificTask> specificTasks;
     private final Button bt_delete_task;
     LocalDatabaseHelper ldh;
+    private ArrayList<SpecificTask> specificTasks;
     private ArrayList<SpecificTask> list_delete = new ArrayList<SpecificTask>();
     private boolean isMultiSelect = false;
     private TextView tv_sum_task;
@@ -49,9 +49,9 @@ public class TaskManagementAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 isMultiSelect = false;
-                bt_cancel_task.setVisibility(view.INVISIBLE);
-                bt_delete_task.setVisibility(view.INVISIBLE);
-                tv_sum_task.setVisibility(view.INVISIBLE);
+                bt_cancel_task.setVisibility(View.INVISIBLE);
+                bt_delete_task.setVisibility(View.INVISIBLE);
+                tv_sum_task.setVisibility(View.INVISIBLE);
                 list_delete.clear();
                 notifyDataSetChanged();
 
@@ -72,9 +72,9 @@ public class TaskManagementAdapter extends BaseAdapter {
                     list_delete.clear();
                     if (specificTasks.size() == 0) {
                         isMultiSelect = false;
-                        bt_cancel_task.setVisibility(view.INVISIBLE);
-                        bt_delete_task.setVisibility(view.INVISIBLE);
-                        tv_sum_task.setVisibility(view.INVISIBLE);
+                        bt_cancel_task.setVisibility(View.INVISIBLE);
+                        bt_delete_task.setVisibility(View.INVISIBLE);
+                        tv_sum_task.setVisibility(View.INVISIBLE);
                     }
                     notifyDataSetChanged();
                 }
@@ -110,6 +110,18 @@ public class TaskManagementAdapter extends BaseAdapter {
 
         taskName.setText(specificTask.getTaskName());
 
+        if (specificTask.isCompletedInBoolean() == true) {
+            //rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_comp));
+            taskName.setTextColor(viewGroup.getResources().getColor(R.color.gray));
+            taskHour.setTextColor(viewGroup.getResources().getColor(R.color.gray));
+            taskType.setTextColor(viewGroup.getResources().getColor(R.color.gray));
+        } else {
+            //rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_incomp));
+            taskName.setTextColor(viewGroup.getResources().getColor(R.color.black));
+            taskHour.setTextColor(viewGroup.getResources().getColor(R.color.black));
+            taskType.setTextColor(viewGroup.getResources().getColor(R.color.black));
+        }
+
         if (specificTask.getType().getName().length() <= 1) {
             taskType.setText(String.format("%s", specificTask.getType().getName().substring(0, 1)));
         } else {
@@ -118,25 +130,54 @@ public class TaskManagementAdapter extends BaseAdapter {
         if (specificTask.getTaskName().length() >= 20) {
             taskName.setText(String.format("%s", specificTask.getTaskName().substring(0, 10) + "..."));
         }
+
         Calendar start = specificTask.getStartTime();
         Calendar end = specificTask.getEndTime();
-        String display = (start.get(Calendar.MONTH) + 1) + "." + start.get(Calendar.DAY_OF_MONTH) + " " + start.get(Calendar.HOUR_OF_DAY) + ":" + start.get(Calendar.MINUTE) +
-                " - " + (end.get(Calendar.MONTH) + 1) + "." + end.get(Calendar.DAY_OF_MONTH) + " " + end.get(Calendar.HOUR_OF_DAY) + ":" + end.get(Calendar.MINUTE);
+        //String display = (start.get(Calendar.MONTH) + 1) + "." + start.get(Calendar.DAY_OF_MONTH) + " " + start.get(Calendar.HOUR_OF_DAY) + ":" + start.get(Calendar.MINUTE) +
+        //      " - " + (end.get(Calendar.MONTH) + 1) + "." + end.get(Calendar.DAY_OF_MONTH) + " " + end.get(Calendar.HOUR_OF_DAY) + ":" + end.get(Calendar.MINUTE);
+
+        String display = (start.get(Calendar.MONTH) + 1) + "." + start.get(Calendar.DAY_OF_MONTH) + " ";
+
+        if (start.get(Calendar.HOUR_OF_DAY) == 0) {
+            display += "00";
+        } else {
+            display += start.get(Calendar.HOUR_OF_DAY) + "";
+        }
+        display += ":";
+        if (start.get(Calendar.MINUTE) == 0) {
+            display += "00";
+        } else {
+            display += start.get(Calendar.MINUTE);
+        }
+
+        display += " - " + (end.get(Calendar.MONTH) + 1) + "." + end.get(Calendar.DAY_OF_MONTH) + " ";
+
+        if (end.get(Calendar.HOUR_OF_DAY) == 0) {
+            display += "00";
+        } else {
+            display += end.get(Calendar.HOUR_OF_DAY) + "";
+        }
+        display += ":";
+        if (end.get(Calendar.MINUTE) == 0) {
+            display += "00";
+        } else {
+            display += end.get(Calendar.MINUTE);
+        }
         taskHour.setText(display);
 
         if (isMultiSelect) {
             final CheckBox cb = rowView.findViewById(R.id.cb_select);
             if (list_delete.size() == 0) {
-                tv_sum_task.setText("You have chooseed: 0 item.");
+                tv_sum_task.setText("You have chosen: 0 item.");
             } else {
-                tv_sum_task.setText("You have chooseed: " + list_delete.size() + " item.");
+                tv_sum_task.setText("You have chosen: " + list_delete.size() + " item.");
             }
-            bt_cancel_task.setVisibility(view.VISIBLE);
-            bt_delete_task.setVisibility(view.VISIBLE);
-            tv_sum_task.setVisibility(view.VISIBLE);
+            bt_cancel_task.setVisibility(View.VISIBLE);
+            bt_delete_task.setVisibility(View.VISIBLE);
+            tv_sum_task.setVisibility(View.VISIBLE);
 
 
-            cb.setVisibility(view.VISIBLE);
+            cb.setVisibility(View.VISIBLE);
             cb.setChecked(false);
             cb.setOnClickListener(new View.OnClickListener() {
                 @Override
