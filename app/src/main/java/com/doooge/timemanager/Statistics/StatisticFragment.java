@@ -573,6 +573,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 //            FragmentTran3saction ftr = getFragmentManager().beginTransaction();
 //            ftr.detach(this).attach(this).commit();
 //            selectedtypes =
+            haveCompletedTasks = false;
             updatePieChart();
             updateCenterText();
 
@@ -588,7 +589,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         btnDrawable.setCornerRadius(50.f);
         button.setBackground(btnDrawable);
         button.setWidth(layoutParamsWidth);
-        button.setHeight(button.getHeight() - 10);
+//        button.setHeight(button.getHeight() - 10);
     }
 
 }

@@ -34,14 +34,13 @@
 
         <Button
             android:id="@+id/startDayChoosed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@null"
             android:gravity="center"
@@ -50,11 +49,10 @@
 
         <Button
             android:id="@+id/endDayChoosed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginRight="3dp"
-            android:layout_weight="1"
-            android:background="@null" />
+            android:layout_weight="1" />
     </LinearLayout>
 
     <View
@@ -70,8 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_weight="1"
-        android:background="@null" />
+        android:layout_weight="1" />
 
     <View
         android:layout_width="match_parent"
@@ -84,8 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_weight="1"
-        android:background="@null" />
+        android:layout_weight="1" />
 
     <!--</LinearLayout>-->
 
@@ -101,8 +97,7 @@
         android:id="@+id/showTodayOnlyPieChartTimeRangeChange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@null" />
+        android:layout_gravity="center" />
     <!--android:layout_weight="4"-->
 
 
@@ -114,28 +109,22 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginBottom="15dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/cancelPieChartTimeRangeChange"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null" />
-
-        <View
-            android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/background_color" />
+            android:layout_weight="1" />
+
 
         <Button
             android:id="@+id/submitPieChartTimeRangeChange"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null" />
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
     </LinearLayout>
 
 </LinearLayout>
