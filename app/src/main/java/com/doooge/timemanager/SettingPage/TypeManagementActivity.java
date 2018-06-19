@@ -34,7 +34,7 @@ public class TypeManagementActivity extends AppCompatActivity {
         try {
             typeList = ldh.getAllType();
         }catch (Exception e){
-            Toast.makeText(getApplicationContext(), "No type now !!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "No type now !", Toast.LENGTH_SHORT).show();
         }
         if(typeList!=null) {
             typeAdpter = new TypeManagementAdapter(typeList, this);
