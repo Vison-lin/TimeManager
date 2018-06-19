@@ -207,7 +207,6 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
             }
         });
 
-
         if (isMultiSelect) {
             final CheckBox cb = rowView.findViewById(R.id.cb_select);
             tv_sum.setText("You have chosen: 0 item.");
@@ -221,7 +220,6 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
             cb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    System.out.println("!!!!" + cb.isChecked());
                     if (!cb.isChecked()) {
                         cb.setChecked(false);
                         list_delete.remove(specificTask);
@@ -283,8 +281,6 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
             rowView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    System.out.println(viewGroup.getResources().getColor(R.color.btn_bkgd_def));
 
 
                     boolean success;
@@ -426,9 +422,6 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
             Date d2 = df.parse(endTime.get(Calendar.YEAR) + "-" + (endTime.get(Calendar.MONTH) + 1) + "-" + endTime.get(Calendar.DAY_OF_MONTH) + " " + endTime.get(Calendar.HOUR_OF_DAY) + ":" + endTime.get(Calendar.MINUTE));
             long diff = d2.getTime() - d1.getTime();
             minute = diff / (1000 * 60);
-            System.out.println(d1);
-            System.out.println(d2);
-            System.out.println(minute);
 
         } catch (ParseException e) {
             e.printStackTrace();

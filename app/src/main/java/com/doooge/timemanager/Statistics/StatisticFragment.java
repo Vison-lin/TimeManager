@@ -81,6 +81,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
         pieChartNoneData = rootView.findViewById(R.id.pieChartNoneData);
 
+
         /*
         All the charts' data will be refresh only if user add/remove SpecificTask.
         Since add/remove requires users go to new activity, we do not use setUserVisibleHint here!
@@ -103,7 +104,10 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         pieChart.setUsePercentValues(true);
         pieChart.setEntryLabelColor(Color.BLACK);//Set data label color
         pieChart.setDrawCenterText(true);
+
         updateCenterText();
+        pieChartNoneData.setText("Loading ...");//first time open app
+
         pieChart.setCenterTextSize(33f);
         Description description = new Description();
         description.setText("");
@@ -567,16 +571,19 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
+        haveCompletedTasks = false;
+        System.out.println("ldb: " + (ldb != null));
+        System.out.println("is not visable: " + !isVisibleToUser);
         //once user switch to other page, user will ge given today's task(s) after then went back
-        if (!isVisibleToUser && ldb != null) {
-//            haveCompletedTasks = false;//refresh the boolean condition
-//            FragmentTran3saction ftr = getFragmentManager().beginTransaction();
-//            ftr.detach(this).attach(this).commit();
-//            selectedtypes =
-            haveCompletedTasks = false;
+        if (isVisibleToUser && ldb != null) {
             updatePieChart();
             updateCenterText();
-
+        }
+        if (!isVisibleToUser && ldb != null) {
+            //updateCenterText():
+            pieChart.setVisibility(View.GONE);
+            pieChartNoneData.setVisibility(View.VISIBLE);
+            pieChartNoneData.setText("Loading ...");
         }
     }
 
