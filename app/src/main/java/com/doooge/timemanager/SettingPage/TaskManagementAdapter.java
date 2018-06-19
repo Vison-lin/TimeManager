@@ -124,6 +124,10 @@ public class TaskManagementAdapter extends BaseAdapter {
 
         taskName.setText(specificTask.getTaskName());
 
+        taskName.setSingleLine(true);
+
+        taskHour.setSingleLine(true);
+
         if (specificTask.isCompletedInBoolean() == true) {
             //rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_comp));
             taskName.setTextColor(viewGroup.getResources().getColor(R.color.gray));
