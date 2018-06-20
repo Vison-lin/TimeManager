@@ -40,15 +40,6 @@ public class TypeManagementAdapter extends ArrayAdapter<Type> {
         typeButton.setBackgroundColor(color);
 
 
-        typeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent =new Intent(context,TaskManagementActivity.class);
-                intent.putExtra("TypeInfo",type);
-                context.startActivity(intent);
-            }
-        });
-
 
         typeButton.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
