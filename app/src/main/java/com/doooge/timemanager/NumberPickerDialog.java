@@ -100,7 +100,9 @@ public class NumberPickerDialog extends DialogFragment {
         });
 
         builder.setView(numberPicker);
-        return builder.create();
+        Dialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(R.color.background_color);
+        return dialog;
     }
 
     public NumberPicker.OnValueChangeListener getValueChangeListener() {
