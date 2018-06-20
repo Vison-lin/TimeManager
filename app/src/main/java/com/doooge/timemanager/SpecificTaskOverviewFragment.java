@@ -88,9 +88,8 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
 
     public void getSelectedDate() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getContext(), R.style.MyTimepicker));
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         final DatePicker picker = new DatePicker(new ContextThemeWrapper(getContext(), R.style.MyTimepicker));
-        builder.setTitle("Select date");
         builder.setView(picker);
         builder.setNegativeButton("Cancel", null);
         builder.setPositiveButton("Select", new DialogInterface.OnClickListener() {
@@ -110,7 +109,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         });
 
         AlertDialog dialog = builder.create();
-
+        dialog.getWindow().setBackgroundDrawableResource(R.color.background_color);
         dialog.show();
     }
 

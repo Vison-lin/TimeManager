@@ -124,28 +124,30 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
     Update the data based on the given selectedStartCal and selectedEndCal date
      */
     private void updatePieChart() {
-
+        haveCompletedTasks = false;
         ArrayList<SpecificTask> specificTasks = ldb.findSpecificTasksByTypesDuringTime(selectedtypes, selectedStartCal[0], selectedEndCal[0]);
         allSpecificTasks.clear();
         allSpecificTasks = specificTasks;
         Iterator<SpecificTask> iterator = allSpecificTasks.iterator();
         while (iterator.hasNext()) {
             SpecificTask curr = iterator.next();
-            if (curr.isCompletedInBoolean()) {
+            if (curr.isCompletedInBoolean() && selectedtypes.contains(curr.getType())) {
                 haveCompletedTasks = true;
                 break;
             }
         }
 
-        updateCenterText();
-
         PieDataSet newPieDataSet = pieChartHelper.calculatePieChart(allSpecificTasks);
         newPieDataSet.setSliceSpace(3f);
         PieData newPieData = new PieData(newPieDataSet);
+
         pieChart.setData(newPieData);
         pieChart.notifyDataSetChanged();
 
         pieChart.invalidate();
+        System.out.println("========" + haveCompletedTasks);
+        updateCenterText();
+
     }
 
     /*
@@ -234,6 +236,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
                     @Override
                     public void onClick(View view) {
+
                         if (selectedtypes.size() == 0) {//user selected nothing
                             Toast.makeText(getContext(), "Please choose at least one type!", Toast.LENGTH_SHORT).show();
                         } else {
@@ -241,7 +244,6 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                             for (Type i : selectedtypes) {
                                 selectedtypes_Previous.add(i);
                             }
-                            System.out.println("!!!!" + selectedtypes_Previous.size());
                             updatePieChart();
                             dialog.dismiss();
                         }
@@ -251,35 +253,6 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                 });
             }
         });
-
-//        alertDialog.getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-//
-//
-//
-//        alertDialog.getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                // check the checkbox state
-//                CheckedTextView checkedTextView = ((CheckedTextView) view);
-//                boolean checked = checkedTextView.isChecked();
-//                Type type = (Type) parent.getItemAtPosition(position);
-//                if (checked) {
-//                    selectedtypes.add(type);
-//                }
-//                if (!checked) {
-//                    boolean foundAndRemoved = selectedtypes.remove(type);
-//                    if (!foundAndRemoved) {
-//                        throw new IllegalStateException();
-//                    }
-//
-//
-//                }
-//
-//
-//            }
-//        });
-
-
         alertDialog.show();
     }
 
@@ -499,13 +472,15 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         final DatePicker picker = new DatePicker(new ContextThemeWrapper(getContext(), R.style.MyTimepicker));
         picker.setMaxDate(Calendar.getInstance().getTimeInMillis());
-        if (title == 0) {//start
-            builder.setTitle(R.string.durationStartPickerTitle);
-        } else if (title == 1) {//end
-            builder.setTitle(R.string.durationEndPickerTitle);
-        } else {
-            throw new InvalidParameterException();
-        }
+
+        //NO MORE TITLE FOR DATA PICKER
+//        if (title == 0) {//start
+//            builder.setTitle(R.string.durationStartPickerTitle);
+//        } else if (title == 1) {//end
+//            builder.setTitle(R.string.durationEndPickerTitle);
+//        } else {
+//            throw new InvalidParameterException();
+//        }
 
         builder.setView(picker);
         builder.setNegativeButton("Cancel", null);
@@ -529,6 +504,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         builder.setNeutralButton("Today", null);
 
         AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(R.color.background_color);
         dialog.show();
 
         final Button neutralButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);//Shown Today Only (DEFAULT)
@@ -592,6 +568,10 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
             selectedtypes.clear();
             selectedtypes = ldb.getAllType();
             selectedtypes_Previous.clear();
+
+            System.out.println("==================SELECT TYPE: " + selectedtypes.size());
+            System.out.println("==================SELECT PREVIOUS TYPE: " + selectedtypes_Previous.size());
+
             updatePieChart();
             updateCenterText();
         }
