@@ -209,7 +209,7 @@ public class TaskManagementAdapter extends BaseAdapter {
                         list_delete.add(specificTask);
 
                     }
-                    tv_sum_task.setText("You have chooseed: " + list_delete.size() + " item.");
+                    tv_sum_task.setText("You have chosen: " + list_delete.size() + " item.");
 
                 }
             });
@@ -226,7 +226,7 @@ public class TaskManagementAdapter extends BaseAdapter {
                         list_delete.add(specificTask);
 
                     }
-                    tv_sum_task.setText("You have chooseed: " + list_delete.size() + " item.");
+                    tv_sum_task.setText("You have chosen: " + list_delete.size() + " item.");
 
 
                 }

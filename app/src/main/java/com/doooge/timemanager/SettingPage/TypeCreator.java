@@ -56,7 +56,7 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
             }
             createType.setBackground(getDrawable(R.drawable.update));
             TextView title = findViewById(R.id.titleType);
-            title.setText("Update the Type");
+            title.setText("Update Type");
             color = Integer.parseInt(type.getColor());
             id = type.getId();
         }

@@ -55,7 +55,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="bottom">
 
         <Button
             android:id="@+id/bt_all_cancel"
@@ -65,12 +66,14 @@
             android:layout_weight="1"
             android:text="Cancel"
             android:layout_marginBottom="5dp"
-            android:visibility="gone" />
+            android:visibility="gone"
+
+            />
 
         <TextView
             android:id="@+id/tv_all_sum"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dp"
@@ -79,7 +82,8 @@
             android:text="TextView"
             android:textColor="@color/black"
             android:textSize="12dp"
-            android:visibility="gone" />
+            android:visibility="gone"
+            />
 
         <Button
             android:id="@+id/bt_all_delete"
@@ -91,7 +95,8 @@
             android:layout_weight="1"
             android:text="Delete"
             android:layout_marginBottom="5dp"
-            android:visibility="gone" />
+            android:visibility="gone"
+            />
 
     </LinearLayout>
 

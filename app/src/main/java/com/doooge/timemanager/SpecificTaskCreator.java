@@ -4,6 +4,7 @@ package com.doooge.timemanager;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -79,6 +80,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
         endDate = findViewById(R.id.endDatePrint);
         startDate = findViewById(R.id.startDatePrint);
+        startDate.getPaint().setFlags(Paint. UNDERLINE_TEXT_FLAG );
         typeList = ldh.getAllType();
         Button submit = findViewById(R.id.submitButton);
         Button delete = findViewById(R.id.deleteButton);
