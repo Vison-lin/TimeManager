@@ -192,8 +192,10 @@
                     android:orientation="horizontal">
 
                     <FrameLayout
+                        android:id="@+id/checkStar"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:visibility="visible"
                         android:layout_weight="1">
 
                         <ImageButton
@@ -209,6 +211,7 @@
                     </FrameLayout>
 
                     <FrameLayout
+                        android:id="@+id/delete"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1">

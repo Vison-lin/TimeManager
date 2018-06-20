@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -84,6 +85,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
         typeList = ldh.getAllType();
         Button submit = findViewById(R.id.submitButton);
         Button delete = findViewById(R.id.deleteButton);
+        FrameLayout deleteLayout = findViewById(R.id.delete);
         update =false;
 
         calStart = Calendar.getInstance();
@@ -156,9 +158,9 @@ public class SpecificTaskCreator extends AppCompatActivity {
         creatHandler();
         timeBar = findViewById(R.id.timeBar);
         timeBar.invalidate();
-
+       FrameLayout checkStar = findViewById(R.id.checkStar);
         checkBox = findViewById(R.id.checkBox);
-        checkBox.setVisibility(View.INVISIBLE);
+        checkStar.setVisibility(View.GONE);
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -173,16 +175,27 @@ public class SpecificTaskCreator extends AppCompatActivity {
         });
 
         if (task != null && specificTask == null) {//Users are from QuickAccessTask page
-            delete.setVisibility(View.GONE);//GONE: Affect the page format
-            checkBox.setVisibility(View.INVISIBLE);
+            deleteLayout.setVisibility(View.VISIBLE);
+            //delete.setVisibility(View.GONE);//GONE: Affect the page format
+            checkStar.setVisibility(View.GONE);
             EditText taskName = findViewById(R.id.taskName);
             taskName.setText(task.getTaskName());
-            type = task.getType();
-            //initialType();
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    ldh.deleteTaskTable(task.getId());
+                    Intent intent = new Intent(context, MainPageSlidesAdapter.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    context.startActivity(intent);
+
+                }
+            });
+
         } else if (specificTask != null && task == null) {//Users are from Main page or TaskManagement page
             update = true;
             submit.setBackground(getResources().getDrawable(R.drawable.update));
-            delete.setVisibility(View.VISIBLE);
+            deleteLayout.setVisibility(View.VISIBLE);
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -206,8 +219,8 @@ public class SpecificTaskCreator extends AppCompatActivity {
             });
 
         } else if (specificTask == null && task == null) {//true only if user creates a new SpecificTask
-            delete.setVisibility(View.GONE);//GONE: Affect the page format
-            checkBox.setVisibility(View.VISIBLE);
+            deleteLayout.setVisibility(View.GONE);//GONE: Affect the page format
+            checkStar.setVisibility(View.VISIBLE);
         } else {
             throw new IllegalStateException();
         }

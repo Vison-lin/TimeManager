@@ -68,42 +68,42 @@ public class QuickAccessTaskAdapter extends BaseAdapter {
             }
         });
 
-        taskTypeBlock.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                // Instantiate an AlertDialog.Builder with its constructor
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
-                // Chain together various setter methods to set the dialog characteristics
-                builder.setMessage(R.string.quick_access_delete_predefined_task_confirm_message);
-
-                // Add the buttons
-                builder.setPositiveButton(R.string.quick_access_confirm_delete_pre_defined_task
-                        , new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        ldh.deleteTaskTable(task.getId());
-                        dialog.dismiss();
-                        tasks.remove(task);//delete from local syn
-                        notifyDataSetChanged();
-                    }
-                        }
-
-                );
-
-                builder.setNegativeButton(R.string.quick_access_not_delete_pre_defined_task, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                });
-
-                // Get the AlertDialog from create()
-                final AlertDialog dialog = builder.create();
-                dialog.getWindow().setBackgroundDrawableResource(R.color.background_color);
-                dialog.show();
-
-                return false;
-            }
-        });
+//        taskTypeBlock.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                // Instantiate an AlertDialog.Builder with its constructor
+//                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//
+//                // Chain together various setter methods to set the dialog characteristics
+//                builder.setMessage(R.string.quick_access_delete_predefined_task_confirm_message);
+//
+//                // Add the buttons
+//                builder.setPositiveButton(R.string.quick_access_confirm_delete_pre_defined_task
+//                        , new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        ldh.deleteTaskTable(task.getId());
+//                        dialog.dismiss();
+//                        tasks.remove(task);//delete from local syn
+//                        notifyDataSetChanged();
+//                    }
+//                        }
+//
+//                );
+//
+//                builder.setNegativeButton(R.string.quick_access_not_delete_pre_defined_task, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//
+//                // Get the AlertDialog from create()
+//                final AlertDialog dialog = builder.create();
+//                dialog.getWindow().setBackgroundDrawableResource(R.color.background_color);
+//                dialog.show();
+//
+//                return false;
+//            }
+//        });
 
         return rowView;
     }
