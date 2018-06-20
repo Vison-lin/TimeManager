@@ -172,10 +172,12 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
     @Override
     public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
+//        System.out.println("onChartGestureStart");
     }
 
     @Override
     public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
+//        System.out.println("onChartGestureEnd");
     }
     /*
     OnClikcListener for long press: Choose different types
@@ -220,6 +222,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
             }
         });
         final AlertDialog alertDialog = alertBuilder.create();
+        alertDialog.getWindow().setBackgroundDrawableResource(R.color.background_color);
         alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
 
@@ -282,22 +285,27 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
     @Override
     public void onChartDoubleTapped(MotionEvent me) {
+//        System.out.println("onChartDoubleTapped");
     }
 
     @Override
     public void onChartSingleTapped(MotionEvent me) {
+//        System.out.println("onChartSingleTapped");
     }
 
     @Override
     public void onChartFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
+//        System.out.println("onChartFling");
     }
 
     @Override
     public void onChartScale(MotionEvent me, float scaleX, float scaleY) {
+//        System.out.println("onChartScale");
     }
 
     @Override
     public void onChartTranslate(MotionEvent me, float dX, float dY) {
+//        System.out.println("onChartTranslate");
     }
 
     /*
