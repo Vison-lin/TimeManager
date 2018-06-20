@@ -66,4 +66,12 @@ public class Type implements Serializable {
 
         return name;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        boolean result =
+                (this.id == ((Type) o).getId());
+        return result;
+
+    }
 }
