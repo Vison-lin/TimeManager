@@ -346,7 +346,10 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
         startDay = dialog.findViewById(R.id.startDayChoosed);
         btnDisplayModification(startDate, ViewGroup.LayoutParams.WRAP_CONTENT);
-        startDay.setText(CalendarHelper.convertCal2UTC(Calendar.getInstance()).substring(0, 10));//by default display today's data only
+
+        startDay.setText(
+                CalendarHelper.convertCal2UTC(selectedStartCal[0]).substring(0,10)
+        );//by default display today's data only
         startDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -356,7 +359,9 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
         endDay = dialog.findViewById(R.id.endDayChoosed);
         btnDisplayModification(endDay, ViewGroup.LayoutParams.WRAP_CONTENT);
-        endDay.setText(CalendarHelper.convertCal2UTC(Calendar.getInstance()).substring(0, 10));//by default display today's data only
+        endDay.setText(
+                CalendarHelper.convertCal2UTC(selectedEndCal[0]).substring(0,10)
+        );//by default display today's data only
         endDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
