@@ -78,14 +78,18 @@ public class QuickAccessTaskAdapter extends BaseAdapter {
                 builder.setMessage(R.string.quick_access_delete_predefined_task_confirm_message);
 
                 // Add the buttons
-                builder.setPositiveButton(R.string.quick_access_confirm_delete_pre_defined_task, new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(R.string.quick_access_confirm_delete_pre_defined_task
+                        , new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         ldh.deleteTaskTable(task.getId());
                         dialog.dismiss();
                         tasks.remove(task);//delete from local syn
                         notifyDataSetChanged();
                     }
-                });
+                        }
+
+                );
+
                 builder.setNegativeButton(R.string.quick_access_not_delete_pre_defined_task, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
@@ -93,8 +97,10 @@ public class QuickAccessTaskAdapter extends BaseAdapter {
                 });
 
                 // Get the AlertDialog from create()
-                AlertDialog dialog = builder.create();
+                final AlertDialog dialog = builder.create();
+                dialog.getWindow().setBackgroundDrawableResource(R.color.background_color);
                 dialog.show();
+
                 return false;
             }
         });

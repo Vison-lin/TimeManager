@@ -472,13 +472,15 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         final DatePicker picker = new DatePicker(new ContextThemeWrapper(getContext(), R.style.MyTimepicker));
         picker.setMaxDate(Calendar.getInstance().getTimeInMillis());
-        if (title == 0) {//start
-            builder.setTitle(R.string.durationStartPickerTitle);
-        } else if (title == 1) {//end
-            builder.setTitle(R.string.durationEndPickerTitle);
-        } else {
-            throw new InvalidParameterException();
-        }
+
+        //NO MORE TITLE FOR DATA PICKER
+//        if (title == 0) {//start
+//            builder.setTitle(R.string.durationStartPickerTitle);
+//        } else if (title == 1) {//end
+//            builder.setTitle(R.string.durationEndPickerTitle);
+//        } else {
+//            throw new InvalidParameterException();
+//        }
 
         builder.setView(picker);
         builder.setNegativeButton("Cancel", null);
@@ -502,6 +504,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         builder.setNeutralButton("Today", null);
 
         AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawableResource(R.color.background_color);
         dialog.show();
 
         final Button neutralButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);//Shown Today Only (DEFAULT)

@@ -27,8 +27,8 @@
     <string name="DELETE_165_MINS">- 2 Hours 45 Minutes</string>
     <string name="DELETE_180_MINS">- 3 Hours</string>
     <string name="quick_access_delete_predefined_task_confirm_message">Are you sure to delete this predefined task?</string>
-    <string name="quick_access_confirm_delete_pre_defined_task">Yes, delete it.</string>
-    <string name="quick_access_not_delete_pre_defined_task">No, thanks.</string>
+    <string name="quick_access_confirm_delete_pre_defined_task">Yes</string>
+    <string name="quick_access_not_delete_pre_defined_task">No</string>
     <string name="shownDataInPastWeek">In Past 1 Week</string>
     <string name="shownDataInPastMonth">In past 1 Month</string>
     <string name="shownDataInToday">Today Only</string>
