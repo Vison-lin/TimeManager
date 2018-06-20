@@ -202,8 +202,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                 selectedtypes.add(i);
             }
         }
-        for (Type x : selectedtypes) {
-        }
+
 
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
         alertBuilder.setTitle("Select Finished Tasks:");
@@ -581,6 +580,10 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         System.out.println("is not visable: " + !isVisibleToUser);
         //once user switch to other page, user will ge given today's task(s) after then went back
         if (isVisibleToUser && ldb != null) {
+
+            selectedtypes.clear();
+            selectedtypes = ldb.getAllType();
+            selectedtypes_Previous.clear();
             updatePieChart();
             updateCenterText();
         }
