@@ -153,7 +153,7 @@ public class TimeBarView extends View {
         roundProgressColor = Integer.parseInt(def.getColor());
         // roundProgressColor = mTypedArray.getColor(R.styleable.RoundProgressBar_roundProgressColor, getResources().getColor(R.color.btn_bkgd_def));
         roundWidth = mTypedArray.getDimension(R.styleable.RoundProgressBar_roundWidth, 70);
-        textColor = mTypedArray.getColor(R.styleable.RoundProgressBar_textColor, Color.BLUE);
+        textColor = mTypedArray.getColor(R.styleable.RoundProgressBar_textColor, Color.BLACK);
         textSize = mTypedArray.getDimension(R.styleable.RoundProgressBar_textSize_round, 60);
         max = mTypedArray.getInteger(R.styleable.RoundProgressBar_imageMax, 1440);
         mTypedArray.recycle();
@@ -235,6 +235,7 @@ public class TimeBarView extends View {
         paint.setStrokeWidth(0);
         paint.setColor(textColor);
         paint.setTextSize(textSize);
+        paint.setFakeBoldText(true);
         float textWidth = paint.measureText(textTime);
         canvas.drawText(textTime, centerX - textWidth / 2, centerY + textSize / 2, paint);
 
