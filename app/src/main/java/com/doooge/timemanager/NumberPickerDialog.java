@@ -31,8 +31,6 @@ public class NumberPickerDialog extends DialogFragment {
             throw new NoSuchElementException();
         }
 
-
-
         final NumberPicker numberPicker = new NumberPicker(getActivity());
 
         numberPicker.setMinValue(0);
