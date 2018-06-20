@@ -47,8 +47,8 @@ import java.util.Iterator;
 
 public class StatisticFragment extends Fragment implements OnChartValueSelectedListener, OnChartGestureListener, View.OnClickListener {
 
-    private static PieChart pieChart;
-    private static PieDataSet pieDataSet;
+    private PieChart pieChart;
+    private PieDataSet pieDataSet;
     private final Calendar[] selectedStartCal = {Calendar.getInstance()};
     private final Calendar[] selectedEndCal = {Calendar.getInstance()};
     private LinearLayout linearLayout;
@@ -383,7 +383,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                 AlphaAnimation anim_alpha = new AlphaAnimation(0, 1);
                 anim_alpha.setDuration(800);//动画时间
                 v.startAnimation(anim_alpha);//启动动画
-                startDate.setAnimation(anim_alpha);
+                startDate.startAnimation(anim_alpha);
 
 
 //                startDate.setBackground(shapeDrawable);
@@ -418,7 +418,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                 AlphaAnimation anim_alpha = new AlphaAnimation(0, 1);
                 anim_alpha.setDuration(800);//动画时间
                 v.startAnimation(anim_alpha);//启动动画
-                startDate.setAnimation(anim_alpha);
+                startDate.startAnimation(anim_alpha);
 
 //                startDate.setBackground(shapeDrawable);
 //                final Handler handler = new Handler();
@@ -452,7 +452,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                 AlphaAnimation anim_alpha = new AlphaAnimation(0, 1);
                 anim_alpha.setDuration(800);//动画时间
                 v.startAnimation(anim_alpha);//启动动画
-                startDate.setAnimation(anim_alpha);
+                startDate.startAnimation(anim_alpha);
 
 
 //                startDate.setBackground(shapeDrawable);

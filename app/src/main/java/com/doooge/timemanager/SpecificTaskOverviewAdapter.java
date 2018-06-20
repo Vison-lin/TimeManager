@@ -259,11 +259,12 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
                 public boolean onLongClick(View v) {
                     selectedSpecificTask = null;
                     selectedSpecificTask = specificTask;
-                    for (SpecificTask item : specificTasks) {
-                        if (item.getTaskName().equals(specificTask.getTaskName())) {
-                            specificTasks.remove(item);
-                        }
-                    }
+//                    for (SpecificTask item : specificTasks) {
+//                        if (item.getTaskName().equals(specificTask.getTaskName())) {
+//                            specificTasks.remove(item);
+//                            break;
+//                        }
+//                    }
 
 
                     NumberPickerDialog newFragment = new NumberPickerDialog();
@@ -296,6 +297,7 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
                         for (SpecificTask item : completeList) {
                             if (item.getTaskName().equals(specificTask.getTaskName())) {
                                 completeList.remove(item);
+                                break;
                             }
                         }
 
@@ -318,6 +320,7 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
                         for (SpecificTask item : incompleteList) {
                             if (item.getTaskName().equals(specificTask.getTaskName())) {
                                 incompleteList.remove(item);
+                                break;
                             }
                         }
                         sortList(completeList);
@@ -432,12 +435,12 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
             endCalendar.add(Calendar.MINUTE, differInMinutes);
             selectedSpecificTask.setEndTime(endCalendar);
             ldh.updateSpecificTaskTable(selectedSpecificTask);
-            specificTasks.add(selectedSpecificTask);
+            //specificTasks.add(selectedSpecificTask);
             inititalList(specificTasks);
             notifyDataSetChanged();
-            Toast.makeText(context, "Success !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "Failed, impossible time !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Failed, impossible time", Toast.LENGTH_SHORT).show();
         }
     }
 
