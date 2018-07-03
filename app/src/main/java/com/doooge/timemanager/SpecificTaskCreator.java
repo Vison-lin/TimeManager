@@ -108,9 +108,11 @@ public class SpecificTaskCreator extends AppCompatActivity {
         timePickerDialogInterface = new TimePickerDialogInterface() {
             @Override
             public void positiveListener(int year, int month, int day) {
-                setYear(year);
-                setMonth(month + 1);
-                setDay(day);
+                
+                String[] startList = startTime.split(":");
+
+                calStart.set(year, month, day, Integer.parseInt(startList[0]), Integer.parseInt(startList[1]));
+
                 startDate.setText(year + "." + (month + 1) + "." + day);
                 updateEnd();
 
