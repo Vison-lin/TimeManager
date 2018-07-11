@@ -22,18 +22,6 @@
             android:textColor="@color/black"
             android:textSize="36sp"
             android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/settingBtn"
-            android:layout_width="21dp"
-            android:layout_height="21dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
-            android:layout_marginEnd="27dp"
-            android:onClick="onClick"
-            android:src="@drawable/settingbuttonicon"
-            tools:ignore="ContentDescription" />
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -47,7 +35,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="2dp"
             android:text="Cancel"
             android:visibility="gone" />
 
@@ -82,24 +69,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:baselineAligned="false"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <ListView
                 android:id="@+id/taskList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="9"
                 android:descendantFocusability="blocksDescendants" />
 
-        </LinearLayout>
+            <Button
+                android:id="@+id/addingTaskBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/add" />
 
+        </LinearLayout>
 
         <FrameLayout
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="40dp"
-            android:layout_marginEnd="21dp">
+            android:layout_marginLeft="260dp"
+            android:layout_marginTop="200dp">
 
             <ImageButton
                 android:id="@+id/showCalender"
@@ -138,24 +130,6 @@
                 android:textStyle="bold|italic"
                 tools:ignore="HardcodedText,RtlSymmetry" />
         </FrameLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:gravity="right"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/addingTaskBtn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="bottom"
-                android:layout_marginRight="30dp"
-                android:background="@drawable/add" />
-
-        </LinearLayout>
-
     </RelativeLayout>
 
 </LinearLayout>
