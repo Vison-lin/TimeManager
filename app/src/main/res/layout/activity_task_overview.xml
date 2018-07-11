@@ -46,9 +46,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:text="Cancel"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="2dp"
+            android:text="Cancel"
             android:visibility="gone" />
 
         <TextView
@@ -72,9 +72,9 @@
 
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:text="Delete"
             android:layout_marginBottom="5dp"
             android:layout_marginRight="2dp"
+            android:text="Delete"
             android:visibility="gone" />
 
 
@@ -100,12 +100,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="40dp"
             android:layout_marginEnd="21dp">
-            <!--Calendar Button Customized View-->
 
-            <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--tools:ignore="UselessParent">-->
             <ImageButton
                 android:id="@+id/showCalender"
                 android:layout_width="70dp"
@@ -142,9 +137,25 @@
                 android:textSize="27sp"
                 android:textStyle="bold|italic"
                 tools:ignore="HardcodedText,RtlSymmetry" />
-            <!--android:layout_centerInParent="@id/showCalender"-->
-            <!--</RelativeLayout>-->
         </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/addingTaskBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/add" />
+
+        </LinearLayout>
+
     </RelativeLayout>
 
 </LinearLayout>

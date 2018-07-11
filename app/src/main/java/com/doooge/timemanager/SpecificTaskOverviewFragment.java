@@ -10,6 +10,7 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -49,7 +50,6 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         calBtn = rootView.findViewById(R.id.showCalender);
         calBtn.setOnClickListener(this);
 
-
         Calendar today = Calendar.getInstance();
         pageTitle = rootView.findViewById(R.id.activityTitleText);
         specificTasks = ldh.findSpecificTasksByTime(today);//search all specificTasks that start today
@@ -63,6 +63,17 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         adapter = new SpecificTaskOverviewAdapter(specificTasks, getActivity(), -1, rootView);
         mListView = rootView.findViewById(R.id.taskList);
         mListView.setAdapter(adapter);
+
+        Button viewAddTasksBtn = rootView.findViewById(R.id.addingTaskBtn);
+        viewAddTasksBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getActivity(), SpecificTaskCreator.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                getActivity().startActivity(intent);
+            }
+        });
 
         return rootView;
     }
