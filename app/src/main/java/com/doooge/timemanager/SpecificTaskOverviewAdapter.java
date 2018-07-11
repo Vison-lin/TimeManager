@@ -355,15 +355,37 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
             taskType.setTextColor(viewGroup.getResources().getColor(R.color.black));
         }
 
-        taskName.setText(specificTask.getTaskName());
-        if (specificTask.getType().getName().length() <= 1) {
-            taskType.setText(String.format("%s", specificTask.getType().getName().substring(0, 1)));
-        } else {
-            taskType.setText(String.format("%s", specificTask.getType().getName().substring(0, 2)));
-        }
         if (specificTask.getTaskName().length() >= 20) {
             taskName.setText(String.format("%s", specificTask.getTaskName().substring(0, 10) + "..."));
+        } else {
+            taskName.setText(specificTask.getTaskName());
         }
+
+        String typeName = specificTask.getType().getName();
+
+        String[] typeNames = typeName.split("\\s+");
+
+        if (typeNames.length < 1) {
+            throw new ArrayIndexOutOfBoundsException();
+        } else if (typeNames.length < 2) {// no/one space -> one letter
+            typeName = typeNames[0].substring(0, 1);
+        } else { // two substring found
+            typeName = typeNames[0].substring(0, 1) + typeNames[1].substring(0, 1);
+        }
+
+        taskType.setText(String.format("%s", typeName));
+
+
+//        if (specificTask.getType().getName().length() <= 1) {
+//            taskType.setText(String.format("%s", specificTask.getType().getName().substring(0, 1)));
+//        } else {
+//            taskType.setText(String.format("%s", specificTask.getType().getName().substring(0, 2)));
+//        }
+
+
+
+
+
         Calendar start = specificTask.getStartTime();
         Calendar end = specificTask.getEndTime();
         String display = (start.get(Calendar.MONTH) + 1) + "." + start.get(Calendar.DAY_OF_MONTH) + " ";

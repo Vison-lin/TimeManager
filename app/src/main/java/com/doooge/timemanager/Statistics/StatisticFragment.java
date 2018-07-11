@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -32,8 +31,6 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.listener.ChartTouchListener;
-import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.security.InvalidParameterException;
@@ -45,7 +42,7 @@ import java.util.Iterator;
  * Created by fredpan on 2018/1/31.
  */
 
-public class StatisticFragment extends Fragment implements OnChartValueSelectedListener, OnChartGestureListener, View.OnClickListener {
+public class StatisticFragment extends Fragment implements OnChartValueSelectedListener, View.OnClickListener {
 
     private PieChart pieChart;
     private PieDataSet pieDataSet;
@@ -54,6 +51,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
     private LinearLayout linearLayout;
     private LocalDatabaseHelper ldb;
     private Button selectPirChartDisplayDuration;
+    private Button selectPieChartDisplayTypes;
     private String selectedPieChartDisplayDurationBtnDisplay;
     private ArrayList<Type> selectedtypes;//init below
     private ArrayList<Type> selectedtypes_Previous;//init below
@@ -78,6 +76,14 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
         selectPirChartDisplayDuration = rootView.findViewById(R.id.selectPieChartDIsplayPeriod);
         selectPirChartDisplayDuration.setOnClickListener(this);
+
+        selectPieChartDisplayTypes = rootView.findViewById(R.id.selectPieChartDIsplayTypes);
+        selectPieChartDisplayTypes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickListenerForSelectType();
+            }
+        });
 
         pieChartNoneData = rootView.findViewById(R.id.pieChartNoneData);
 
@@ -104,6 +110,10 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         pieChart.setUsePercentValues(true);
         pieChart.setEntryLabelColor(Color.BLACK);//Set data label color
         pieChart.setDrawCenterText(true);
+        pieChart.setEntryLabelTextSize(21f);
+        pieChart.getLegend().setEnabled(false);
+        pieChart.getLegend().setTextSize(11f);
+        pieChart.getLegend().setWordWrapEnabled(true);
 
         updateCenterText();
         pieChartNoneData.setText("Loading ...");//first time open app
@@ -115,7 +125,6 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
         pieChart.invalidate();
         pieChart.setOnChartValueSelectedListener(this);
-        pieChart.setOnChartGestureListener(this);
 
         return rootView;
     }
@@ -169,116 +178,6 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
     @Override
     public void onNothingSelected() {
 
-    }
-
-
-    @Override
-    public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
-//        System.out.println("onChartGestureStart");
-    }
-
-    @Override
-    public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
-//        System.out.println("onChartGestureEnd");
-    }
-    /*
-    OnClikcListener for long press: Choose different types
-    */
-    @Override
-    public void onChartLongPressed(MotionEvent me) {//safely enough to implemented as a button
-
-        selectedtypes = new ArrayList<>();
-        // Instantiate an AlertDialog.Builder with its constructor
-        // final ArrayAdapter<Type> arrayAdapter = new ArrayAdapter<Type>(this.getContext(), android.R.layout.select_dialog_multichoice);
-
-        final ArrayList<Type> types = ldb.getAllType();
-
-        Iterator<Type> iterator = types.iterator();
-
-            while (iterator.hasNext()) {
-                Type type = iterator.next();
-                selectedtypes.add(type);
-
-            }
-        if (selectedtypes_Previous.size() != 0) {
-            selectedtypes.clear();
-            for (Type i : selectedtypes_Previous) {
-                selectedtypes.add(i);
-            }
-        }
-
-
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
-        alertBuilder.setTitle("Select Finished Tasks:");
-        StatisticSpinnerAdapter mAdapter = new StatisticSpinnerAdapter(types, selectedtypes, getActivity());
-        alertBuilder.setAdapter(mAdapter, null);
-        alertBuilder.setPositiveButton("Ok", null);
-        alertBuilder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                selectedtypes.clear();
-                for (Type i : selectedtypes_Previous) {
-                    selectedtypes.add(i);
-                }
-                dialog.dismiss();
-            }
-        });
-        final AlertDialog alertDialog = alertBuilder.create();
-        alertDialog.getWindow().setBackgroundDrawableResource(R.color.background_color);
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-
-            @Override
-            public void onShow(final DialogInterface dialog) {
-
-                Button positiveBtn = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                positiveBtn.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View view) {
-
-                        if (selectedtypes.size() == 0) {//user selected nothing
-                            Toast.makeText(getContext(), "Please choose at least one type!", Toast.LENGTH_SHORT).show();
-                        } else {
-                            selectedtypes_Previous.clear();
-                            for (Type i : selectedtypes) {
-                                selectedtypes_Previous.add(i);
-                            }
-                            updatePieChart();
-                            dialog.dismiss();
-                        }
-
-                    }
-
-                });
-            }
-        });
-        alertDialog.show();
-    }
-
-    @Override
-    public void onChartDoubleTapped(MotionEvent me) {
-//        System.out.println("onChartDoubleTapped");
-    }
-
-    @Override
-    public void onChartSingleTapped(MotionEvent me) {
-//        System.out.println("onChartSingleTapped");
-    }
-
-    @Override
-    public void onChartFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
-//        System.out.println("onChartFling");
-    }
-
-    @Override
-    public void onChartScale(MotionEvent me, float scaleX, float scaleY) {
-//        System.out.println("onChartScale");
-    }
-
-    @Override
-    public void onChartTranslate(MotionEvent me, float dX, float dY) {
-//        System.out.println("onChartTranslate");
     }
 
     /*
@@ -461,6 +360,76 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                 dialog.dismiss();
             }
         });
+    }
+
+    private void onClickListenerForSelectType() {
+        selectedtypes = new ArrayList<>();
+        // Instantiate an AlertDialog.Builder with its constructor
+        // final ArrayAdapter<Type> arrayAdapter = new ArrayAdapter<Type>(this.getContext(), android.R.layout.select_dialog_multichoice);
+
+        final ArrayList<Type> types = ldb.getAllType();
+
+        Iterator<Type> iterator = types.iterator();
+
+        while (iterator.hasNext()) {
+            Type type = iterator.next();
+            selectedtypes.add(type);
+
+        }
+        if (selectedtypes_Previous.size() != 0) {
+            selectedtypes.clear();
+            for (Type i : selectedtypes_Previous) {
+                selectedtypes.add(i);
+            }
+        }
+
+
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
+        alertBuilder.setTitle("Select Finished Tasks:");
+        StatisticSpinnerAdapter mAdapter = new StatisticSpinnerAdapter(types, selectedtypes, getActivity());
+        alertBuilder.setAdapter(mAdapter, null);
+        alertBuilder.setPositiveButton("Ok", null);
+        alertBuilder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                selectedtypes.clear();
+                for (Type i : selectedtypes_Previous) {
+                    selectedtypes.add(i);
+                }
+                dialog.dismiss();
+            }
+        });
+        final AlertDialog alertDialog = alertBuilder.create();
+        alertDialog.getWindow().setBackgroundDrawableResource(R.color.background_color);
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+            @Override
+            public void onShow(final DialogInterface dialog) {
+
+                Button positiveBtn = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                positiveBtn.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+
+                        if (selectedtypes.size() == 0) {//user selected nothing
+                            Toast.makeText(getContext(), "Please choose at least one type!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            selectedtypes_Previous.clear();
+                            for (Type i : selectedtypes) {
+                                selectedtypes_Previous.add(i);
+                            }
+                            updatePieChart();
+                            dialog.dismiss();
+                        }
+
+                    }
+
+                });
+            }
+        });
+        alertDialog.show();
     }
 
     /**
