@@ -389,12 +389,12 @@ public class TimeBarView extends View {
     }
 
 
-    public void update() {
-
-        roundProgressColor = getResources().getColor(R.color.btn_bkgd_purple);
-        invalidate();
-
-    }
+//    public void update() {
+//
+//        roundProgressColor = getResources().getColor(R.color.btn_bkgd_purple);
+//        invalidate();
+//
+//    }
 
 
     /**

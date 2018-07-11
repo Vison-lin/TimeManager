@@ -20,6 +20,11 @@
 
             </intent-filter>
         </activity>
+        <service
+            android:name=".Notification"
+            android:enabled="true"
+            android:process="system" >
+        </service>
         <activity
             android:name=".GuidePage.IntroPage"
             android:configChanges="orientation"
