@@ -12,6 +12,34 @@
         android:background="@null"
         android:gravity="center" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:background="@color/black" />
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/pieChartNoneData"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="33dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="3dp"
@@ -19,18 +47,13 @@
         android:layout_marginRight="3dp"
         android:background="@color/black" />
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pieChart"
+    <Button
+        android:id="@+id/selectPieChartDIsplayTypes"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <TextView
-        android:id="@+id/pieChartNoneData"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:background="@null"
         android:gravity="center"
-        android:textSize="33dp"/>
+        android:text="Choose Types to display" />
 
 
 </LinearLayout>

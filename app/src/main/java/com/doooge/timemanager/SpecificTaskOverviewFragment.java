@@ -11,13 +11,11 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.doooge.timemanager.SettingPage.SettingActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,8 +44,8 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
                 R.layout.activity_task_overview, container, false);
         ldh = LocalDatabaseHelper.getInstance(getContext());
         //Assign button listeners to here
-        ImageView settingBtn = rootView.findViewById(R.id.settingBtn);
-        settingBtn.setOnClickListener(this);
+        //ImageView settingBtn = rootView.findViewById(R.id.settingBtn);
+        //settingBtn.setOnClickListener(this);
         calBtn = rootView.findViewById(R.id.showCalender);
         calBtn.setOnClickListener(this);
 
@@ -66,6 +64,17 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         mListView = rootView.findViewById(R.id.taskList);
         mListView.setAdapter(adapter);
 
+        Button viewAddTasksBtn = rootView.findViewById(R.id.addingTaskBtn);
+        viewAddTasksBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getActivity(), SpecificTaskCreator.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                getActivity().startActivity(intent);
+            }
+        });
+
         return rootView;
     }
 
@@ -73,12 +82,6 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
     public void onClick(View view) {
 
         switch (view.getId()) {
-
-            case R.id.settingBtn:
-                Intent intent = new Intent(getActivity(), SettingActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                break;
 
             case R.id.showCalender:
                 getSelectedDate();
@@ -126,21 +129,10 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         //once user switch to other page, user will ge given today's task(s) after then went back
-        // if (isVisibleToUser) {
             if (calBtn != null) {
                 updateView(Calendar.getInstance());//switch back to today
             }
-        // } else {
-//            try {
-//                FragmentTransaction ftr = getFragmentManager().beginTransaction();
-//                Fragment currentFragment = getFragmentManager().findFragmentByTag("StatisticFragment");
-//                ftr.detach(currentFragment).attach(currentFragment).commit();
-//            } catch (Exception e){
-//                System.out.println("!!!!!!!!!!!!!");
-//            }
 
-
-        //  }
     }
 
     private void updateCalBtnText(Calendar calendar) {

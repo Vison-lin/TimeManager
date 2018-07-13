@@ -9,9 +9,9 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -19,13 +19,24 @@
                 android:id="@+id/activityTitleText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:text="Quick Add"
                 android:textAlignment="center"
-                android:textColor="#000000"
+                android:textColor="@color/black"
                 android:textSize="36sp"
                 android:textStyle="bold" />
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/settingBtn"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="27dp"
+                android:onClick="onClick"
+                android:src="@drawable/settingbuttonicon" />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,20 +49,6 @@
                 android:id="@+id/taskList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/addingTaskBtn"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@drawable/add" />
 
         </LinearLayout>
 

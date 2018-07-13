@@ -113,15 +113,14 @@ public class SpecificTaskCreator extends AppCompatActivity {
         timePickerDialogInterface = new TimePickerDialogInterface() {
             @Override
             public void positiveListener(int y, int m, int d) {
-
+                year = y;
+                month = m + 1;
+                day = d;
                 String[] startList = startTime.split(":");
 
-                calStart.set(y, m, d, Integer.parseInt(startList[0]), Integer.parseInt(startList[1]));
+                calStart.set(year, month - 1, day, Integer.parseInt(startList[0]), Integer.parseInt(startList[1]));
 
-                startDate.setText(y + "." + (m + 1) + "." + d);
-                year = y;
-                month=m+1;
-                day=d;
+                startDate.setText(year + "." + (month) + "." + day);
                 updateEnd();
 
             }
@@ -310,7 +309,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
     }
 
     private void addTask(View view) {
-        System.out.println("!!");
         EditText taskName = findViewById(R.id.taskName);
         userName = String.valueOf(taskName.getText());
         if (userName.equals("")) {

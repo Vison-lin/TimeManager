@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by fredpan on 2018-02-08.
@@ -33,17 +34,18 @@ class PieChartHelper {
     }
 
     PieDataSet calculatePieChart(ArrayList<SpecificTask> specificTasks) {
-        ArrayList<Pair<Type, Float>> specificTasksWithPercentage = calPercentage(specificTasks);
-        Iterator<Pair<Type, Float>> iterator = specificTasksWithPercentage.iterator();
+        ArrayList<Pair<Pair<Type, Float>, Float>> specificTasksWithPercentage = calPercentage(specificTasks);
+        Iterator<Pair<Pair<Type, Float>, Float>> iterator = specificTasksWithPercentage.iterator();
 
         ArrayList<Integer> colors = new ArrayList<>();
         List<PieEntry> pieEntry = new ArrayList<>();
         while (iterator.hasNext()) {
-            Pair<Type, Float> next = iterator.next();
-            Type temp = next.first;
-            float percentage = next.second;
-            pieEntry.add(new PieEntry(percentage, temp.getName(), temp));
-            colors.add(Integer.parseInt(next.first.getColor()));
+            Pair<Pair<Type, Float>, Float> next = iterator.next();
+            Type temp = next.first.first;
+            float percentage = next.first.second;
+            float totalTime = next.second;
+            pieEntry.add(new PieEntry(percentage, temp.getName() + ": \n" + convertMillisToHours(totalTime), temp));
+            colors.add(Integer.parseInt(next.first.first.getColor()));
         }
         pieDataSet = new PieDataSet(pieEntry, null);
         //Draw label outside of pieChart
@@ -53,13 +55,16 @@ class PieChartHelper {
         pieDataSet.setValueTextColor(Color.BLACK);
         pieDataSet.setValueLineColor(Color.BLACK);
         pieDataSet.setXValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        pieDataSet.setYValuePosition(PieDataSet.ValuePosition.INSIDE_SLICE);
         pieDataSet.setValueFormatter(new PercentFormatter());
         pieDataSet.setValueTextSize(21f);
         pieDataSet.setColors(colors);
         return pieDataSet;
     }
 
-    private ArrayList<Pair<Type, Float>> calPercentage(ArrayList<SpecificTask> rawSpecificTasks) {
+    private ArrayList<Pair<Pair<Type, Float>, Float>> calPercentage(ArrayList<SpecificTask> rawSpecificTasks) {
+
+        ArrayList<Pair<Pair<Type, Float>, Float>> specificTasksWithPercentage = new ArrayList<>();
 
         Iterator<SpecificTask> iterator = rawSpecificTasks.iterator();
         specificTasks = new ArrayList<>();
@@ -71,7 +76,6 @@ class PieChartHelper {
             }
         }
         Iterator<SpecificTask> iterator1 = specificTasks.iterator();
-        ArrayList<Pair<Type, Float>> specificTasksWithPercentage = new ArrayList<>();
         long totalTimeInMillis = 0;
         //Calculate the total time
         while (iterator1.hasNext()) {
@@ -101,7 +105,7 @@ class PieChartHelper {
                 Type type = ldb.findTypeByPrimaryKey(tmp.getKey());
                 Long totalTimeOfType = tmp.getValue();
                 Float percentage = ((float) totalTimeOfType / totalTimeInMillis);
-                specificTasksWithPercentage.add(new Pair<Type, Float>(type, percentage));
+                specificTasksWithPercentage.add(new Pair<Pair<Type, Float>, Float>(new Pair<Type, Float>(type, percentage), (float) totalTimeOfType));
             }
 
         }
@@ -109,6 +113,15 @@ class PieChartHelper {
 
         return specificTasksWithPercentage;
 
+    }
+
+    private String convertMillisToHours(float timeInMillis) {
+        String output = String.format("%02dh %02dm",
+                TimeUnit.MILLISECONDS.toHours((long) timeInMillis),//total mills in hours
+                TimeUnit.MILLISECONDS.toMinutes((long) timeInMillis) -//total mills in minutes - total (of total mills in hours) in minutes
+                        TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours((long) timeInMillis))
+        );
+        return output;
     }
 
 }
