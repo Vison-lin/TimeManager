@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.doooge.timemanager.LocalDatabaseHelper;
@@ -37,9 +38,10 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
         color = getResources().getColor(R.color.btn_bkgd_def);
         createType = findViewById(R.id.createType);
         createType.setOnClickListener(this);
-        Button delete = findViewById(R.id.deleteType);
-        delete.setOnClickListener(this);
-        delete.setVisibility(View.INVISIBLE);
+        FrameLayout delete = findViewById(R.id.delete_type);
+        Button deleteBt = findViewById(R.id.deleteType);
+        deleteBt.setOnClickListener(this);
+        delete.setVisibility(View.GONE);
 
         if (type != null) {
             name = type.getName();
