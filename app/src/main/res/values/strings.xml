@@ -48,7 +48,7 @@
     <string name="StatisticPageCenterText">Time Distribution</string>
     <string name="StatisticPageTaskFinishedOn">Tasks finished on date</string>
     <string name="StatisticPageSTasksFinishedDuring">Tasks finished during</string>
-    <string name="StatisticPageStartDateAfterTheEndDateRemindar">Start Date cannot after than the End Date !</string>
+    <string name="StatisticPageStartDateAfterTheEndDateRemindar">Start Date cannot be after End Date</string>
     <string name="NumberPickerDialog">Choose Value</string>
-    <string name="NumberPickerEditInDetail">Edit In Detail</string>
+    <string name="NumberPickerEditInDetail">Edit</string>
 </resources>
