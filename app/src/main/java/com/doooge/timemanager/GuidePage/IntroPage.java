@@ -8,10 +8,6 @@ import android.widget.Button;
 
 import com.doooge.timemanager.R;
 
-/**
- * Created by diana on 2018-05-23.
- */
-
 public class IntroPage extends AppCompatActivity {
     private Button nextBtn;
 
