@@ -107,9 +107,8 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         pieChart.setUsePercentValues(true);
         pieChart.setEntryLabelColor(Color.BLACK);//Set data label color
         pieChart.setDrawCenterText(true);
-        pieChart.setEntryLabelTextSize(21f);
+        pieChart.setEntryLabelTextSize(17f);
         pieChart.getLegend().setEnabled(false);
-        pieChart.getLegend().setTextSize(11f);
         pieChart.getLegend().setWordWrapEnabled(true);
 
         updateCenterText();
@@ -188,6 +187,10 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         dialog.show();
         Objects.requireNonNull(dialog.getWindow()).setContentView(R.layout.piechart_display_range_selection);
 
+        final Button submitButton = dialog.findViewById(R.id.submitPieChartTimeRangeChange);
+        startDay = dialog.findViewById(R.id.startDayChoosed);
+        endDay = dialog.findViewById(R.id.endDayChoosed);
+
         final ShapeDrawable shapeDrawable = new ShapeDrawable();
         shapeDrawable.getPaint().setStyle(Paint.Style.STROKE);
         shapeDrawable.getPaint().setStrokeWidth(30);
@@ -195,7 +198,6 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         shapeDrawableAfterHightlight.getPaint().setStyle(startDay.getPaint().getStyle());
         shapeDrawableAfterHightlight.getPaint().setColor(0);
 
-        final Button submitButton = dialog.findViewById(R.id.submitPieChartTimeRangeChange);
         btnDisplayModification(submitButton, ViewGroup.LayoutParams.WRAP_CONTENT);
         submitButton.setText(R.string.OKBtn);
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -213,7 +215,6 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
             }
         });
 
-        startDay = dialog.findViewById(R.id.startDayChoosed);
         btnDisplayModification(startDay, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         startDay.setText(
@@ -226,7 +227,6 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
             }
         });
 
-        endDay = dialog.findViewById(R.id.endDayChoosed);
         btnDisplayModification(endDay, ViewGroup.LayoutParams.WRAP_CONTENT);
         endDay.setText(
                 CalendarHelper.convertCal2UTC(selectedEndCal[0]).substring(0,10)
@@ -385,18 +385,9 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
      */
     private Calendar displayAndGetSelectedDate(final int title) {
         final Calendar[] selectedCalendar = {Calendar.getInstance()};
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MyTimepicker);
         final DatePicker picker = new DatePicker(new ContextThemeWrapper(getContext(), R.style.MyTimepicker));
         picker.setMaxDate(Calendar.getInstance().getTimeInMillis());
-
-        //NO MORE TITLE FOR DATA PICKER
-//        if (title == 0) {//start
-//            builder.setTitle(R.string.durationStartPickerTitle);
-//        } else if (title == 1) {//end
-//            builder.setTitle(R.string.durationEndPickerTitle);
-//        } else {
-//            throw new InvalidParameterException();
-//        }
 
         builder.setView(picker);
         builder.setNegativeButton(R.string.CancelBtn, null);
