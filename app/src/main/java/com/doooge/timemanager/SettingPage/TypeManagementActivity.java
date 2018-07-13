@@ -16,28 +16,27 @@ import com.doooge.timemanager.Type;
 import java.util.ArrayList;
 
 public class TypeManagementActivity extends AppCompatActivity {
-    private LocalDatabaseHelper ldh;
     private ArrayList<Type> typeList;
-    private TypeManagementAdapter typeAdpter;
-    private ListView mList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.type_mainpage);
-        ldh = LocalDatabaseHelper.getInstance(this);
+        LocalDatabaseHelper ldh = LocalDatabaseHelper.getInstance(this);
+        Button addtype = findViewById(R.id.addType);
+
         try {
             typeList = ldh.getAllType();
         }catch (Exception e){
             Toast.makeText(getApplicationContext(), "No type.", Toast.LENGTH_SHORT).show();
         }
+
         if(typeList!=null) {
-            typeAdpter = new TypeManagementAdapter(typeList, this);
-            mList = findViewById(R.id.controlPanelListView);
+            TypeManagementAdapter typeAdpter = new TypeManagementAdapter(typeList, this);
+            ListView mList = findViewById(R.id.controlPanelListView);
             mList.setAdapter(typeAdpter);
         }
 
-        Button addtype = findViewById(R.id.addType);
         addtype.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -60,10 +60,12 @@ public class TaskManagementActivity extends AppCompatActivity {
         mSpinner = findViewById(R.id.taskManagement_spinner);
         ArrayList<String> mList = new ArrayList<String>();
         final ArrayList<Type> typeList = ldh.getAllType();
-        mList.add("Show all types");
+        mList.add("show all types");
+
         for (Type i : typeList) {
             mList.add(i.getName());
         }
+
         ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mList);
         mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(mAdapter);

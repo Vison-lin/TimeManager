@@ -29,7 +29,7 @@ public class TypeManagementAdapter extends ArrayAdapter<Type> {
     @Override
     public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
-        @SuppressLint("ViewHolder") View view = inflater.inflate(R.layout.type_item, null);
+        @SuppressLint({"ViewHolder", "InflateParams"}) View view = inflater.inflate(R.layout.type_item, null);
         final Type type = listOfType.get(position);
         Button typeButton = view.findViewById(R.id.typeItem);
         typeButton.setText(type.getName());

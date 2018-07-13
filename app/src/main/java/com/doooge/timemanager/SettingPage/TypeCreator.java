@@ -40,7 +40,8 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
         Button delete = findViewById(R.id.deleteType);
         delete.setOnClickListener(this);
         delete.setVisibility(View.INVISIBLE);
-        if(type!=null){
+
+        if (type != null) {
             name = type.getName();
             typeName.setText(name);
             if (type.getId() != -999) {
@@ -68,6 +69,7 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
         switch (view.getId()) {
             case R.id.createType:
                 name = String.valueOf(typeName.getText());
+
                 if (name.equals("")) {
                     typeName.setError("Enter a name.");
                     typeName.setBackground(getResources().getDrawable(R.drawable.back_red));
