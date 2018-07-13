@@ -444,7 +444,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         String startDayStr = CalendarHelper.convertCal2UTC(selectedStartCal[0]).substring(0, 10);
         String endDayStr = CalendarHelper.convertCal2UTC(selectedEndCal[0]).substring(0, 10);
         if (startDayStr.compareTo(endDayStr) == 0) {//if shown one day only
-            selectedPieChartDisplayDurationBtnDisplay = getString(R.string.StatisticPageTaskFinishedOn) +
+            selectedPieChartDisplayDurationBtnDisplay = getString(R.string.StatisticPageTaskFinishedOn) + " " +
                     selectedStartCal[0].get(Calendar.YEAR) + "." +
                     (selectedStartCal[0].get(Calendar.MONTH) + 1) + "." +
                     selectedStartCal[0].get(Calendar.DAY_OF_MONTH);

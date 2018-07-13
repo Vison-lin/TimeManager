@@ -26,15 +26,11 @@
     <string name="DELETE_150_MINS">- 2 Hours 30 Minutes</string>
     <string name="DELETE_165_MINS">- 2 Hours 45 Minutes</string>
     <string name="DELETE_180_MINS">- 3 Hours</string>
-    <string name="quick_access_delete_predefined_task_confirm_message">Are you sure to delete this predefined task?</string>
     <string name="quick_access_confirm_delete_pre_defined_task">Yes</string>
     <string name="quick_access_not_delete_pre_defined_task">No</string>
     <string name="shownDataInPastWeek">In Past 1 Week</string>
     <string name="shownDataInPastMonth">In past 1 Month</string>
     <string name="shownDataInToday">Today Only</string>
-    <string name="select_shown_data_range_message">Please select the range of date you want to see:</string>
-    <string name="durationStartPickerTitle">Select Start Day:</string>
-    <string name="durationEndPickerTitle">Select End Day:</string>
     <string name="daily_task">Daily Task</string>
     <string name="all_task">All Task</string>
     <string name="StatisticLoading">Loading ...</string>
@@ -46,8 +42,8 @@
     <string name="SelectBtn">Select</string>
     <string name="TodayBtn">Today</string>
     <string name="StatisticPageCenterText">Time Distribution</string>
-    <string name="StatisticPageTaskFinishedOn">Tasks finished on date</string>
-    <string name="StatisticPageSTasksFinishedDuring">Tasks finished during</string>
+    <string name="StatisticPageTaskFinishedOn">Tasks finished on </string>
+    <string name="StatisticPageSTasksFinishedDuring">Tasks finished </string>
     <string name="StatisticPageStartDateAfterTheEndDateRemindar">Start Date cannot be after End Date</string>
     <string name="NumberPickerDialog">Choose Value</string>
     <string name="NumberPickerEditInDetail">Edit In Detail</string>
