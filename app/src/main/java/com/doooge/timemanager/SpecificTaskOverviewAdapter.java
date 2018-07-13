@@ -312,7 +312,7 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
                         specificTasks.addAll(completeList);
 
                         notifyDataSetChanged();
-                        addNotification(0,null,null,null,"true",specificTask.getId());
+                       // addNotification(0,null,null,"true",specificTask.getId());
 
                     } else {// If currently is incomplete and will be marked as completed
                         specificTask.setCompleted(1);
@@ -333,8 +333,7 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
                         specificTasks.addAll(incompleteList);
                         specificTasks.addAll(completeList);
                         notifyDataSetChanged();
-                        int delay = (int)caculateDiff(specificTask);
-                        addNotification(5000,"1","2","3","false",specificTask.getId());
+
 
 
 
@@ -428,11 +427,15 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
         Calendar startTime = selectedSpecificTask.getStartTime();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         int differInMinutes = CalendarHelper.correctMinutes(numberPicker.getValue());
+        long current = System.currentTimeMillis();
+        long Diff = 0;
         long minute = 0;
         try {
             Date d1 = df.parse(startTime.get(Calendar.YEAR) + "-" + (startTime.get(Calendar.MONTH) + 1) + "-" + startTime.get(Calendar.DAY_OF_MONTH) + " " + startTime.get(Calendar.HOUR_OF_DAY) + ":" + startTime.get(Calendar.MINUTE));
             Date d2 = df.parse(endTime.get(Calendar.YEAR) + "-" + (endTime.get(Calendar.MONTH) + 1) + "-" + endTime.get(Calendar.DAY_OF_MONTH) + " " + endTime.get(Calendar.HOUR_OF_DAY) + ":" + endTime.get(Calendar.MINUTE));
             long diff = d2.getTime() - d1.getTime();
+            long Diif = d1.getTime()-current;
+            Diff-= 1*60*1000; // ahead of 10 minutes
             minute = diff / (1000 * 60);
 
         } catch (ParseException e) {
@@ -448,6 +451,10 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
             inititalList(specificTasks);
             notifyDataSetChanged();
             Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
+            if(Diff>0){
+                addNotification((int)Diff,selectedSpecificTask.getType().getName(),selectedSpecificTask.getTaskName(),"false",selectedSpecificTask.getId());
+
+            }
         } else {
             Toast.makeText(context, "Failed, impossible time", Toast.LENGTH_SHORT).show();
         }
@@ -467,36 +474,17 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
 
 //----------------------
 // 添加通知
-private   void addNotification(int delayTime, String tickerText,
+private   void addNotification(int delayTime,
                                    String contentTitle, String contentText,String bool,int id) {
     Intent intent = new Intent(context,
-            Notification.class);
+            Notificate.class);
+    intent.setAction("connect");
     intent.putExtra("delayTime", delayTime);
-    intent.putExtra("tickerText", tickerText);
     intent.putExtra("contentTitle", contentTitle);
     intent.putExtra("contentText", contentText);
     intent.putExtra("cancel",bool);
     intent.putExtra("id",id);
     context.startService(intent);
-    System.out.println("start Service!!!!!!");
-}
-
-private long caculateDiff(SpecificTask sp){
-    Calendar endTime = sp.getEndTime();
-    Calendar startTime = sp.getStartTime();
-    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-    long diff = 0;
-    try {
-        Date d1 = df.parse(startTime.get(Calendar.YEAR) + "-" + (startTime.get(Calendar.MONTH) + 1) + "-" + startTime.get(Calendar.DAY_OF_MONTH) + " " + startTime.get(Calendar.HOUR_OF_DAY) + ":" + startTime.get(Calendar.MINUTE));
-        Date d2 = df.parse(endTime.get(Calendar.YEAR) + "-" + (endTime.get(Calendar.MONTH) + 1) + "-" + endTime.get(Calendar.DAY_OF_MONTH) + " " + endTime.get(Calendar.HOUR_OF_DAY) + ":" + endTime.get(Calendar.MINUTE));
-        diff = d2.getTime() - d1.getTime();
-
-
-    } catch (ParseException e) {
-        e.printStackTrace();
-    }
-
-     return diff;
 
 }
 

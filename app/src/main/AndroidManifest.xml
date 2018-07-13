@@ -21,9 +21,15 @@
             </intent-filter>
         </activity>
         <service
-            android:name=".Notification"
+            android:name=".Notificate"
             android:enabled="true"
-            android:process="system" >
+            >
+        <intent-filter>
+            <action android:name="connect"  />
+
+        </intent-filter>
+
+
         </service>
         <activity
             android:name=".GuidePage.IntroPage"

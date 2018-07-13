@@ -19,8 +19,12 @@ import android.widget.TextView;
 
 import com.doooge.timemanager.SettingPage.TaskManagementActivity;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
@@ -60,6 +64,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
     private SpecificTaskSpinnerAdapter mAdapter;
     private Type type;
     private boolean update;
+    private SpecificTaskOverviewFragment sf;
 
 
     @Override
@@ -68,7 +73,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.context = this;
 
-
+        sf = new SpecificTaskOverviewFragment();
         //Going from QuickAccessTask
         task = (Task) getIntent().getSerializableExtra("givenTask");
         //Going from SpecificTaskOverViewAdapter
@@ -305,6 +310,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
     }
 
     private void addTask(View view) {
+        System.out.println("!!");
         EditText taskName = findViewById(R.id.taskName);
         userName = String.valueOf(taskName.getText());
         if (userName.equals("")) {
@@ -343,7 +349,11 @@ public class SpecificTaskCreator extends AppCompatActivity {
                 context.startActivity(intent);
 
             }
-
+            int delay = (int)caculateDiff(specificTask);
+            System.out.println("delay=="+delay);
+            if(delay>0) {
+                addNotification(delay,type.getName(),userName,"false",specificTask.getId());
+            }
         }
     }
 
@@ -450,5 +460,40 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
     }
 
+    private void addNotification(int delayTime,
+                                   String contentTitle, String contentText,String bool,int id) {
+        Intent intent = new Intent(sf.getcontext(),
+                Notificate.class);
+        intent.setAction("connect");
+        intent.putExtra("delayTime", delayTime);
+        intent.putExtra("contentTitle", contentTitle);
+        intent.putExtra("contentText", contentText);
+        intent.putExtra("cancel",bool);
+        intent.putExtra("id",id);
+        sf.getcontext().startService(intent);
+
+    }
+
+    private long caculateDiff(SpecificTask sp){
+        Calendar startTime = calStart;
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        long current = System.currentTimeMillis();
+        long diff = 0;
+        try {
+            Date d1 = df.parse(startTime.get(Calendar.YEAR) + "-" + (startTime.get(Calendar.MONTH) + 1) + "-" + startTime.get(Calendar.DAY_OF_MONTH) + " " + startTime.get(Calendar.HOUR_OF_DAY) + ":" + startTime.get(Calendar.MINUTE));
+
+            diff = d1.getTime()-current;
+            System.out.println("==start=="+d1.getTime());
+            System.out.println("==current=="+current);
+            diff-= 1*60*1000; // ahead of 10 minutes
+
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return diff;
+
+    }
 
 }

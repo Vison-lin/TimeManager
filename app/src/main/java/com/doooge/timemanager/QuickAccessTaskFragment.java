@@ -39,6 +39,7 @@ public class QuickAccessTaskFragment extends Fragment {
             public void onClick(View view) {
 
                 Intent intent = new Intent(getActivity(), SpecificTaskCreator.class);
+
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 getActivity().startActivity(intent);
             }

@@ -2,6 +2,7 @@ package com.doooge.timemanager;
 
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
     private TextView calMonth;
     private TextView calDay;
     private TextView pageTitle;
+    private static Context context;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -49,7 +51,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         calBtn = rootView.findViewById(R.id.showCalender);
         calBtn.setOnClickListener(this);
 
-
+        context = getContext();
         Calendar today = Calendar.getInstance();
         pageTitle = rootView.findViewById(R.id.activityTitleText);
         specificTasks = ldh.findSpecificTasksByTime(today);//search all specificTasks that start today
@@ -184,6 +186,10 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         adapter.updateSpecificTaskOverviewAdapter(specificTasks);
         updateCalBtnText(calendar);
         updatePageTitle(calendar);
+    }
+
+    public static Context getcontext(){
+        return context;
     }
 
 
