@@ -291,7 +291,7 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
                         taskType.setTextColor(ContextCompat.getColor(viewGroup.getContext(),R.color.black));
                         success = ldh.updateSpecificTaskTable(specificTask);
                         for (SpecificTask item : completeList) {
-                            if (item.getTaskName().equals(specificTask.getTaskName())) {
+                            if (item.getId()==specificTask.getId()) {
                                 completeList.remove(item);
                                 break;
                             }
@@ -314,7 +314,7 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
                         success = ldh.updateSpecificTaskTable(specificTask);
                         completeList.add(specificTask);
                         for (SpecificTask item : incompleteList) {
-                            if (item.getTaskName().equals(specificTask.getTaskName())) {
+                            if (item.getId()==(specificTask.getId())) {
                                 incompleteList.remove(item);
                                 break;
                             }
