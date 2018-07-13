@@ -34,7 +34,7 @@ public class QuickAccessTaskFragment extends Fragment implements View.OnClickLis
         settingBtn.setOnClickListener(this);
 
         tasks = ldh.getAllTask();
-        adapter = new QuickAccessTaskAdapter(tasks, getContext());
+        adapter = new QuickAccessTaskAdapter(tasks);
         mListView = rootView.findViewById(R.id.taskList);
         mListView.setAdapter(adapter);
 

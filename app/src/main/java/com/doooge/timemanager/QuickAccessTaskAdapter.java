@@ -1,8 +1,5 @@
 package com.doooge.timemanager;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,14 +15,10 @@ import java.util.ArrayList;
 
 public class QuickAccessTaskAdapter extends BaseAdapter {
     private ArrayList<Task> tasks;
-    private Context context;
-    private LocalDatabaseHelper ldh;
 
 
-    public QuickAccessTaskAdapter(ArrayList<Task> tasks, Context context) {
+    QuickAccessTaskAdapter(ArrayList<Task> tasks) {
         this.tasks = tasks;
-        this.context = context;
-        this.ldh = LocalDatabaseHelper.getInstance(context);
     }
 
     @Override
@@ -67,43 +60,6 @@ public class QuickAccessTaskAdapter extends BaseAdapter {
                 viewGroup.getContext().startActivity(intent);
             }
         });
-
-//        taskTypeBlock.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                // Instantiate an AlertDialog.Builder with its constructor
-//                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//
-//                // Chain together various setter methods to set the dialog characteristics
-//                builder.setMessage(R.string.quick_access_delete_predefined_task_confirm_message);
-//
-//                // Add the buttons
-//                builder.setPositiveButton(R.string.quick_access_confirm_delete_pre_defined_task
-//                        , new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        ldh.deleteTaskTable(task.getId());
-//                        dialog.dismiss();
-//                        tasks.remove(task);//delete from local syn
-//                        notifyDataSetChanged();
-//                    }
-//                        }
-//
-//                );
-//
-//                builder.setNegativeButton(R.string.quick_access_not_delete_pre_defined_task, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        dialog.dismiss();
-//                    }
-//                });
-//
-//                // Get the AlertDialog from create()
-//                final AlertDialog dialog = builder.create();
-//                dialog.getWindow().setBackgroundDrawableResource(R.color.background_color);
-//                dialog.show();
-//
-//                return false;
-//            }
-//        });
 
         return rowView;
     }
