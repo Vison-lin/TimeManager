@@ -6,10 +6,12 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.widget.NumberPicker;
 
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 /**
  * Created by fredpan on 2018/2/2.
@@ -21,6 +23,7 @@ public class NumberPickerDialog extends DialogFragment {
     SpecificTask specificTask = null;
     private NumberPicker.OnValueChangeListener valueChangeListener;
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
@@ -35,7 +38,7 @@ public class NumberPickerDialog extends DialogFragment {
 
         numberPicker.setMinValue(0);
         numberPicker.setMaxValue(24);
-        String[] display = {
+        final String[] display = {
                 getString(R.string.DELETE_180_MINS),//0
                 getString(R.string.DELETE_165_MINS),//1
                 getString(R.string.DELETE_150_MINS),//2
@@ -67,10 +70,10 @@ public class NumberPickerDialog extends DialogFragment {
         numberPicker.setWrapSelectorWheel(false);//disable wrap selection
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Choose Value");
+        builder.setTitle(R.string.NumberPickerDialog);
 
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.OKBtn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -79,15 +82,14 @@ public class NumberPickerDialog extends DialogFragment {
             }
         });
 
-        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.CancelBtn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                valueChangeListener.onValueChange(numberPicker,
-//                        numberPicker.getValue(), numberPicker.getValue());
+                dialog.dismiss();
             }
         });
 
-        builder.setNeutralButton("Edit In Detail", new DialogInterface.OnClickListener() {
+        builder.setNeutralButton(R.string.NumberPickerEditInDetail, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(getActivity(), SpecificTaskCreator.class);
@@ -99,12 +101,8 @@ public class NumberPickerDialog extends DialogFragment {
 
         builder.setView(numberPicker);
         Dialog dialog = builder.create();
-        dialog.getWindow().setBackgroundDrawableResource(R.color.background_color);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.color.background_color);
         return dialog;
-    }
-
-    public NumberPicker.OnValueChangeListener getValueChangeListener() {
-        return valueChangeListener;
     }
 
     public void setValueChangeListener(NumberPicker.OnValueChangeListener valueChangeListener) {

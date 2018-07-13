@@ -1,5 +1,6 @@
 package com.doooge.timemanager.Statistics;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.util.Pair;
@@ -19,15 +20,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created by fredpan on 2018-02-08.
- */
-
 class PieChartHelper {
 
     private final Activity activity;
-    private PieDataSet pieDataSet;
-    private ArrayList<SpecificTask> specificTasks;
 
     PieChartHelper(Activity activity) {
         this.activity = activity;
@@ -47,7 +42,7 @@ class PieChartHelper {
             pieEntry.add(new PieEntry(percentage, temp.getName() + ": \n" + convertMillisToHours(totalTime), temp));
             colors.add(Integer.parseInt(next.first.first.getColor()));
         }
-        pieDataSet = new PieDataSet(pieEntry, null);
+        PieDataSet pieDataSet = new PieDataSet(pieEntry, null);
         //Draw label outside of pieChart
         pieDataSet.setValueLinePart1OffsetPercentage(90.f);
         pieDataSet.setValueLinePart1Length(.5f);
@@ -67,7 +62,7 @@ class PieChartHelper {
         ArrayList<Pair<Pair<Type, Float>, Float>> specificTasksWithPercentage = new ArrayList<>();
 
         Iterator<SpecificTask> iterator = rawSpecificTasks.iterator();
-        specificTasks = new ArrayList<>();
+        ArrayList<SpecificTask> specificTasks = new ArrayList<>();
         //Only calculate the completed tasks
         while (iterator.hasNext()){
             SpecificTask curr = iterator.next();
@@ -84,7 +79,7 @@ class PieChartHelper {
         }
         //Calculate the total time for each type
         Iterator<SpecificTask> iterator2 = specificTasks.iterator();
-        HashMap<Integer, Long> specificTaskPercentageGroupByType = new HashMap<>();
+        @SuppressLint("UseSparseArrays") HashMap<Integer, Long> specificTaskPercentageGroupByType = new HashMap<>();
         while (iterator2.hasNext()) {
             SpecificTask specificTask = iterator2.next();
             Type type = specificTask.getType();
@@ -97,15 +92,13 @@ class PieChartHelper {
             }
         }
         //Calculate the percentage for each type
-        Iterator<Map.Entry<Integer, Long>> iterator3 = specificTaskPercentageGroupByType.entrySet().iterator();
-        while (iterator3.hasNext()) {
-            Map.Entry<Integer, Long> tmp = iterator3.next();
+        for (Map.Entry<Integer, Long> tmp : specificTaskPercentageGroupByType.entrySet()) {
             if (totalTimeInMillis != 0) {
                 LocalDatabaseHelper ldb = LocalDatabaseHelper.getInstance(activity);
                 Type type = ldb.findTypeByPrimaryKey(tmp.getKey());
                 Long totalTimeOfType = tmp.getValue();
                 Float percentage = ((float) totalTimeOfType / totalTimeInMillis);
-                specificTasksWithPercentage.add(new Pair<Pair<Type, Float>, Float>(new Pair<Type, Float>(type, percentage), (float) totalTimeOfType));
+                specificTasksWithPercentage.add(new Pair<>(new Pair<>(type, percentage), (float) totalTimeOfType));
             }
 
         }
@@ -115,13 +108,13 @@ class PieChartHelper {
 
     }
 
+    @SuppressLint("DefaultLocale")
     private String convertMillisToHours(float timeInMillis) {
-        String output = String.format("%02dh %02dm",
+        return String.format("%02dh %02dm",
                 TimeUnit.MILLISECONDS.toHours((long) timeInMillis),//total mills in hours
                 TimeUnit.MILLISECONDS.toMinutes((long) timeInMillis) -//total mills in minutes - total (of total mills in hours) in minutes
                         TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours((long) timeInMillis))
         );
-        return output;
     }
 
 }

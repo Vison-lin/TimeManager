@@ -37,4 +37,18 @@
     <string name="durationEndPickerTitle">Select End Day:</string>
     <string name="daily_task">Daily Task</string>
     <string name="all_task">All Task</string>
+    <string name="StatisticLoading">Loading ...</string>
+    <string name="OKBtn">OK</string>
+    <string name="CancelBtn">Cancel</string>
+    <string name="StatisticNoTaskReminder">NO TASK FINISHED BETWEEN SELECTED PERIOD</string>
+    <string name="StatisticPeriodSelectionSelectFinishedTasks">Select Finished Tasks:</string>
+    <string name="StatisticPageNoTypeSelectedRemindar">Please choose at least one type!</string>
+    <string name="SelectBtn">Select</string>
+    <string name="TodayBtn">Today</string>
+    <string name="StatisticPageCenterText">Time Distribution</string>
+    <string name="StatisticPageTaskFinishedOn">Tasks finished on date</string>
+    <string name="StatisticPageSTasksFinishedDuring">Tasks finished during</string>
+    <string name="StatisticPageStartDateAfterTheEndDateRemindar">Start Date cannot after than the End Date !</string>
+    <string name="NumberPickerDialog">Choose Value</string>
+    <string name="NumberPickerEditInDetail">Edit In Detail</string>
 </resources>

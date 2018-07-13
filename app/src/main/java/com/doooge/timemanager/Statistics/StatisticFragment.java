@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -36,11 +37,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
-
-/**
- * Created by fredpan on 2018/1/31.
- */
+import java.util.Objects;
 
 public class StatisticFragment extends Fragment implements OnChartValueSelectedListener, View.OnClickListener {
 
@@ -63,7 +60,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
     private ArrayList<SpecificTask> allSpecificTasks;
     private PieChartHelper pieChartHelper;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.statistic_page, container, false);
@@ -116,7 +113,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         pieChart.getLegend().setWordWrapEnabled(true);
 
         updateCenterText();
-        pieChartNoneData.setText("Loading ...");//first time open app
+        pieChartNoneData.setText(getString(R.string.StatisticLoading));//first time open app
 
         pieChart.setCenterTextSize(33f);
         Description description = new Description();
@@ -137,9 +134,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         ArrayList<SpecificTask> specificTasks = ldb.findSpecificTasksByTypesDuringTime(selectedtypes, selectedStartCal[0], selectedEndCal[0]);
         allSpecificTasks.clear();
         allSpecificTasks = specificTasks;
-        Iterator<SpecificTask> iterator = allSpecificTasks.iterator();
-        while (iterator.hasNext()) {
-            SpecificTask curr = iterator.next();
+        for (SpecificTask curr : allSpecificTasks) {
             if (curr.isCompletedInBoolean() && selectedtypes.contains(curr.getType())) {
                 haveCompletedTasks = true;
                 break;
@@ -154,7 +149,6 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         pieChart.notifyDataSetChanged();
 
         pieChart.invalidate();
-        System.out.println("========" + haveCompletedTasks);
         updateCenterText();
 
     }
@@ -170,9 +164,8 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
      */
     @Override
     public void onValueSelected(Entry e, Highlight h) {
-        Type type = (Type) e.getData();
-        //TODO Linechart (maybe next version)
-
+//        Type type = (Type) e.getData();
+//        TODO Linechart (maybe next version)
     }
 
     @Override
@@ -187,34 +180,31 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
     public void onClick(View v) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        // Get the layout inflater
-        LayoutInflater inflater = getActivity().getLayoutInflater();
 
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
 
         final AlertDialog dialog = builder.create();
         dialog.show();
-        dialog.getWindow().setContentView(R.layout.piechart_display_range_selection);
+        Objects.requireNonNull(dialog.getWindow()).setContentView(R.layout.piechart_display_range_selection);
 
-        final Button startDate = dialog.findViewById(R.id.startDayChoosed);
         final ShapeDrawable shapeDrawable = new ShapeDrawable();
         shapeDrawable.getPaint().setStyle(Paint.Style.STROKE);
         shapeDrawable.getPaint().setStrokeWidth(30);
         final ShapeDrawable shapeDrawableAfterHightlight = new ShapeDrawable();
-        shapeDrawableAfterHightlight.getPaint().setStyle(startDate.getPaint().getStyle());
+        shapeDrawableAfterHightlight.getPaint().setStyle(startDay.getPaint().getStyle());
         shapeDrawableAfterHightlight.getPaint().setColor(0);
 
         final Button submitButton = dialog.findViewById(R.id.submitPieChartTimeRangeChange);
         btnDisplayModification(submitButton, ViewGroup.LayoutParams.WRAP_CONTENT);
-        submitButton.setText("OK");
+        submitButton.setText(R.string.OKBtn);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String startDayStr = CalendarHelper.convertCal2UTC(selectedStartCal[0]).substring(0, 10);
                 String endDayStr = CalendarHelper.convertCal2UTC(selectedEndCal[0]).substring(0, 10);
                 if (startDayStr.compareTo(endDayStr) > 0) {//if start day is greater than end day
-                    Toast.makeText(getContext(), "Start Date cannot after than the End Date !", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.StatisticPageStartDateAfterTheEndDateRemindar, Toast.LENGTH_SHORT).show();
                 } else {
                     updateSelectedPieChartDisplayDurationBtnTEXT();
                     updatePieChart();
@@ -224,7 +214,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         });
 
         startDay = dialog.findViewById(R.id.startDayChoosed);
-        btnDisplayModification(startDate, ViewGroup.LayoutParams.WRAP_CONTENT);
+        btnDisplayModification(startDay, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         startDay.setText(
                 CalendarHelper.convertCal2UTC(selectedStartCal[0]).substring(0,10)
@@ -267,17 +257,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                 AlphaAnimation anim_alpha = new AlphaAnimation(0, 1);
                 anim_alpha.setDuration(800);//动画时间
                 v.startAnimation(anim_alpha);//启动动画
-                startDate.startAnimation(anim_alpha);
-
-
-//                startDate.setBackground(shapeDrawable);
-//                final Handler handler = new Handler();
-//                handler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        startDate.setBackground(shapeDrawableAfterHightlight);
-//                    }
-//                }, 100);
+                startDay.startAnimation(anim_alpha);
 
             }
         });
@@ -302,16 +282,7 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                 AlphaAnimation anim_alpha = new AlphaAnimation(0, 1);
                 anim_alpha.setDuration(800);//动画时间
                 v.startAnimation(anim_alpha);//启动动画
-                startDate.startAnimation(anim_alpha);
-
-//                startDate.setBackground(shapeDrawable);
-//                final Handler handler = new Handler();
-//                handler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        startDate.setBackground(shapeDrawableAfterHightlight);
-//                    }
-//                }, 100);
+                startDay.startAnimation(anim_alpha);
             }
         });
 
@@ -336,24 +307,14 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                 AlphaAnimation anim_alpha = new AlphaAnimation(0, 1);
                 anim_alpha.setDuration(800);//动画时间
                 v.startAnimation(anim_alpha);//启动动画
-                startDate.startAnimation(anim_alpha);
-
-
-//                startDate.setBackground(shapeDrawable);
-//                final Handler handler = new Handler();
-//                handler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        startDate.setBackground(shapeDrawableAfterHightlight);
-//                    }
-//                }, 100);
+                startDay.startAnimation(anim_alpha);
             }
         });
 
         //Cancel
         final Button cancel = dialog.findViewById(R.id.cancelPieChartTimeRangeChange);
         btnDisplayModification(cancel, ViewGroup.LayoutParams.WRAP_CONTENT);
-        cancel.setText("Cancel");
+        cancel.setText(R.string.CancelBtn);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -364,43 +325,31 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
     private void onClickListenerForSelectType() {
         selectedtypes = new ArrayList<>();
-        // Instantiate an AlertDialog.Builder with its constructor
-        // final ArrayAdapter<Type> arrayAdapter = new ArrayAdapter<Type>(this.getContext(), android.R.layout.select_dialog_multichoice);
 
         final ArrayList<Type> types = ldb.getAllType();
 
-        Iterator<Type> iterator = types.iterator();
-
-        while (iterator.hasNext()) {
-            Type type = iterator.next();
-            selectedtypes.add(type);
-
-        }
+        selectedtypes.addAll(types);
         if (selectedtypes_Previous.size() != 0) {
             selectedtypes.clear();
-            for (Type i : selectedtypes_Previous) {
-                selectedtypes.add(i);
-            }
+            selectedtypes.addAll(selectedtypes_Previous);
         }
 
 
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
-        alertBuilder.setTitle("Select Finished Tasks:");
+        alertBuilder.setTitle(R.string.StatisticPeriodSelectionSelectFinishedTasks);
         StatisticSpinnerAdapter mAdapter = new StatisticSpinnerAdapter(types, selectedtypes, getActivity());
         alertBuilder.setAdapter(mAdapter, null);
-        alertBuilder.setPositiveButton("Ok", null);
-        alertBuilder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+        alertBuilder.setPositiveButton(R.string.OKBtn, null);
+        alertBuilder.setNegativeButton(R.string.CancelBtn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 selectedtypes.clear();
-                for (Type i : selectedtypes_Previous) {
-                    selectedtypes.add(i);
-                }
+                selectedtypes.addAll(selectedtypes_Previous);
                 dialog.dismiss();
             }
         });
         final AlertDialog alertDialog = alertBuilder.create();
-        alertDialog.getWindow().setBackgroundDrawableResource(R.color.background_color);
+        Objects.requireNonNull(alertDialog.getWindow()).setBackgroundDrawableResource(R.color.background_color);
         alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
 
@@ -414,12 +363,10 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                     public void onClick(View view) {
 
                         if (selectedtypes.size() == 0) {//user selected nothing
-                            Toast.makeText(getContext(), "Please choose at least one type!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), R.string.StatisticPageNoTypeSelectedRemindar, Toast.LENGTH_SHORT).show();
                         } else {
                             selectedtypes_Previous.clear();
-                            for (Type i : selectedtypes) {
-                                selectedtypes_Previous.add(i);
-                            }
+                            selectedtypes_Previous.addAll(selectedtypes);
                             updatePieChart();
                             dialog.dismiss();
                         }
@@ -452,8 +399,8 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 //        }
 
         builder.setView(picker);
-        builder.setNegativeButton("Cancel", null);
-        builder.setPositiveButton("Select", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.CancelBtn, null);
+        builder.setPositiveButton(R.string.SelectBtn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 selectedCalendar[0].set(picker.getYear(), picker.getMonth(), picker.getDayOfMonth());
@@ -470,10 +417,10 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
                 }
             }
         });
-        builder.setNeutralButton("Today", null);
+        builder.setNeutralButton(R.string.TodayBtn, null);
 
         AlertDialog dialog = builder.create();
-        dialog.getWindow().setBackgroundDrawableResource(R.color.background_color);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.color.background_color);
         dialog.show();
 
         final Button neutralButton = dialog.getButton(AlertDialog.BUTTON_NEUTRAL);//Shown Today Only (DEFAULT)
@@ -491,14 +438,14 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
 
     private void updateCenterText() {
         if (haveCompletedTasks) {
-            pieChart.setCenterText("Time Distribution");
+            pieChart.setCenterText(getString(R.string.StatisticPageCenterText));
             pieChart.setCenterTextSize(pieChart.getHoleRadius() / 2);
             pieChart.setVisibility(View.VISIBLE);
             pieChartNoneData.setVisibility(View.GONE);
         } else {
             pieChart.setVisibility(View.GONE);
             pieChartNoneData.setVisibility(View.VISIBLE);
-            pieChartNoneData.setText("NO TASK FINISHED BETWEEN SELECTED PERIOD");
+            pieChartNoneData.setText(R.string.StatisticNoTaskReminder);
         }
     }
 
@@ -506,12 +453,12 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         String startDayStr = CalendarHelper.convertCal2UTC(selectedStartCal[0]).substring(0, 10);
         String endDayStr = CalendarHelper.convertCal2UTC(selectedEndCal[0]).substring(0, 10);
         if (startDayStr.compareTo(endDayStr) == 0) {//if shown one day only
-            selectedPieChartDisplayDurationBtnDisplay = "Tasks finished on date " +
+            selectedPieChartDisplayDurationBtnDisplay = getString(R.string.StatisticPageTaskFinishedOn) +
                     selectedStartCal[0].get(Calendar.YEAR) + "." +
                     (selectedStartCal[0].get(Calendar.MONTH) + 1) + "." +
                     selectedStartCal[0].get(Calendar.DAY_OF_MONTH);
         } else {
-            selectedPieChartDisplayDurationBtnDisplay = "Tasks finished during " +
+            selectedPieChartDisplayDurationBtnDisplay = getString(R.string.StatisticPageSTasksFinishedDuring) +
                     selectedStartCal[0].get(Calendar.YEAR) + "." +
                     (selectedStartCal[0].get(Calendar.MONTH) + 1) + "." +
                     selectedStartCal[0].get(Calendar.DAY_OF_MONTH)
@@ -529,8 +476,6 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         haveCompletedTasks = false;
-        System.out.println("ldb: " + (ldb != null));
-        System.out.println("is not visable: " + !isVisibleToUser);
         //once user switch to other page, user will ge given today's task(s) after then went back
         if (isVisibleToUser && ldb != null) {
 
@@ -538,17 +483,13 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
             selectedtypes = ldb.getAllType();
             selectedtypes_Previous.clear();
 
-            System.out.println("==================SELECT TYPE: " + selectedtypes.size());
-            System.out.println("==================SELECT PREVIOUS TYPE: " + selectedtypes_Previous.size());
-
             updatePieChart();
             updateCenterText();
         }
         if (!isVisibleToUser && ldb != null) {
-            //updateCenterText():
             pieChart.setVisibility(View.GONE);
             pieChartNoneData.setVisibility(View.VISIBLE);
-            pieChartNoneData.setText("Loading ...");
+            pieChartNoneData.setText(R.string.StatisticLoading);
         }
     }
 
@@ -561,7 +502,6 @@ public class StatisticFragment extends Fragment implements OnChartValueSelectedL
         btnDrawable.setCornerRadius(50.f);
         button.setBackground(btnDrawable);
         button.setWidth(layoutParamsWidth);
-//        button.setHeight(button.getHeight() - 10);
     }
 
 }
