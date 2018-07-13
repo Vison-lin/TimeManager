@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,10 +44,14 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
     private ArrayList<SpecificTask> list_delete = new ArrayList<>();
     private boolean isMultiSelect = false;
     private TextView tv_sum;
+    private Button addButton;
+    private ViewGroup deletView;
+    private FrameLayout calander;
 
     SpecificTaskOverviewAdapter(final ArrayList<SpecificTask> specificTask, final Context context, ViewGroup deletView) {
         this.ldh = LocalDatabaseHelper.getInstance(context);
         this.context = context;
+        this.deletView = deletView;
         inititalList(specificTask);
         bt_cancel = deletView.findViewById(R.id.bt_cancel);
         bt_delete = deletView.findViewById(R.id.bt_delete);
@@ -73,6 +78,8 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
                 bt_delete.setVisibility(View.INVISIBLE);
                 tv_sum.setVisibility(View.INVISIBLE);
                 list_delete.clear();
+                addButton.setVisibility(view.VISIBLE);
+                calander.setVisibility(view.VISIBLE);
                 notifyDataSetChanged();
 
             }
@@ -195,7 +202,10 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
             @Override
             public boolean onLongClick(View view) {
                 isMultiSelect = true;
-                //deletLayout.setVisibility(view.VISIBLE);
+                addButton = deletView.findViewById(R.id.addingTaskBtn);
+                calander = deletView.findViewById(R.id.calander);
+                addButton.setVisibility(view.GONE);
+                calander.setVisibility(view.GONE);
                 notifyDataSetChanged();
 
 
