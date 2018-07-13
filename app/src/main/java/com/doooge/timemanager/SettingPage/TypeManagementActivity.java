@@ -15,16 +15,11 @@ import com.doooge.timemanager.Type;
 
 import java.util.ArrayList;
 
-/**
- * Created by fredpan on 2018/1/26.
- */
-
 public class TypeManagementActivity extends AppCompatActivity {
     private LocalDatabaseHelper ldh;
     private ArrayList<Type> typeList;
     private TypeManagementAdapter typeAdpter;
     private ListView mList;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,16 +29,13 @@ public class TypeManagementActivity extends AppCompatActivity {
         try {
             typeList = ldh.getAllType();
         }catch (Exception e){
-            Toast.makeText(getApplicationContext(), "No type now !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "No type.", Toast.LENGTH_SHORT).show();
         }
         if(typeList!=null) {
             typeAdpter = new TypeManagementAdapter(typeList, this);
-
             mList = findViewById(R.id.controlPanelListView);
             mList.setAdapter(typeAdpter);
         }
-
-
 
         Button addtype = findViewById(R.id.addType);
         addtype.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +46,5 @@ public class TypeManagementActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 }

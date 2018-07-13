@@ -9,18 +9,13 @@ import android.widget.Button;
 import com.doooge.timemanager.MainPageSlidesAdapter;
 import com.doooge.timemanager.R;
 
-/**
- * Created by diana on 2018-05-23.
- */
-
 public class HelpActivityTwo extends AppCompatActivity {
-    private Button nextBtn;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help2);
+        Button nextBtn = findViewById(R.id.nextBtn);
 
-        nextBtn = findViewById(R.id.nextBtn);
         nextBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent intent = new Intent(HelpActivityTwo.this, MainPageSlidesAdapter.class);

@@ -1,5 +1,6 @@
 package com.doooge.timemanager.SettingPage;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
@@ -20,43 +21,36 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-
-/**
- * Created by diana on 2018-02-16.
- */
-
 public class TaskManagementAdapter extends BaseAdapter {
     private final Button bt_cancel_task;
     private final Button bt_delete_task;
-    LocalDatabaseHelper ldh;
+    private LocalDatabaseHelper ldh;
     private ArrayList<SpecificTask> specificTasks;
     private ArrayList<SpecificTask> list_delete = new ArrayList<SpecificTask>();
     private boolean isMultiSelect = false;
     private TextView tv_sum_task;
 
-
-    public TaskManagementAdapter(ArrayList<SpecificTask> specificTask, Context context, HashMap delete) {
+    TaskManagementAdapter(ArrayList<SpecificTask> specificTask, Context context, HashMap delete) {
         this.ldh = LocalDatabaseHelper.getInstance(context);
         this.specificTasks = specificTask;
-//        LayoutInflater factory = LayoutInflater.from(deleteView);
-//        View delete = factory.inflate(R.layout.activity_all_specifictasks,null);
         bt_cancel_task = (Button) delete.get("cancel");
         bt_delete_task = (Button) delete.get("delete");
+
         btnDisplayModification(
                 bt_cancel_task,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 (int) delete.get("startColor"),
                 (int) delete.get("endColor")
-
         );
+
         btnDisplayModification(
                 bt_delete_task,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 (int) delete.get("startColor"),
                 (int) delete.get("endColor")
         );
-        tv_sum_task = (TextView) delete.get("text");
 
+        tv_sum_task = (TextView) delete.get("text");
 
         bt_cancel_task.setOnClickListener(new View.OnClickListener() {
 
@@ -68,12 +62,11 @@ public class TaskManagementAdapter extends BaseAdapter {
                 tv_sum_task.setVisibility(View.INVISIBLE);
                 list_delete.clear();
                 notifyDataSetChanged();
-
             }
         });
 
-
         bt_delete_task.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View view) {
                 if (list_delete.size() != 0 && isMultiSelect) {
@@ -81,9 +74,10 @@ public class TaskManagementAdapter extends BaseAdapter {
                         ldh.deleteSpecificTaskTable(task.getId());
                         specificTasks.remove(task);
                         tv_sum_task.setText("You have chooseed: 0 item.");
-
                     }
+
                     list_delete.clear();
+
                     if (specificTasks.size() == 0) {
                         isMultiSelect = false;
                         bt_cancel_task.setVisibility(View.INVISIBLE);
@@ -111,30 +105,25 @@ public class TaskManagementAdapter extends BaseAdapter {
         return position;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View view, final ViewGroup viewGroup) {
-        View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_daily_task_list, viewGroup, false);
+        @SuppressLint("ViewHolder") View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_daily_task_list, viewGroup, false);
         TextView taskName = rowView.findViewById(R.id.taskName);
         TextView taskHour = rowView.findViewById(R.id.taskHour);
         Button taskType = rowView.findViewById(R.id.typeBtn);
         final SpecificTask specificTask = (SpecificTask) getItem(position);
         int color = Integer.parseInt(specificTask.getType().getColor());
-
         taskType.setBackgroundColor(color);
-
         taskName.setText(specificTask.getTaskName());
-
         taskName.setSingleLine(true);
-
         taskHour.setSingleLine(true);
 
-        if (specificTask.isCompletedInBoolean() == true) {
-            //rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_comp));
+        if (specificTask.isCompletedInBoolean()) {
             taskName.setTextColor(viewGroup.getResources().getColor(R.color.gray));
             taskHour.setTextColor(viewGroup.getResources().getColor(R.color.gray));
             taskType.setTextColor(viewGroup.getResources().getColor(R.color.gray));
         } else {
-            //rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_incomp));
             taskName.setTextColor(viewGroup.getResources().getColor(R.color.black));
             taskHour.setTextColor(viewGroup.getResources().getColor(R.color.black));
             taskType.setTextColor(viewGroup.getResources().getColor(R.color.black));
@@ -151,9 +140,6 @@ public class TaskManagementAdapter extends BaseAdapter {
 
         Calendar start = specificTask.getStartTime();
         Calendar end = specificTask.getEndTime();
-        //String display = (start.get(Calendar.MONTH) + 1) + "." + start.get(Calendar.DAY_OF_MONTH) + " " + start.get(Calendar.HOUR_OF_DAY) + ":" + start.get(Calendar.MINUTE) +
-        //      " - " + (end.get(Calendar.MONTH) + 1) + "." + end.get(Calendar.DAY_OF_MONTH) + " " + end.get(Calendar.HOUR_OF_DAY) + ":" + end.get(Calendar.MINUTE);
-
         String display = (start.get(Calendar.MONTH) + 1) + "." + start.get(Calendar.DAY_OF_MONTH) + " ";
 
         if (start.get(Calendar.HOUR_OF_DAY) == 0) {
@@ -181,6 +167,7 @@ public class TaskManagementAdapter extends BaseAdapter {
         } else {
             display += end.get(Calendar.MINUTE);
         }
+
         taskHour.setText(display);
 
         if (isMultiSelect) {
@@ -190,52 +177,41 @@ public class TaskManagementAdapter extends BaseAdapter {
             } else {
                 tv_sum_task.setText("You have chosen: " + list_delete.size() + " item.");
             }
+
             bt_cancel_task.setVisibility(View.VISIBLE);
             bt_delete_task.setVisibility(View.VISIBLE);
             tv_sum_task.setVisibility(View.VISIBLE);
-
-
             cb.setVisibility(View.VISIBLE);
             cb.setChecked(false);
+
             cb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    System.out.println("!!!!" + cb.isChecked());
                     if (!cb.isChecked()) {
                         cb.setChecked(false);
                         list_delete.remove(specificTask);
                     } else {
                         cb.setChecked(true);
                         list_delete.add(specificTask);
-
                     }
                     tv_sum_task.setText("You have chosen: " + list_delete.size() + " item.");
-
                 }
             });
 
             rowView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     if (cb.isChecked()) {
                         cb.setChecked(false);
                         list_delete.remove(specificTask);
                     } else {
                         cb.setChecked(true);
                         list_delete.add(specificTask);
-
                     }
                     tv_sum_task.setText("You have chosen: " + list_delete.size() + " item.");
-
-
                 }
             });
-
-
         } else {
-
-
             rowView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -244,22 +220,17 @@ public class TaskManagementAdapter extends BaseAdapter {
                     intent.putExtra("givenSpecificTask", specificTask);
                     intent.putExtra("taskManagement", "taskManagement");
                     viewGroup.getContext().startActivity(intent);
-
-
                 }
             });
 
             rowView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-
                     isMultiSelect = true;
                     notifyDataSetChanged();
                     return false;
                 }
             });
-
-
         }
 
         return rowView;
@@ -270,7 +241,7 @@ public class TaskManagementAdapter extends BaseAdapter {
      *
      * @param newSpecificTasks pass a NEW ArrayList with all new elements that need to display on the screen.
      */
-    public void updateSpecificTaskOverviewAdapter(ArrayList<SpecificTask> newSpecificTasks) {
+    void updateSpecificTaskOverviewAdapter(ArrayList<SpecificTask> newSpecificTasks) {
         specificTasks = new ArrayList<>(newSpecificTasks);
         this.notifyDataSetChanged();
     }

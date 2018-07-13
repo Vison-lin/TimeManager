@@ -1,7 +1,7 @@
 package com.doooge.timemanager.SettingPage;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -14,12 +14,7 @@ import com.doooge.timemanager.LocalDatabaseHelper;
 import com.doooge.timemanager.R;
 import com.doooge.timemanager.Type;
 
-/**
- * Created by fredpan on 2018/1/26.
- */
-
 public class TypeCreator extends AppCompatActivity implements View.OnClickListener{
-
     private Button createType;
     private Button blue;
     private Button green;
@@ -27,19 +22,16 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
     private Button violet;
     private Button red;
     private int color ;
-    private Drawable color1;
-    private int id;
     private String name;
     private EditText typeName;
     private LocalDatabaseHelper ldh = LocalDatabaseHelper.getInstance(this);
     private Type type;
 
-
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.typemanagement);
-
         type = (Type)getIntent().getSerializableExtra("TypeInfo");
         typeName = findViewById(R.id.typeName);
         color = getResources().getColor(R.color.btn_bkgd_def);
@@ -51,15 +43,15 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
         if(type!=null){
             name = type.getName();
             typeName.setText(name);
-            if(type.getId()!=-999) {
+            if (type.getId() != -999) {
                 delete.setVisibility(View.VISIBLE);
             }
             createType.setBackground(getDrawable(R.drawable.update));
             TextView title = findViewById(R.id.titleType);
             title.setText("Update Type");
             color = Integer.parseInt(type.getColor());
-            id = type.getId();
         }
+
         blue = findViewById(R.id.blue_type);
         blue.setOnClickListener(this);
         green = findViewById(R.id.green_type);
@@ -73,9 +65,7 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
     }
 
     public void onClick(View view) {
-
         switch (view.getId()) {
-
             case R.id.createType:
                 name = String.valueOf(typeName.getText());
                 if (name.equals("")) {
@@ -83,10 +73,7 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
                     typeName.setBackground(getResources().getDrawable(R.drawable.back_red));
                 } else if (color == (getResources().getColor(R.color.btn_bkgd_def))) {
                     TextView warn = findViewById(R.id.warn_type);
-
-                    warn.setError("Choose a color.");
-
-
+                    warn.setError("Select a color.");
                 } else {
                     if(type==null) {
                         Type type = new Type(name, color + "");
@@ -98,12 +85,10 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
                         type.setName(name);
                         type.setColor(color + "");
                         ldh.updateTypeTable(type);
-
                         Intent intent = new Intent(TypeCreator.this, TypeManagementActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         this.startActivity(intent);
                     }
-
                 }
                 break;
 
@@ -114,7 +99,6 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.green_type:
                 reSetchoose();
-
                 color = getResources().getColor(R.color.btn_bkgd_green);
                 green.setBackground(getResources().getDrawable(R.drawable.typecolor_green));
                 break;
@@ -135,7 +119,6 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.deleteType:
                 ldh.deleteTypeTable(type.getId());
-
                 Intent intent = new Intent(TypeCreator.this, TypeManagementActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 this.startActivity(intent);
@@ -149,11 +132,5 @@ public class TypeCreator extends AppCompatActivity implements View.OnClickListen
         yellow.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_yellow));
         violet.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_purple));
         red.setBackgroundColor(getResources().getColor(R.color.btn_bkgd_red));
-
     }
-
-
-
-
-
 }
