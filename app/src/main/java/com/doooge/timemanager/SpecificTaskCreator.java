@@ -1,12 +1,14 @@
 package com.doooge.timemanager;
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -40,28 +42,25 @@ public class SpecificTaskCreator extends AppCompatActivity {
     private static int progressEnd;
     private TimeBarView mView;
     private TimeBarView timeBar;
-    private String userName;
     private MyHandler handler;
     private LocalDatabaseHelper ldh;
     private TimePickerDialog timePicker;
-    private TimePickerDialogInterface timePickerDialogInterface;
     private TextView startDate;
     private TextView endDate;
     private ImageButton checkBox;
-    private Boolean check =false;
+    private Boolean check = false;
     private Context context;
     private Task task;
-    private  SpecificTask specificTask;
+    private SpecificTask specificTask;
     private SpecificTask specificTask_new;
     private String taskManagement;
     private List<Type> typeList;
-    private ArrayList<Type> mList;
-    private Spinner mSpinner;
-    private SpecificTaskSpinnerAdapter mAdapter;
+
     private Type type;
     private boolean update;
 
 
+    @SuppressLint("SetTextI18n")
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,17 +80,17 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
         endDate = findViewById(R.id.endDatePrint);
         startDate = findViewById(R.id.startDatePrint);
-        startDate.getPaint().setFlags(Paint. UNDERLINE_TEXT_FLAG );
+        startDate.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         typeList = ldh.getAllType();
         Button submit = findViewById(R.id.submitButton);
         Button delete = findViewById(R.id.deleteButton);
         FrameLayout deleteLayout = findViewById(R.id.delete);
-        update =false;
+        update = false;
 
         calStart = Calendar.getInstance();
         calEnd = Calendar.getInstance();
 
-        if(specificTask!=null){
+        if (specificTask != null) {
             calStart = specificTask.getStartTime();
             calEnd = specificTask.getEndTime();
             String name = specificTask.getTaskName();
@@ -105,7 +104,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
         startDate.setText(year + "." + month + "." + day);
         endDate.setText(year + "." + month + "." + day);
-        timePickerDialogInterface = new TimePickerDialogInterface() {
+        TimePickerDialogInterface timePickerDialogInterface = new TimePickerDialogInterface() {
             @Override
             public void positiveListener(int y, int m, int d) {
                 year = y;
@@ -120,10 +119,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
             }
 
-            @Override
-            public void negativeListener() {
-
-            }
 
             @Override
             public void updateEnd() {
@@ -146,10 +141,10 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
         timePicker = new TimePickerDialog(this, timePickerDialogInterface);
         handler = new MyHandler(this, timePickerDialogInterface);
-        if(specificTask!=null){
-            int progressStart = (specificTask.getStartTime().get(Calendar.HOUR_OF_DAY)*60)+(specificTask.getStartTime().get(Calendar.MINUTE));
+        if (specificTask != null) {
+            int progressStart = (specificTask.getStartTime().get(Calendar.HOUR_OF_DAY) * 60) + (specificTask.getStartTime().get(Calendar.MINUTE));
 
-            int progressEnd = (specificTask.getEndTime().get(Calendar.HOUR_OF_DAY)*60)+(specificTask.getEndTime().get(Calendar.MINUTE));
+            int progressEnd = (specificTask.getEndTime().get(Calendar.HOUR_OF_DAY) * 60) + (specificTask.getEndTime().get(Calendar.MINUTE));
             mView = new TimeBarView(this, progressStart, progressEnd, type);
         } else if (task != null) {
             type = task.getType();
@@ -162,18 +157,18 @@ public class SpecificTaskCreator extends AppCompatActivity {
         creatHandler();
         timeBar = findViewById(R.id.timeBar);
         timeBar.invalidate();
-       FrameLayout checkStar = findViewById(R.id.checkStar);
+        FrameLayout checkStar = findViewById(R.id.checkStar);
         checkBox = findViewById(R.id.checkBox);
         checkStar.setVisibility(View.GONE);
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(check==false){
-                    check =true;
-                    checkBox.setBackground(getResources().getDrawable(R.drawable.checkboxclicked));
-                }else{
-                    check =false;
-                    checkBox.setBackground(getResources().getDrawable(R.drawable.checkboxclick));
+                if (!check) {
+                    check = true;
+                    checkBox.setBackground(ContextCompat.getDrawable(context, R.drawable.checkboxclicked));
+                } else {
+                    check = false;
+                    checkBox.setBackground(ContextCompat.getDrawable(context, R.drawable.checkboxclick));
                 }
             }
         });
@@ -198,7 +193,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
         } else if (specificTask != null && task == null) {//Users are from Main page or TaskManagement page
             update = true;
-            submit.setBackground(getResources().getDrawable(R.drawable.update));
+            submit.setBackground(ContextCompat.getDrawable(context, R.drawable.update));
             deleteLayout.setVisibility(View.VISIBLE);
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -246,15 +241,11 @@ public class SpecificTaskCreator extends AppCompatActivity {
         });
 
 
-        mList = new ArrayList<Type>();
-        for(Type i: typeList){
-            mList.add(i);
-
-        }
-        if(typeList!=null){
-            mSpinner = findViewById(R.id.mSpinner);
+        ArrayList<Type> mList = new ArrayList<>(typeList);
+        if (typeList != null) {
+            Spinner mSpinner = findViewById(R.id.mSpinner);
 //            mAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,mList);
-            mAdapter = new SpecificTaskSpinnerAdapter(mList, this);
+            SpecificTaskSpinnerAdapter mAdapter = new SpecificTaskSpinnerAdapter(mList);
 //            mAdapter.setDropDownViewResource(android.R.simple_spinner_dropdown_item);
 
             mSpinner.setAdapter(mAdapter);
@@ -265,10 +256,11 @@ public class SpecificTaskCreator extends AppCompatActivity {
                     }
                 }
             }
-            mSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener(){
+            mSpinner.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
                 int count = 0;
+
                 public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                /* 将所选mySpinner 的值带入myTextView 中*/
+                    /* 将所选mySpinner 的值带入myTextView 中*/
 
                     if (specificTask == null && task == null) {
                         type = typeList.get(arg2);
@@ -276,7 +268,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
                             mView = new TimeBarView(context, progressStart, progressEnd, type);
                             timeBar = findViewById(R.id.timeBar);
                             timeBar.invalidate();
-                            System.out.println("1111");
+
                         }
                         count++;
                         //initialType();
@@ -293,6 +285,7 @@ public class SpecificTaskCreator extends AppCompatActivity {
                     }
                     arg0.setVisibility(View.VISIBLE);
                 }
+
                 public void onNothingSelected(AdapterView<?> arg0) {
                     arg0.setVisibility(View.VISIBLE);
                 }
@@ -303,22 +296,22 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
     }
 
-    private void addTask(View view) {
+    private void addTask(View v) {
         EditText taskName = findViewById(R.id.taskName);
-        userName = String.valueOf(taskName.getText());
+        String userName = String.valueOf(taskName.getText());
         if (userName.equals("")) {
             taskName.setError("Enter a name.");
-            taskName.setBackground(getResources().getDrawable(R.drawable.back_red));
+            taskName.setBackground(ContextCompat.getDrawable(context, R.drawable.back_red));
         } else {
 
 
-            if(update){
+            if (update) {
                 specificTask.setTaskName(userName);
                 specificTask.setStartTime(calStart);
                 specificTask.setEndTime(calEnd);
                 specificTask.setType(type);
                 ldh.updateSpecificTaskTable(specificTask);
-            }else {
+            } else {
                 specificTask_new = new SpecificTask(userName, calStart, calEnd);
                 specificTask_new.setType(type);
                 ldh.insertToSpecificTaskTable(specificTask_new);
@@ -330,12 +323,12 @@ public class SpecificTaskCreator extends AppCompatActivity {
                 Task task = specificTask_new;
                 ldh.insertToTaskTable(task);
             }
-            if(taskManagement!=null){
+            if (taskManagement != null) {
                 Intent intent = new Intent(context, TaskManagementActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
 
-            }else {
+            } else {
 
                 Intent intent = new Intent(context, MainPageSlidesAdapter.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -352,27 +345,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
         setDay(calStart.get(Calendar.DATE));
     }
 
-//    private void initialType() {
-//        ImageView typeColor = findViewById(R.id.typeColor);
-//        int color = Integer.parseInt(type.getColor());
-//        if (color == getResources().getColor(R.color.btn_bkgd_purple)) {
-//            typeColor.setBackground(getDrawable((R.color.btn_bkgd_purple)));
-//        } else if (color == -6710836) {
-//            typeColor.setBackground(getDrawable((R.color.btn_bkgd_def)));
-//        } else if (color == getResources().getColor(R.color.btn_bkgd_green)) {
-//            typeColor.setBackground(getDrawable((R.color.btn_bkgd_green)));
-//        } else if (color == getResources().getColor(R.color.btn_bkgd_blue)) {
-//            typeColor.setBackground(getDrawable((R.color.btn_bkgd_blue)));
-//        } else if (color == getResources().getColor(R.color.btn_bkgd_red)) {
-//            typeColor.setBackground(getDrawable((R.color.btn_bkgd_red)));
-//        } else if (color == getResources().getColor(R.color.btn_bkgd_yellow)) {
-//            typeColor.setBackground(getDrawable((R.color.btn_bkgd_yellow)));
-//        } else {
-//            typeColor.getBackground().setColorFilter(new LightingColorFilter(color, color));
-//        }
-//    }
-
-
 
     public void setYear(int year) {
         SpecificTaskCreator.year = year;
@@ -387,14 +359,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
         SpecificTaskCreator.day = day;
     }
 
-    public interface TimePickerDialogInterface {
-        void positiveListener(int year, int month, int day);
-
-        void negativeListener();
-
-        void updateEnd();
-    }
-
     public void creatHandler() {
         mView.Test(new TimeBarView.Callback() {
             @Override
@@ -404,6 +368,11 @@ public class SpecificTaskCreator extends AppCompatActivity {
         });
     }
 
+    public interface TimePickerDialogInterface {
+        void positiveListener(int year, int month, int day);
+
+        void updateEnd();
+    }
 
     /**
      * To create Handler class for receiveing data from TimeBarView class.
@@ -426,7 +395,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
                 String message = (String) msg.obj;
                 TextView start = activity.findViewById(R.id.startTimePrint);
                 TextView end = activity.findViewById(R.id.endTimePrint);
-                TextView endDate = activity.findViewById(R.id.endDatePrint);
                 StringTokenizer token = new StringTokenizer(message, "@");
                 startTime = token.nextToken();
                 endTime = token.nextToken();
@@ -439,7 +407,6 @@ public class SpecificTaskCreator extends AppCompatActivity {
 
                 calStart.set(year, month - 1, day, Integer.parseInt(startlist[0]), Integer.parseInt(startlist[1]));
                 c.updateEnd();
-
 
 
             }

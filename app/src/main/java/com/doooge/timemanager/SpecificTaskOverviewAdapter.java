@@ -1,9 +1,11 @@
 package com.doooge.timemanager;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,17 +34,17 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
 
     private final Button bt_cancel;
     private final Button bt_delete;
-    LocalDatabaseHelper ldh;
+    private LocalDatabaseHelper ldh;
     private ArrayList<SpecificTask> specificTasks;
     private Context context;
     private SpecificTask selectedSpecificTask;
     private ArrayList<SpecificTask> completeList;
     private ArrayList<SpecificTask> incompleteList;
-    private ArrayList<SpecificTask> list_delete = new ArrayList<SpecificTask>();
+    private ArrayList<SpecificTask> list_delete = new ArrayList<>();
     private boolean isMultiSelect = false;
     private TextView tv_sum;
 
-    public SpecificTaskOverviewAdapter(final ArrayList<SpecificTask> specificTask, final Context context, int position, ViewGroup deletView) {
+    SpecificTaskOverviewAdapter(final ArrayList<SpecificTask> specificTask, final Context context, ViewGroup deletView) {
         this.ldh = LocalDatabaseHelper.getInstance(context);
         this.context = context;
         inititalList(specificTask);
@@ -50,14 +52,14 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
         bt_delete = deletView.findViewById(R.id.bt_delete);
         btnDisplayModification(bt_cancel,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
-                deletView.getResources().getColor(R.color.statpage_blue),
-                deletView.getResources().getColor(R.color.background_color)
+                ContextCompat.getColor(deletView.getContext(),R.color.statpage_blue),
+                ContextCompat.getColor(deletView.getContext(),R.color.background_color)
         );
         btnDisplayModification(
                 bt_delete,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
-                deletView.getResources().getColor(R.color.statpage_blue),
-                deletView.getResources().getColor(R.color.background_color)
+                ContextCompat.getColor(deletView.getContext(),R.color.statpage_blue),
+                ContextCompat.getColor(deletView.getContext(),R.color.background_color)
         );
         tv_sum = deletView.findViewById(R.id.tv_sum);
 
@@ -78,6 +80,7 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
 
 
         bt_delete.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View view) {
                 if (list_delete.size() != 0 && isMultiSelect) {
@@ -102,11 +105,9 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
 
     }
 
-    public void inititalList(ArrayList<SpecificTask> specificTasks) {
+    private void inititalList(ArrayList<SpecificTask> specificTasks) {
         separeteList(specificTasks);
-        for (SpecificTask item : incompleteList) {
-            this.specificTasks.add(item);
-        }
+        this.specificTasks.addAll(incompleteList);
         this.specificTasks.addAll(completeList);
 //        System.out.println("initial: " + specificTasks.size());
 //        System.out.println("complete: " + completeList.size());
@@ -120,7 +121,7 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
 
     }
 
-    public void separeteList(ArrayList<SpecificTask> specificTasks) {
+    private void separeteList(ArrayList<SpecificTask> specificTasks) {
         this.specificTasks = new ArrayList<>();
         completeList = new ArrayList<>();
         incompleteList = new ArrayList<>();
@@ -141,18 +142,12 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
 
     }
 
-    public void sortList(ArrayList<SpecificTask> specificTasks) {
+    private void sortList(ArrayList<SpecificTask> specificTasks) {
         Collections.sort(specificTasks, new Comparator<SpecificTask>() {
             @Override
             public int compare(SpecificTask s1, SpecificTask s2) {
                 int num2;
-                if (s1.getCompareTime() > s2.getCompareTime()) {
-                    num2 = 1;
-                } else if (s1.getCompareTime() == s2.getCompareTime()) {
-                    num2 = 0;
-                } else {
-                    num2 = -1;
-                }
+                num2 = Long.compare(s1.getCompareTime(), s2.getCompareTime());
                 return num2;
             }
 
@@ -177,11 +172,12 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
     }
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View view, final ViewGroup viewGroup) {
         //Get view for row item
 
-        final View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_daily_task_list, viewGroup, false);
+        @SuppressLint("ViewHolder") final View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_daily_task_list, viewGroup, false);
         final TextView taskName = rowView.findViewById(R.id.taskName);
         final TextView taskHour = rowView.findViewById(R.id.taskHour);
         final Button taskType = rowView.findViewById(R.id.typeBtn);
@@ -290,9 +286,9 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
 
                         specificTask.setCompleted(0);
 
-                        taskName.setTextColor(viewGroup.getResources().getColor(R.color.black));
-                        taskHour.setTextColor(viewGroup.getResources().getColor(R.color.black));
-                        taskType.setTextColor(viewGroup.getResources().getColor(R.color.black));
+                        taskName.setTextColor(ContextCompat.getColor(viewGroup.getContext(),R.color.black));
+                        taskHour.setTextColor(ContextCompat.getColor(viewGroup.getContext(),R.color.black));
+                        taskType.setTextColor(ContextCompat.getColor(viewGroup.getContext(),R.color.black));
                         success = ldh.updateSpecificTaskTable(specificTask);
                         for (SpecificTask item : completeList) {
                             if (item.getTaskName().equals(specificTask.getTaskName())) {
@@ -312,9 +308,9 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
 
                     } else {// If currently is incomplete and will be marked as completed
                         specificTask.setCompleted(1);
-                        taskName.setTextColor(viewGroup.getResources().getColor(R.color.gray));
-                        taskHour.setTextColor(viewGroup.getResources().getColor(R.color.gray));
-                        taskType.setTextColor(viewGroup.getResources().getColor(R.color.gray));
+                        taskName.setTextColor(ContextCompat.getColor(viewGroup.getContext(),R.color.gray));
+                        taskHour.setTextColor(ContextCompat.getColor(viewGroup.getContext(),R.color.gray));
+                        taskType.setTextColor(ContextCompat.getColor(viewGroup.getContext(),R.color.gray));
                         success = ldh.updateSpecificTaskTable(specificTask);
                         completeList.add(specificTask);
                         for (SpecificTask item : incompleteList) {
@@ -343,16 +339,16 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
 
         }
 
-        if (specificTask.isCompletedInBoolean() == true) {
+        if (specificTask.isCompletedInBoolean()) {
             //rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_comp));
-            taskName.setTextColor(viewGroup.getResources().getColor(R.color.gray));
-            taskHour.setTextColor(viewGroup.getResources().getColor(R.color.gray));
-            taskType.setTextColor(viewGroup.getResources().getColor(R.color.gray));
+            taskName.setTextColor(ContextCompat.getColor(viewGroup.getContext(),R.color.gray));
+            taskHour.setTextColor(ContextCompat.getColor(viewGroup.getContext(),R.color.gray));
+            taskType.setTextColor(ContextCompat.getColor(viewGroup.getContext(),R.color.gray));
         } else {
             //rowView.setBackground(viewGroup.getResources().getDrawable(R.color.task_incomp));
-            taskName.setTextColor(viewGroup.getResources().getColor(R.color.black));
-            taskHour.setTextColor(viewGroup.getResources().getColor(R.color.black));
-            taskType.setTextColor(viewGroup.getResources().getColor(R.color.black));
+            taskName.setTextColor(ContextCompat.getColor(viewGroup.getContext(),R.color.black));
+            taskHour.setTextColor(ContextCompat.getColor(viewGroup.getContext(),R.color.black));
+            taskType.setTextColor(ContextCompat.getColor(viewGroup.getContext(),R.color.black));
         }
 
         if (specificTask.getTaskName().length() >= 20) {
@@ -439,7 +435,7 @@ public class SpecificTaskOverviewAdapter extends BaseAdapter implements NumberPi
     public void onValueChange(NumberPicker numberPicker, int i, int i1) {
         Calendar endTime = selectedSpecificTask.getEndTime();
         Calendar startTime = selectedSpecificTask.getStartTime();
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        @SuppressLint("SimpleDateFormat") DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         int differInMinutes = CalendarHelper.correctMinutes(numberPicker.getValue());
         long minute = 0;
         try {

@@ -13,6 +13,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -99,7 +100,7 @@ public class TimeBarView extends View {
     /**
      * for improving
      */
-    private Message message;
+
     private RectF oval;
     private PointF progressStartPoint;
     private PointF progressEndPoint;
@@ -159,14 +160,12 @@ public class TimeBarView extends View {
         mTypedArray.recycle();
 
         // Loading the picture of thumb
-        thumbStart = getResources().getDrawable(R.drawable.a1);
+        thumbStart = ContextCompat.getDrawable(context,R.drawable.a1);
         Bitmap bitmap = ((BitmapDrawable) thumbStart).getBitmap();
         // Scale it to 50 x 50
         thumbStart = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 100, 100, true));
         //thumbS = BitmapFactory.decodeResource(getResources(), R.drawable.a1);
-        int thumbHalfheight = thumbStart.getIntrinsicHeight() / 2;
-        int thumbHalfWidth = thumbStart.getIntrinsicWidth() / 2;
-        //thumbStart.setBounds(-thumbHalfWidth, -thumbHalfheight, thumbHalfWidth, thumbHalfheight);
+
         int left = (int)(25-roundWidth);
         int top = (int)(25-roundWidth);
         int right = (int)(roundWidth-15);
@@ -174,30 +173,27 @@ public class TimeBarView extends View {
         thumbStart.setBounds(left, top, -left, -top);
 
 
-        thumbStartPress = getResources().getDrawable(R.drawable.a2);
+        thumbStartPress = ContextCompat.getDrawable(context,R.drawable.a2);
         bitmap = ((BitmapDrawable) thumbStartPress).getBitmap();
         // Scale it to 50 x 50
         thumbStartPress = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 100, 100, true));
-        thumbHalfheight = thumbStartPress.getIntrinsicHeight() / 2;
-        thumbHalfWidth = thumbStartPress.getIntrinsicWidth() / 2;
+        int thumbHalfheight = thumbStartPress.getIntrinsicHeight() / 2;
+
         thumbStartPress.setBounds(left, top, -left, -top);
         paddingOuterThumb = thumbHalfheight;
 
-        thumbEnd = getResources().getDrawable(R.drawable.a1);
+        thumbEnd = ContextCompat.getDrawable(context,R.drawable.a1);
         bitmap = ((BitmapDrawable) thumbEnd).getBitmap();
         // Scale it to 50 x 50
         thumbEnd = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 100, 100, true));
-        //thumbE = BitmapFactory.decodeResource(getResources(), R.drawable.a1);
-        int thumbHalfheight1 = thumbEnd.getIntrinsicHeight() / 2;
-        int thumbHalfWidth1 = thumbEnd.getIntrinsicWidth() / 2;
+
         thumbEnd.setBounds(left, top, -left, -top);
 
-        thumbEndPress = getResources().getDrawable(R.drawable.a2);
+        thumbEndPress = ContextCompat.getDrawable(context,R.drawable.a2);
         bitmap = ((BitmapDrawable) thumbEndPress).getBitmap();
         // Scale it to 50 x 50
         thumbEndPress = new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(bitmap, 100, 100, true));
-        thumbHalfheight1 = thumbEndPress.getIntrinsicHeight() / 2;
-        thumbHalfWidth1 = thumbEndPress.getIntrinsicWidth() / 2;
+
         thumbEndPress.setBounds(left, top, -left, -top);
 
 
@@ -206,12 +202,11 @@ public class TimeBarView extends View {
 
     @Override
     public void onDraw(Canvas canvas) {
-        System.out.println("paingting");
         if (colorType != null) {
             roundProgressColor = Integer.parseInt(colorType.getColor());
         }
-        /**
-         * draw the circle
+        /*
+          draw the circle
          */
         //setLayerType(LAYER_TYPE_SOFTWARE, null);
         //LinearGradient shader = new LinearGradient(0, 0, 800, 800, Color.BLACK, Color.BLACK, Shader.TileMode.REPEAT);
@@ -228,8 +223,8 @@ public class TimeBarView extends View {
 //        paint.setColor(getResources().getColor(R.color.blue));
 //        canvas.drawCircle(centerX, centerY, radius - roundWidth + 40, paint);
 
-        /**
-         * draw the text of time
+        /*
+          draw the text of time
          */
         paint = new Paint();
         paint.setStrokeWidth(0);
@@ -240,10 +235,10 @@ public class TimeBarView extends View {
         canvas.drawText(textTime, centerX - textWidth / 2, centerY + textSize / 2, paint);
 
 
-        /**
-         * draw arc and the process bar
+        /*
+          draw arc and the process bar
          */
-        paint = new Paint();
+        paint.reset();
         paint.setMaskFilter(new BlurMaskFilter(60, BlurMaskFilter.Blur.INNER));
         paint.setStrokeWidth(roundWidth);
         paint.setColor(roundProgressColor);
@@ -405,17 +400,17 @@ public class TimeBarView extends View {
      * @return whether touch success.
      */
     private boolean isTouchPot(int x, int y) {
-        System.out.println("startX: " + startPoint.getX());
-        System.out.println("startY: " + startPoint.getY());
-        System.out.println("x :" + x);
-        System.out.println("y: " + y);
+//        System.out.println("startX: " + startPoint.getX());
+//        System.out.println("startY: " + startPoint.getY());
+//        System.out.println("x :" + x);
+//        System.out.println("y: " + y);
         int X = (int) startPoint.getX() - x;
-        System.out.println("X: " + X);
+//        System.out.println("X: " + X);
         int Y = (int) startPoint.getY() - y;
-        System.out.println("Y: " + Y);
-        System.out.println("XY: " + (X * X + Y * Y));
+//        System.out.println("Y: " + Y);
+//        System.out.println("XY: " + (X * X + Y * Y));
         Double d = Math.sqrt(X * X + Y * Y);
-        System.out.println("d: " + d);
+//        System.out.println("d: " + d);
         return d <= 60;
 
     }
@@ -453,10 +448,7 @@ public class TimeBarView extends View {
     }
 
     private boolean isOverDay(int processStart, int processEnd) {
-        if(getTime(processStart).equals(getTime(processEnd))){
-            return true;
-        }
-        return processStart > processEnd;
+        return getTime(processStart).equals(getTime(processEnd)) || processStart > processEnd;
     }
 
 
@@ -531,7 +523,7 @@ public class TimeBarView extends View {
     public void runHandler() {
         if (handler != null) {
             String result = getTime(progressStart) + "@" + getTime(progressEnd) + "@" + isOverDay(progressStart, progressEnd) + "@" + progressStart + "@" + progressEnd;
-            message = handler.obtainMessage();
+            Message message = handler.obtainMessage();
             message.what = 0;
             message.obj = result;
             handler.sendMessage(message);

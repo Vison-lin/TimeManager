@@ -1,5 +1,6 @@
 package com.doooge.timemanager;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,14 +17,12 @@ import java.util.ArrayList;
 
 public class SpecificTaskSpinnerAdapter extends BaseAdapter {
     private ArrayList<Type> tasks;
-    private Context context;
-    private LocalDatabaseHelper ldh;
 
 
-    public SpecificTaskSpinnerAdapter(ArrayList<Type> tasks, Context context) {
+
+    SpecificTaskSpinnerAdapter(ArrayList<Type> tasks) {
         this.tasks = tasks;
-        this.context = context;
-        this.ldh = LocalDatabaseHelper.getInstance(context);
+
     }
 
     @Override
@@ -45,7 +44,7 @@ public class SpecificTaskSpinnerAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, final ViewGroup viewGroup) {
 
-        View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.taskcreator_spinner_item, viewGroup, false);
+        @SuppressLint("ViewHolder") View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.taskcreator_spinner_item, viewGroup, false);
 
         final Type task = getItem(position);
 

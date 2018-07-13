@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * Created by diana on 2018-01-26.
@@ -27,16 +29,14 @@ import java.util.Locale;
 
 public class SpecificTaskOverviewFragment extends Fragment implements View.OnClickListener {
 
-    private ListView mListView;
     private LocalDatabaseHelper ldh;
     private SpecificTaskOverviewAdapter adapter;
     private ArrayList<SpecificTask> specificTasks;
     private ImageButton calBtn;
     private TextView calMonth;
     private TextView calDay;
-    private TextView pageTitle;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.activity_task_overview, container, false);
@@ -48,7 +48,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         calBtn.setOnClickListener(this);
 
         Calendar today = Calendar.getInstance();
-        pageTitle = rootView.findViewById(R.id.activityTitleText);
+
         specificTasks = ldh.findSpecificTasksByTime(today);//search all specificTasks that start today
 
         //calBtn init & change text
@@ -56,9 +56,9 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         calDay = rootView.findViewById(R.id.calDay);
 
         updateCalBtnText(today);
-        updatePageTitle(today);
-        adapter = new SpecificTaskOverviewAdapter(specificTasks, getActivity(), -1, rootView);
-        mListView = rootView.findViewById(R.id.taskList);
+        //updatePageTitle(today);
+        adapter = new SpecificTaskOverviewAdapter(specificTasks, getActivity(), rootView);
+        ListView mListView = rootView.findViewById(R.id.taskList);
         mListView.setAdapter(adapter);
 
         Button viewAddTasksBtn = rootView.findViewById(R.id.addingTaskBtn);
@@ -68,7 +68,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
 
                 Intent intent = new Intent(getActivity(), SpecificTaskCreator.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                getActivity().startActivity(intent);
+                Objects.requireNonNull(getActivity()).startActivity(intent);
             }
         });
 
@@ -90,7 +90,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
 
     public void getSelectedDate() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),R.style.MyTimepicker);
         final DatePicker picker = new DatePicker(new ContextThemeWrapper(getContext(), R.style.MyTimepicker));
         builder.setView(picker);
         builder.setNegativeButton("Cancel", null);
@@ -111,7 +111,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         });
 
         AlertDialog dialog = builder.create();
-        dialog.getWindow().setBackgroundDrawableResource(R.color.background_color);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.color.background_color);
         dialog.show();
     }
 
@@ -146,23 +146,23 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         calDay.setText(day);
     }
 
-    private void updatePageTitle(Calendar calendar) {
-        int numOfSpecificTask = specificTasks.size();
-        if (numOfSpecificTask < 0) {
-            throw new IllegalArgumentException();
-        } else if (numOfSpecificTask < 2 && numOfSpecificTask >= 0) {
-            //pageTitle.setBackground(getResources().getDrawable(R.drawable.title1));
-
-            //taskStatus = "Task";
-
-        } else {
-            //pageTitle.setBackground(getResources().getDrawable(R.drawable.title2));
-
-            //taskStatus = "Tasks";
-        }
-        //pageTitle.setText("Daily " + taskStatus);
-        //pageTitle.setText(taskStatus + " in " + month + ". " + day + " " + year);
-    }
+//    private void updatePageTitle(Calendar calendar) {
+//        int numOfSpecificTask = specificTasks.size();
+//        if (numOfSpecificTask < 0) {
+//            throw new IllegalArgumentException();
+//        } else if (numOfSpecificTask < 2 && numOfSpecificTask >= 0) {
+//            //pageTitle.setBackground(getResources().getDrawable(R.drawable.title1));
+//
+//            //taskStatus = "Task";
+//
+//        } else {
+//            //pageTitle.setBackground(getResources().getDrawable(R.drawable.title2));
+//
+//            //taskStatus = "Tasks";
+//        }
+//        //pageTitle.setText("Daily " + taskStatus);
+//        //pageTitle.setText(taskStatus + " in " + month + ". " + day + " " + year);
+//    }
 
     /**
      * update the whole fragment view
@@ -174,7 +174,7 @@ public class SpecificTaskOverviewFragment extends Fragment implements View.OnCli
         specificTasks = ldh.findSpecificTasksByTime(calendar);
         adapter.updateSpecificTaskOverviewAdapter(specificTasks);
         updateCalBtnText(calendar);
-        updatePageTitle(calendar);
+        //updatePageTitle(calendar);
     }
 
 

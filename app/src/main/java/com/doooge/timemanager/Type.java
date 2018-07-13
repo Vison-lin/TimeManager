@@ -50,8 +50,7 @@ public class Type implements Serializable {
     }
 
     public boolean deleteTask(Task task) {
-        boolean result = tasks.remove(task);
-        return result;
+        return tasks.remove(task);
     }
 
     public int getId() {
@@ -69,9 +68,7 @@ public class Type implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        boolean result =
-                (this.id == ((Type) o).getId());
-        return result;
+        return (this.id == ((Type) o).getId());
 
     }
 }

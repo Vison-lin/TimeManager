@@ -2,8 +2,7 @@ package com.doooge.timemanager;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.drawable.GradientDrawable;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,22 +23,19 @@ public class TimePickerDialog {
     private int mHour, mMinute;
     private SpecificTaskCreator.TimePickerDialogInterface timePickerDialogInterface;
     private TimePicker mTimePicker;
+    private int mTag;
     private DatePicker mDatePicker;
-    private int mTag = 0;
+
     private int mYear, mDay, mMonth;
 
-    public TimePickerDialog(Context context, SpecificTaskCreator.TimePickerDialogInterface c) {
+    TimePickerDialog(Context context, SpecificTaskCreator.TimePickerDialogInterface c) {
         super();
         mContext = context;
 
         timePickerDialogInterface = c;
     }
 
-    /**
-     * 初始化DatePicker
-     *
-     * @return
-     */
+
     private View initDatePicker() {
 
         View inflate = LayoutInflater.from(mContext).inflate(
@@ -51,35 +47,10 @@ public class TimePickerDialog {
     }
 
 
-    /**
-     * 创建dialog
-     *
-     * @param view
-     */
+
     private void initDialog(View view) {
 
-//        mAlertDialog.setPositiveButton("OK",
-//                new android.content.DialogInterface.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//
-//                        getDatePickerValue();
-//
-//                        timePickerDialogInterface.positiveListener(mYear, mMonth, mDay);
-//
-//                    }
-//                });
-//        mAlertDialog.setNegativeButton("CANCEL",
-//                new android.content.DialogInterface.OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        timePickerDialogInterface.negativeListener();
-//                        dialog.dismiss();
-//                    }
-//                });
+
 
         
 
