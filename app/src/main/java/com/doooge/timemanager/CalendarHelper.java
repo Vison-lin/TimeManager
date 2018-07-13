@@ -7,10 +7,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-/**
- * Created by fredpan on 2018/1/20.
- */
-
 public class CalendarHelper {
 
     /**

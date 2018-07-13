@@ -1,9 +1,5 @@
 package com.doooge.timemanager;
 
-/**
- * Created by fredpan on 2018/1/26.
- */
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -70,7 +66,6 @@ public class MainPageSlidesAdapter extends FragmentActivity {
         if (first) {
             startActivity(new Intent(MainPageSlidesAdapter.this, IntroPage.class));
 
-
             //finish();
             SharedPreferences.Editor editor = pref.edit();
             editor.putBoolean("first", false);
@@ -97,7 +92,7 @@ public class MainPageSlidesAdapter extends FragmentActivity {
     private class ScreenSlidePagerAdapter extends FragmentPagerAdapter {
         List<String> fragments = new ArrayList<>();
 
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
+        ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
             fragments.add(StatisticFragment.class.getName());
             fragments.add(SpecificTaskOverviewFragment.class.getName());

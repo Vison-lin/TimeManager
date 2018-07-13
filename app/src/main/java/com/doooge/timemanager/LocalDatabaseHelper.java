@@ -11,11 +11,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 
-
-/**
- * Created by fredpan on 2018/1/20.
- */
-
 public class LocalDatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "TIMEMANAGER.db";
     private static final String SPECIFICTASKS_TABLE_NAME = "SpecificTasks_Table";
@@ -275,6 +270,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
             buffer.append("SpecificTasks_endDate: ").append(cursor1.getString(4)).append("\n");
             buffer.append("SpecificTasks_type: ").append(cursor1.getString(5)).append("\n\n");
         }
+        cursor1.close();
         Cursor cursor2 = db.query(TASKS_TABLE_NAME, null, null, null, null, null, null, null);
         buffer.append("===Tasks_TABLE:===").append("\n");
         while (cursor2.moveToNext()) {
@@ -283,6 +279,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
             StringBuilder append = buffer.append("Tasks_type: ").append(cursor2.getString(2)).append("\n\n");
 
         }
+        cursor2.close();
         Cursor cursor3 = db.query(TYPES_TABLE_NAME, null, null, null, null, null, null, null);
         buffer.append("===Types_TABLE:===").append("\n");
         while (cursor3.moveToNext()) {
@@ -291,20 +288,20 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
             buffer.append("Types_color: ").append(cursor3.getString(2)).append("\n\n");
 
         }
+        cursor3.close();
 
-        showInAlert("Testing Database Tables: ", buffer.toString(), context);
+        showInAlert(buffer.toString(), context);
     }
 
     /**
-     * @param title Dialog title
      * @param message message to be displayed
      * @param context the context to appear
      *
      */
-    private void showInAlert(String title, String message, Context context) {
+    private void showInAlert(String message, Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setCancelable(true);
-        builder.setTitle(title);
+        builder.setTitle("Testing Database Tables: ");
         builder.setMessage(message);
         builder.show();
     }
@@ -330,6 +327,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         color = cursor.getString(2);
         Type type = new Type(name, color);
         type.setId(id);
+        cursor.close();
         return type;
     }
 
@@ -425,6 +423,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         typeID = Integer.parseInt(cursor.getString(2));
         Type type = findTypeByPrimaryKey(typeID);
         task.setType(type);
+        cursor.close();
         return task;
     }
 
@@ -516,7 +515,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
     public ArrayList<SpecificTask> findSpecificTasksByTypes(ArrayList<Type> types) {
         SQLiteDatabase db = this.getWritableDatabase();
         String[] typeID = new String[types.size()];
-        String selection = SPECIFICTASKS_TYPE + " =?";
+        StringBuilder selection = new StringBuilder(SPECIFICTASKS_TYPE + " =?");
         Iterator<Type> iterator = types.iterator();
         if (types.size() == 0) {
             throw new IndexOutOfBoundsException();//Always have at least one type
@@ -526,10 +525,10 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         while (iterator.hasNext()) {
             String singleTypeID = iterator.next().getId() + "";
             typeID[i] = singleTypeID;
-            selection = selection + "OR " + SPECIFICTASKS_TYPE + " =?";
+            selection.append("OR ").append(SPECIFICTASKS_TYPE).append(" =?");
             i++;
         }
-        Cursor cursor = db.query(SPECIFICTASKS_TABLE_NAME, null, selection, typeID, null, null, SPECIFICTASKS_START_DATE + " ASC");
+        Cursor cursor = db.query(SPECIFICTASKS_TABLE_NAME, null, selection.toString(), typeID, null, null, SPECIFICTASKS_START_DATE + " ASC");
         return findSpecificTaskByCursor(cursor);
     }
 
@@ -581,7 +580,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
             throw new IllegalStateException();
         }
 
-        String selection = "( strftime('%Y-%m-%d'," + SPECIFICTASKS_START_DATE + ") BETWEEN ? AND ? ) AND ( " + SPECIFICTASKS_TYPE + " =?";
+        StringBuilder selection = new StringBuilder("( strftime('%Y-%m-%d'," + SPECIFICTASKS_START_DATE + ") BETWEEN ? AND ? ) AND ( " + SPECIFICTASKS_TYPE + " =?");
         typeID[0] = startCalendarInDay;
         typeID[1] = endCalendarInDay;
         Iterator<Type> iterator = types.iterator();
@@ -596,13 +595,13 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
         while (iterator.hasNext()) {
             String singleTypeID = iterator.next().getId() + "";
             typeID[i] = singleTypeID;
-            selection = selection + "OR " + SPECIFICTASKS_TYPE + " =?";
+            selection.append("OR ").append(SPECIFICTASKS_TYPE).append(" =?");
             i++;
         }
 
-        selection = selection + " )";
+        selection.append(" )");
 
-        Cursor cursor = db.query(SPECIFICTASKS_TABLE_NAME, null, selection, typeID, null, null, SPECIFICTASKS_START_DATE + " ASC");
+        Cursor cursor = db.query(SPECIFICTASKS_TABLE_NAME, null, selection.toString(), typeID, null, null, SPECIFICTASKS_START_DATE + " ASC");
         return findSpecificTaskByCursor(cursor);
     }
 

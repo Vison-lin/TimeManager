@@ -1,5 +1,6 @@
 package com.doooge.timemanager;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +40,7 @@ public class QuickAccessTaskAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, final ViewGroup viewGroup) {
 
-        View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_task_item, viewGroup, false);
+        @SuppressLint("ViewHolder") View rowView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_task_item, viewGroup, false);
 
         final Task task = getItem(position);
 
