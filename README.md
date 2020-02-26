@@ -2,11 +2,17 @@
 
 An Android App that allows a user to record and view a time distribution of their daily tasks. Installations of 50+ and score of 5.0 are reached on Google Play Store. 
 
-## My Duty
-I implemented database using SQLiteDatabase, and I was also one of the team members to design App landing, user login, add/edit/update/delete activity, Message, and Calendar.
+## Highlighted Feature
 
-## Technology Stack
-Android 6/7, Android Studio, UML, Java, ADB, GitHub
+The users can create and save various colored categories for tasks based on individual demands. With one simple touch, tasks can be marked as “Complete” or “Incomplete” at any time. Completed tasks will be accumulated and divided into a statistical chart, the users can see how well they are spending their time. The main page provides an overview of current task(s). Swipe left for statistic page, which counts the portion of each task, and swipe right for saved tasks
+
+## My Performance 
+
+The app was developed by a team of three. I primary implemented database using SQLite Database, and generated algorithms of calculating the portion of tasks. I was also contributing efforts into App landing page, user login page, and Calendar page.
+
+## Tech Stack
+
+Android 6/7, Android Studio, UML, Java, ADB, GitHub.
 
 ## Demo
 Released on Google Play store on July 03, 2018.
