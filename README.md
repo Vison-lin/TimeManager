@@ -1,6 +1,6 @@
 # TimeManager
 
-An Android App that allows a user to record and view a time distribution of their daily tasks. 
+An Android App that allows a user to record and view a time distribution of their daily tasks. Installations of 50+ and score of 5.0 are reached on Google Play Store. 
 
 ## My Duty
 I implemented database using SQLiteDatabase, and I was also one of the team members to design App landing, user login, add/edit/update/delete activity, Message, and Calendar.
